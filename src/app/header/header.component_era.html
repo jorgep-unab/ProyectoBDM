@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" routerLinkActive [routerLink]="['/home']">Home<span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" routerLinkActive [routerLink]="['/crops']">Crops</a>
+      <a class="nav-item nav-link" routerLinkActive [routerLink]="['/etapas']">Etapas</a>
+      <a class="nav-item nav-link" routerLinkActive [routerLink]="['/informes']">Informes</a>
+      <a class="nav-item nav-link" routerLinkActive [routerLink]="['/analisis']">Análisis</a>
+      <a class="nav-item nav-link" routerLinkActive [routerLink]="['/graficos']">Gráficos</a>
+      <a class="nav-item nav-link" routerLinkActive [routerLink]="['/usuarios']">Usuarios</a>
+    </div>
+  </div>
+  <div>
+  	<a (click)='cerrarSession()' class="text-center text-white">Cerrar Sesión</a>
+  </div>
+</nav>

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-
+import { Component,OnInit } from '@angular/core';
+import {LoginService} from './servicios/login.service';
+import {Usuario} from './clases/usuario';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -7,4 +8,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'proyectobdmweb';
+
+  constructor(private loginService:LoginService){
+
+  }
+  public getUsuarioLogueado():Usuario{
+  	return this.loginService.getUsuario();
+  }
 }

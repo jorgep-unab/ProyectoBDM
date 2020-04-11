@@ -1,0 +1,79 @@
+
+<div class="container main-container">
+
+<h4 class="animated fadeIn fast" align="center">Mantención de Usuarios</h4>
+<hr>
+<!-- <?php
+  	require_once("templates/header.php");
+  	require_once("CLASES/Chofer.php");
+  	require_once("CLASES/BaseDatos.php");
+ ?>-->
+
+<div class="col-lg-12">
+	<a [routerLink]="['/usuario','nuevo']" class="btn btn-primary">Nuevo</a>
+</div>
+<hr>
+<!-- <?php
+   
+    $choferes = BaseDatos::obtenerChoferes();
+    //var_dump($choferes); esto muestra en pantalla el arreglo (objetos), solo para pruebas
+?> -->
+<div class="row animated fadeIn fast">
+	<div class="col-lg-12">
+		<table class="table-responsive table-bordered table-striped tablaDataTable">
+			<thead>
+				<tr align="center">
+					<th># Id</th>
+					<th>Nombre</th>
+					<th>Email</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- <?php 
+				//for($i=0; $i< count($choferes); ++$i){
+				// $chofer = $choferes[$i];
+				foreach($choferes as $chofer){
+					?> -->
+					<tr>
+						<td><?php echo $chofer->getRut(); ?></td>
+						<td><?php echo $chofer->getNombre(); ?></td>
+						<td><?php echo $chofer->getApellido(); ?></td>
+						<td><a href="editar_chofer" class="btn btn-primary">Editar</a>
+						<button type="button" class="btn btn-danger mostrarModalBtn" data-rut="">Borrar</button>
+						</td> -->
+						<!--
+						<button type="button" class="btn btn-danger mostrarModalBtn" data-rut="<?php echo $chofer->getRut(); ?>">Borrar</button>
+						</td> -->
+					</tr>
+					<!-- <?php
+
+				} ?> -->
+			</tbody>
+		</table>
+		<form class="formBorrarChoferes" method="POST" action="borrar_choferes.php">
+						<input type="hidden" class="rutChofer" name="rut"  />
+		</form>
+	</div>
+</div>
+<div class="modal fade" id="eliminarChoferModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">¿Desea eliminar al Chofer?</h4>
+      </div>
+      <div class="modal-body">
+        <p>Al eliminar, no hay forma de volver atrás</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+        <button type="button" class="btn btn-danger eliminarChoferBtn">Eliminar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</div>
+<!-- <?php
+  require_once("templates/footer.php");
+ ?> -->
