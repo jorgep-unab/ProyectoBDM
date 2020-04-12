@@ -30,25 +30,17 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!-- <?php 
-				//for($i=0; $i< count($choferes); ++$i){
-				// $chofer = $choferes[$i];
-				foreach($choferes as $chofer){
-					?> -->
-					<tr>
-						<td><?php echo $chofer->getRut(); ?></td>
-						<td><?php echo $chofer->getNombre(); ?></td>
-						<td><?php echo $chofer->getApellido(); ?></td>
+				
+					<tr *ngFor="let usuario of usuarios">
+						<td>{{ usuario.rut}}</td>
+						<td>{{ usuario.nombre }}</td>
+						<td>{{ usuario.apellido}}</td>
 						<td><a href="editar_chofer" class="btn btn-primary">Editar</a>
 						<button type="button" class="btn btn-danger mostrarModalBtn" data-rut="">Borrar</button>
-						</td> -->
-						<!--
-						<button type="button" class="btn btn-danger mostrarModalBtn" data-rut="<?php echo $chofer->getRut(); ?>">Borrar</button>
-						</td> -->
+						</td> 
+				
 					</tr>
-					<!-- <?php
-
-				} ?> -->
+					
 			</tbody>
 		</table>
 		<form class="formBorrarChoferes" method="POST" action="borrar_choferes.php">
