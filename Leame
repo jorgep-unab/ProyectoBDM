@@ -1,0 +1,15 @@
+Instalacion de Programa en producción :
+
+Instalación en Servidores Linux dependiendo de la distribución 
+
+1.- Instalar Node.js y NPM Verificando las versiones 
+2.- curl -sL https://rpm.nodesource.com/setup_12.x | sudo -E bash –
+#sudo yum install nodejs
+3.- Instalar Angular /CLI
+4.- #npm install -g @ angular / cli
+5.- Crear el proyecto en el directorio /var/www/
+6.- Crear el Proyecto #ng new proyectobdmweb
+7.- Copiar archivos en el directorio 
+7.- Posicionarse en el directorio creado y ejecutar el comando ng serve 
+8.- Abrir el navegador y ejecutar http://localhost:4200
+
