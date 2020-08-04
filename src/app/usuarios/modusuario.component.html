@@ -1,0 +1,63 @@
+<h3 align="center">Modifica Usuario</h3>
+<hr>
+
+<div class="container">
+<div class="row">
+	<div *ngIf="UsuarioSelecto" class="col-md-12">
+		
+		<form (ngSubmit)="guardarMod(forma1)" #forma1="ngForm">
+			
+			<div class="form-group">
+				<label>Nombre</label>
+				<input 	[(ngModel)]="UsuarioSelecto.nombre"
+						type="text" 
+						name="nombre"
+						class="form-control"
+						placeholder=""
+						required>
+			</div>
+			<div class="form-group">
+				<label>Email</label>
+				<input 	[(ngModel)]="UsuarioSelecto.email"
+						type="text" 
+						name="email"
+						class="form-control"
+						placeholder=""
+						required>
+			</div>
+			<div class="form-group">
+				<label>Clave</label>
+				<input 	[(ngModel)]="UsuarioSelecto.clave"
+						type="password" 
+						name="clave"
+						class="form-control"
+						placeholder=""
+						required>
+			</div>
+			<div class="form-group">
+				<label>Permisos</label>
+				<input 	[(ngModel)]="UsuarioSelecto.permisos"
+						type="text"
+						name="permiso"
+						class="form-control"
+						placeholder="">
+			</div>
+				<!-- <input 	[(ngModel)]="usuario.key"
+						type="text" 
+						id="key"
+						name="key"> -->
+			<div class="form-group">
+				<button [disabled]="!forma1.valid" 
+					type="submit" class="btn btn-outline-primary">
+					Guardar cambios 
+				</button>
+				<button [routerLink]="['/usuarios']" class="btn btn-outline-danger">
+					Regresar 
+				</button>
+			</div>
+		</form>
+	</div>
+
+</div>
+</div>
+

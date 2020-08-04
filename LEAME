@@ -1,0 +1,32 @@
+Muestra de las pantallas del otro programa que esta actualmente funcionando, obviamente es una muestra 
+
+De estas pantallas salen los ingresos de los datos por crop, tomando en cuenta la etapa en la que se ingresan los datos 
+
+Osea un CRUD con su formulario , por cada etapa del crop 
+
+obviamente , creando en la base de datos la asociacion de los movimientos de cada crop con su respectiva etapa 
+
+
+En cuanto al ingreso de datos por etapa :
+
+- Cada etapa tienen que tener un tabla asociada con los datos solictados
+
+
+Para Sprint 1 :
+
+Tareas por Hacer :
+
+1.- Realizar el Modulo de ingreso de datos de los Crops (Según Excel en directorio)
+
+2.- Reparar tablas (Datatables) en cuanto a como se muestran. (https://ng-bootstrap.github.io/#/components/table/examples#basic)
+Otro Ej : https://l-lin.github.io/angular-datatables/#/basic/angular-way 
+
+3.- Realizar Validaciones de los formularios ( Javascript lado del Cliente, Adjunto Video de curso Angular ).
+
+Eso seria,
+
+
+
+
+
+

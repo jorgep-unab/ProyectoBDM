@@ -1,0 +1,32 @@
+<h3 align="center">Etapa</h3>
+<hr>
+
+<div class="container">
+<div class="row">
+	<div class="col-md-12">
+		
+		<form (ngSubmit)="guardar(forma)" #forma="ngForm">
+			
+			<div class="form-group">
+				<label>Nombre</label>
+				<input 	[(ngModel)]="etapa.nombre"
+						type="text" 
+						name="nombre"
+						class="form-control"
+						placeholder=""
+						required>
+			</div>
+			<div class="form-group">
+				<button [disabled]="!forma.valid" 
+					type="submit" class="btn btn-outline-primary">
+					Guardar cambios 
+				</button>
+				<button [routerLink]="['/etapas']" class="btn btn-outline-danger">
+					Regresar 
+				</button>
+			</div>
+		</form>
+	</div>
+
+</div>
+</div>
