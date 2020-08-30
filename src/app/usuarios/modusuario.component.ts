@@ -19,27 +19,27 @@ export class ModusuarioComponent implements OnInit {
     clave:'',
     permiso:''
   }
-	
-  private UsuarioSelecto:any;
+
+  public UsuarioSelecto:any;
   id:string;
 
-  constructor(private usuariosService:UsuariosService,
-          private usuarioService:UsuarioService,
-  			  private router:Router,
-  			  private ruta:ActivatedRoute ) { 
-  	
+  constructor(public usuariosService:UsuariosService,
+          public usuarioService:UsuarioService,
+  			  public router:Router,
+  			  public ruta:ActivatedRoute ) {
+
   }
 
   ngOnInit() {
-  
+
   this.ruta.params.subscribe( parametros=>{
       // Trae el usuario seleccionado
       this.usuariosService.getONE(parametros.id).subscribe(respuesta=>{
         this.UsuarioSelecto = respuesta[0];
         });
-        
+
       });
-    
+
 			}
 
   guardarMod( FormUsuarioM : NgForm ) :void {
@@ -60,4 +60,3 @@ export class ModusuarioComponent implements OnInit {
       console.log(this.UsuarioSelecto);
     }
   }
-

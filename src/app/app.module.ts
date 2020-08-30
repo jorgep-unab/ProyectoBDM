@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { DataTablesModule } from 'angular-datatables';
 import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
-
-// Rutas 
+import { ChartsModule } from 'ng2-charts';
+// Rutas
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -18,7 +18,7 @@ import { EtapaService } from './servicios/etapa.service';
 import { CropsService } from './servicios/crops.service';
 import { CropService } from './servicios/crop.service';
 
-//Componentes 
+//Componentes
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -66,7 +66,9 @@ import { ModusuarioComponent } from './usuarios/modusuario.component';
     HttpClientModule,
     FormsModule,
     DataTablesModule,
-    NgbPaginationModule, NgbAlertModule
+    NgbPaginationModule,
+    NgbAlertModule,
+    ChartsModule
   ],
   providers: [
     UsuariosService,

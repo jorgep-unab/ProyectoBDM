@@ -17,7 +17,7 @@ export class EtapasService {
 
 
 	public EtapaSelecto: Etapa = {
-		key:0,
+		id:0,
 		nombre:''
 	};
 	getONE(id):Observable<any>{

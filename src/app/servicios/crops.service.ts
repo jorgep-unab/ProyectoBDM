@@ -11,7 +11,7 @@ export class CropsService {
 
 	constructor( private http: HttpClient ) { }
 	//NOTE:CAMBIAR EL PUERTO SEGUN SE NECESITE
-	
+
 	getAll():Observable<any>{
 		return this.http.get('http://localhost:8080/apibdm/crops/consultac.php');
 	}

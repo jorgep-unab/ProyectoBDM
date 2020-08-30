@@ -1,4 +1,4 @@
 export interface Etapa{
-	key?:number;
+	id:number;
 	nombre:string;
 }

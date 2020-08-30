@@ -33,7 +33,6 @@ export class PiscinaHumectacionService {
       let headers = new HttpHeaders({
         'Content-type':'application/json'
       });
-      console.log(piscinaHumectacion);
       return this.http.put(this.piscinaHumecModURL, piscinaHumectacion,{ headers } );
 
       }

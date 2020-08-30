@@ -16,7 +16,7 @@ export class UsuarioComponent implements OnInit {
 		email:'',
 		clave:'',
 		permiso:''
-	}	
+	}
 
   //usuario:Object = {
   //  nombre= null,
@@ -30,7 +30,7 @@ export class UsuarioComponent implements OnInit {
 
   constructor(private usuarioService:UsuarioService,
   			  private router:Router,
-  			  private activatedRoute:ActivatedRoute ) { 
+  			  private activatedRoute:ActivatedRoute ) {
   			this.activatedRoute.params.subscribe(parametros=>{
   				this.id = parametros['id'];
   				console.log(parametros);
@@ -42,12 +42,12 @@ export class UsuarioComponent implements OnInit {
 
   }
 
-  guardar( FormUsuario : NgForm ) :void {
+  guardar() :void {
   	if (this.id == "nuevo"){
-  		
+
   		// Crea nuevo Usuario
   		this.usuarioService.NuevoUsuario( this.usuario ).subscribe( data=>{
-  			// esta linea deberia mandar a la ruta del codigo 
+  			// esta linea deberia mandar a la ruta del codigo
   			//this.router.navigate(['/usuario',data.name])
   			if(data.resultado){
   				console.log(this.usuario);
@@ -55,10 +55,10 @@ export class UsuarioComponent implements OnInit {
   			} else {
   				window.alert("error al ingresar");
   			}
-  		}, 
+  		},
   		error=> console.error(error));
-  		
-  		
+
+
   	} else {
   		// Modifica el Usuario
   		this.usuarioService.ModificaUsuario( this.usuario, this.id ).subscribe( data=>{

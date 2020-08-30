@@ -11,16 +11,16 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class EtapaComponent implements OnInit {
 
 	etapa:Etapa = {
-		key:0,
+		id:0,
 		nombre:''
-	}	
+	}
 
 	nuevo:boolean = false;
 	id:string;
 
   constructor(private etapaService:EtapaService,
   			  private router:Router,
-  			  private activatedRoute:ActivatedRoute ) { 
+  			  private activatedRoute:ActivatedRoute ) {
   			this.activatedRoute.params.subscribe(parametros=>{
   				this.id = parametros['id'];
   			})
@@ -37,9 +37,9 @@ export class EtapaComponent implements OnInit {
   		console.log(FormEtapa);
       console.log("Aca va lo del parametro");
       console.log(this.etapa);
-  		// Crea nueva Etapa 
+  		// Crea nueva Etapa
   		this.etapaService.NuevaEtapa( this.etapa ).subscribe( data=>{
-  			// esta linea deberia mandar a la ruta del codigo 
+  			// esta linea deberia mandar a la ruta del codigo
   			//this.router.navigate(['/etapa',data.name])
   			if(data.resultado){
   				console.log(this.etapa);
@@ -47,10 +47,10 @@ export class EtapaComponent implements OnInit {
   			} else {
   				window.alert("error al ingresar");
   			}
-  		}, 
+  		},
   		error=> console.error(error));
-  		
-  		
+
+
   	} else {
   		// Modifica el etapa
   		this.etapaService.ModificaEtapa( this.etapa, this.id ).subscribe( data=>{

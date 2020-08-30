@@ -34,7 +34,7 @@ export class EtapaService {
   		let headers = new HttpHeaders({
   	  	'Content-type':'application/json'
   	  });
-      etapa.key = +key$;
+      etapa.id = +key$;
   	  //Trae la etapa
       return this.http.post('http://localhost:80/apibdm/etapas/modificae.php', etapa,{ headers } );
 

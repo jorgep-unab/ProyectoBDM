@@ -27,7 +27,7 @@
 							<select id="etapasDd" class="custom-select" [(ngModel)]="selectEtapa"
 							(change)="MostrarTabla()">
 							<option [value]="etapa.id" *ngFor="let etapa of Etapas">{{etapa.nombre}}</option>
-						</select>
+							</select>
 					</div>
 				</div>
 				<div class="card">
@@ -760,7 +760,7 @@
 									value =dias.oxigeno
 									required></td>
 									<td align="center" class="col-2" ><input [(ngModel)]="dias.compostera_usada"
-									type="number"
+									type="text"
 									name="compostera_usadaAct"
 									class="form-control"
 									value =dias.compostera_usada
@@ -957,7 +957,7 @@
 									<th scope="col" align="center" class="col-2 ">Peso perdida material</th>
 									<th scope="col" align="center" class="col-2 ">Altura llenado</th>
 									<th scope="col" align="center" class="col-2 ">Humedad</th>
-									<th scope="col" align="center" class="col-2 ">ph</th>
+									<th scope="col" align="center" class="col-2 ">pH</th>
 
 								</tr>
 							</thead>
@@ -1162,7 +1162,7 @@
 
 					<!-- - INICIO FORMULARIO DE LA ETAPA PURIN-->
 				<div *ngIf="selectEtapa==1">
-						<form (ngSubmit)="guardarPurin(forma)" #forma="ngForm">
+						<form (ngSubmit)="guardarPurin()" #forma="ngForm">
 							<div class="card-body bg-light">
 								<div class="form-group">
 									<label>Electroconductividad</label>
@@ -1217,7 +1217,7 @@
 				<!-- - INICIO FORMULARIO DE LA ETAPA MOJADO FARDOS-->
 				<div *ngIf="selectEtapa==2">
 
-					<form (ngSubmit)="guardarMojadoFardos(forma)" #forma="ngForm">
+					<form (ngSubmit)="guardarMojadoFardos()" #forma="ngForm">
 						<div class="card-body bg-light">
 							<div class="form-group">
 								<label>Número de fardos utilizados</label>
@@ -1318,7 +1318,7 @@
 			<!-- - INICIO DEL FORMULARIO DE LA ETAPA ESTACIONADO FARDOS-->
 			<div *ngIf="selectEtapa==3">
 
-				<form (ngSubmit)="guardarEstacionadoFardos(forma)" #forma="ngForm">
+				<form (ngSubmit)="guardarEstacionadoFardos()" #forma="ngForm">
 					<div class="card-body bg-light">
 						<div class="form-group">
 							<label>% fardos sobre pallet</label>
@@ -1410,7 +1410,7 @@
 			<!-- - INICIO DEL FORMULARIO DE LA ETAPA PISCINA HUMECTACION-->
 			<div *ngIf="selectEtapa==4">
 
-				<form (ngSubmit)="guardarPiscinaH(forma)" #forma="ngForm">
+				<form (ngSubmit)="guardarPiscinaH()" #forma="ngForm">
 					<div class="card-body bg-light">
 						<div class="form-group">
 							<label>Litros de humectación asistida</label>
@@ -1483,7 +1483,7 @@
 
 			<!-- - INICIO DEL FORMULARIO DE LA ETAPA ARMADO CORDON-->
 			<div *ngIf="selectEtapa==5">
-				<form (ngSubmit)="guardarArmadoCordon(forma)" #forma="ngForm">
+				<form (ngSubmit)="guardarArmadoCordon()" #forma="ngForm">
 					<div class="card-body bg-light">
 						<div class="form-group">
 							<label>Cantidad de paladas a compostera</label>
@@ -1605,7 +1605,7 @@
 
 			<!-- - INICIO FORMULARIO DEL DIA1-->
 			<div *ngIf="selectEtapa==6">
-				<form (ngSubmit)="guardarDia1(forma)" #forma="ngForm">
+				<form (ngSubmit)="guardarDia1()" #forma="ngForm">
 					<div class="card-body bg-light">
 						<div class="form-group">
 							<label>Fecha de inicio primera pasada</label>
@@ -1798,7 +1798,7 @@
 						<div class="form-group">
 							<label>Compostera usada</label>
 							<input 	[(ngModel)]="dia1.compostera_usada"
-							type="number"
+							type="text"
 							name="compostera_usada"
 							class="form-control"
 							required>
@@ -1820,7 +1820,7 @@
 
 			<!-- - INICIO FORMULARIO DEL DIA2-->
 				<div *ngIf="selectEtapa==7">
-								<form (ngSubmit)="guardarDia2(forma)" #forma="ngForm">
+								<form (ngSubmit)="guardarDia2()" #forma="ngForm">
 									<div class="card-body bg-light">
 										<div class="form-group">
 											<label>Fecha de inicio</label>
@@ -1947,7 +1947,7 @@
 
 			<!-- - INICIO FORMULARIO DEL DIA3-->
 			<div *ngIf="selectEtapa==8">
-				<form (ngSubmit)="guardarDia3(forma)" #forma="ngForm">
+				<form (ngSubmit)="guardarDia3()" #forma="ngForm">
 					<div class="card-body bg-light">
 						<div class="form-group">
 							<label>Fecha de inicio</label>
@@ -2021,7 +2021,7 @@
 
 		<!-- - INICIO FORMULARIO DEL DIA4-->
 				<div *ngIf="selectEtapa==9">
-					<form (ngSubmit)="guardarDia4(forma)" #forma="ngForm">
+					<form (ngSubmit)="guardarDia4()" #forma="ngForm">
 						<div class="card-body bg-light">
 							<div class="form-group">
 								<label>Fecha de inicio</label>
@@ -2110,7 +2110,7 @@
 
 		<!-- - INICIO FORMULARIO DEL DIA5-->
 				<div *ngIf="selectEtapa==10">
-					<form (ngSubmit)="guardarDia5(forma)" #forma="ngForm">
+					<form (ngSubmit)="guardarDia5()" #forma="ngForm">
 						<div class="card-body bg-light">
 							<div class="form-group">
 								<label>Fecha de inicio</label>
@@ -2226,7 +2226,7 @@
 			<!-- - INICIO DEL FORMULARIO DE LA ETAPA HEAP-->
 			<div *ngIf="selectEtapa==11">
 
-						<form (ngSubmit)="guardarHeap(forma)" #forma="ngForm">
+						<form (ngSubmit)="guardarHeap()" #forma="ngForm">
 							<div class="card-body bg-light">
 								<div class="form-group">
 									<label>Cantidad de amoniaco</label>

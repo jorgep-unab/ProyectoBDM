@@ -13,30 +13,30 @@ import { EtapasService } from '../servicios/etapas.service';
 export class ModetapaComponent implements OnInit {
 
   etapa:Etapa = {
-    key:0,
+    id:0,
     nombre:''
   }
-	
-  private EtapaSelecto:any;
+
+  public EtapaSelecto:any;
   id:string;
 
-  constructor(private etapasService:EtapasService,
-          private etapaService:EtapaService,
-  			  private router:Router,
-  			  private ruta:ActivatedRoute ) { 
-  	
+  constructor(public etapasService:EtapasService,
+          public etapaService:EtapaService,
+  			  public router:Router,
+  			  public ruta:ActivatedRoute ) {
+
   }
 
   ngOnInit() {
-  
+
   this.ruta.params.subscribe( parametros=>{
       // Trae el usuario seleccionado
       this.etapasService.getONE(parametros.id).subscribe(respuesta=>{
         this.EtapaSelecto = respuesta[0];
         });
-        
+
       });
-    
+
 			}
 
   guardarMod( FormEtapaM : NgForm ) :void {
@@ -53,4 +53,3 @@ export class ModetapaComponent implements OnInit {
       console.log(this.EtapaSelecto);
     }
   }
-

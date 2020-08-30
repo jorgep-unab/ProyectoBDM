@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Crop } from '../interfaces/crop.interfaces';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataTablesModule } from 'angular-datatables';
 import { DataTableDirective } from 'angular-datatables';
@@ -23,6 +22,7 @@ import { HeapService } from '../servicios/etapa-heap.service';
 
 
 //Interfaces
+import { Crop } from '../interfaces/crop.interfaces';
 import { Purin } from '../interfaces/purin.interfaces';
 import { MojadoFardos } from '../interfaces/mojado-fardos.interfaces';
 import { EstacionadoFardos } from '../interfaces/estacionado-fardos.interfaces';
@@ -51,6 +51,7 @@ export class DatoscropComponent implements OnInit {
     fecha_creacion: new Date()
   }
 
+  //TODO: VER EL TEMA DE LIMITAR A 5 REGISTROS MAX POR ETAPA DIARIOS
   //NOTE:ID temporal del usuario es 1, debe ser el del usuario logeado
 
   // INICIO CREACION DE OBJETOS DE LAS ETAPAS
@@ -444,39 +445,39 @@ export class DatoscropComponent implements OnInit {
 
   //TODO: REALIZAR VALIDACION DE CADA FORMULARIO
 
-  private CropSelecto:any = [];
-  private Etapas:any =[];
-  private RegistrosPurin:any[] = [];
-  private RegistrosMojadoFardos:any[] = [];
-  private RegistrosEstacionadoFardos:any[] = [];
-  private RegistrosArmadoCordon:any[] = [];
-  private RegistrosPiscinaH:any[] = [];
-  private RegistrosDia1:any[] = [];
-  private RegistrosDia2:any[] = [];
-  private RegistrosDia3:any[] = [];
-  private RegistrosDia4:any[] = [];
-  private RegistrosDia5:any[] = [];
-  private RegistrosHeap:any[] = [];
+  public CropSelecto:any = [];
+  public Etapas:any =[];
+  public RegistrosPurin:any[] = [];
+  public RegistrosMojadoFardos:any[] = [];
+  public RegistrosEstacionadoFardos:any[] = [];
+  public RegistrosArmadoCordon:any[] = [];
+  public RegistrosPiscinaH:any[] = [];
+  public RegistrosDia1:any[] = [];
+  public RegistrosDia2:any[] = [];
+  public RegistrosDia3:any[] = [];
+  public RegistrosDia4:any[] = [];
+  public RegistrosDia5:any[] = [];
+  public RegistrosHeap:any[] = [];
 
 
   id:string;
   selectEtapa:0;
 
-  constructor(private cropsService:CropsService,
-    private etapasService:EtapasService,
-    private purinService:PurinService,
-    private mojadoFardosService:MojadoFardosService,
-    private estacionadoFardosService:EstacionadoFardosService,
-    private piscinaHumectacionService:PiscinaHumectacionService,
-    private armadoCordonService:ArmadoCordonService,
-    private dia1Service:Dia1Service,
-    private dia2Service:Dia2Service,
-    private dia3Service:Dia3Service,
-    private dia4Service:Dia4Service,
-    private dia5Service:Dia5Service,
-    private heapService:HeapService,
-    private router:Router,
-    private ruta:ActivatedRoute ) {
+  constructor(public cropsService:CropsService,
+    public etapasService:EtapasService,
+    public purinService:PurinService,
+    public mojadoFardosService:MojadoFardosService,
+    public estacionadoFardosService:EstacionadoFardosService,
+    public piscinaHumectacionService:PiscinaHumectacionService,
+    public armadoCordonService:ArmadoCordonService,
+    public dia1Service:Dia1Service,
+    public dia2Service:Dia2Service,
+    public dia3Service:Dia3Service,
+    public dia4Service:Dia4Service,
+    public dia5Service:Dia5Service,
+    public heapService:HeapService,
+    public router:Router,
+    public ruta:ActivatedRoute ) {
 
     }
 
@@ -713,7 +714,7 @@ export class DatoscropComponent implements OnInit {
     }
 
     //MÉTODOS DE GUARDADO
-    guardarPurin( FormCropM : NgForm ) :void {
+    guardarPurin() :void {
 
       this.purin.crops_id=this.CropSelecto.id;
 
@@ -733,12 +734,11 @@ export class DatoscropComponent implements OnInit {
 
     }
 
-    guardarMojadoFardos( FormCropM : NgForm ) :void {
+    guardarMojadoFardos() :void {
 
       this.mojadoFardos.crops_id=this.CropSelecto.id;
       this.mojadoFardos.etapas_id=this.selectEtapa;
 
-      console.log(this.mojadoFardos);
       this.mojadoFardosService.NuevoRegistro(this.mojadoFardos).subscribe( data=>{
         if(data.resultado){
           window.alert("Registro ingresado exitosamente");
@@ -752,11 +752,11 @@ export class DatoscropComponent implements OnInit {
       })
     }
 
-    guardarEstacionadoFardos( FormCropM : NgForm ) :void {
+    guardarEstacionadoFardos() :void {
 
       this.estacionadoFardos.crops_id=this.CropSelecto.id;
       this.estacionadoFardos.etapas_id=this.selectEtapa;
-      console.log(this.estacionadoFardos);
+
       this.estacionadoFardosService.NuevoRegistro(this.estacionadoFardos).subscribe( data=>{
         if(data.resultado){
           window.alert("Registro ingresado exitosamente");
@@ -770,7 +770,7 @@ export class DatoscropComponent implements OnInit {
       })
     }
 
-    guardarPiscinaH( FormCropM : NgForm ) :void {
+    guardarPiscinaH() :void {
 
             this.piscinaHumectacion.crops_id=this.CropSelecto.id;
 
@@ -791,7 +791,7 @@ export class DatoscropComponent implements OnInit {
             this.reset();
           }
 
-    guardarArmadoCordon( FormCropM : NgForm ) :void {
+    guardarArmadoCordon() :void {
 
       this.armadoCordon.crops_id=this.CropSelecto.id;
 
@@ -810,7 +810,7 @@ export class DatoscropComponent implements OnInit {
       })
     }
 
-    guardarDia1( FormCropM : NgForm ) :void {
+    guardarDia1() :void {
 
             this.dia1.crops_id=this.CropSelecto.id;
 
@@ -831,7 +831,7 @@ export class DatoscropComponent implements OnInit {
             this.reset();
           }
 
-    guardarDia2( FormCropM : NgForm ) :void {
+    guardarDia2() :void {
 
             this.dia2.crops_id=this.CropSelecto.id;
 
@@ -852,12 +852,11 @@ export class DatoscropComponent implements OnInit {
             this.reset();
           }
 
-    guardarDia3( FormCropM : NgForm ) :void {
+    guardarDia3() :void {
 
             this.dia3.crops_id=this.CropSelecto.id;
 
             this.dia3.etapas_id=this.selectEtapa;
-            console.log(this.dia3);
 
             this.dia3Service.NuevoRegistro(this.dia3).subscribe( data=>{
               if(data.resultado){
@@ -874,12 +873,11 @@ export class DatoscropComponent implements OnInit {
             this.reset();
           }
 
-    guardarDia4( FormCropM : NgForm ) :void {
+    guardarDia4(  ) :void {
 
             this.dia4.crops_id=this.CropSelecto.id;
 
             this.dia4.etapas_id=this.selectEtapa;
-            console.log(this.dia4);
 
             this.dia4Service.NuevoRegistro(this.dia4).subscribe( data=>{
               if(data.resultado){
@@ -896,7 +894,7 @@ export class DatoscropComponent implements OnInit {
             this.reset();
           }
 
-    guardarDia5( FormCropM : NgForm ) :void {
+    guardarDia5(  ) :void {
 
             this.dia5.crops_id=this.CropSelecto.id;
 
@@ -918,12 +916,11 @@ export class DatoscropComponent implements OnInit {
 
 
 
-    guardarHeap( FormCropM : NgForm ) :void {
+    guardarHeap(  ) :void {
 
          this.heap.crops_id=this.CropSelecto.id;
 
          this.heap.etapas_id=this.selectEtapa;
-         console.log(this.heap);
 
          this.heapService.NuevoHeap(this.heap).subscribe( data=>{
            if(data.resultado){
@@ -941,12 +938,11 @@ export class DatoscropComponent implements OnInit {
 
 
     //MÉTODOS DE ACTUALIZACION
-    actualizarPurin( FormCropM : NgForm ) :void {
+    actualizarPurin() :void {
 
       this.purin.crops_id=this.CropSelecto.id;
       this.purin.etapas_id=this.selectEtapa;
 
-      console.log(this.purin);
       this.purinService.ModificarRegistro(this.purin).subscribe( data=>{
         if(data.resultado){
           window.alert("Registro actualizado exitosamente");
@@ -957,11 +953,11 @@ export class DatoscropComponent implements OnInit {
       this.reset();
     }
 
-    actualizarMojadoFardos( FormCropM : NgForm ) :void {
+    actualizarMojadoFardos(  ) :void {
 
       this.mojadoFardos.crops_id=this.CropSelecto.id;
       this.mojadoFardos.etapas_id=this.selectEtapa;
-      console.log(this.mojadoFardos);
+
       this.mojadoFardosService.ModificarRegistro(this.mojadoFardos).subscribe( data=>{
         if(data.resultado){
           window.alert("Registro actualizado exitosamente");
@@ -972,11 +968,11 @@ export class DatoscropComponent implements OnInit {
       this.reset();
     }
 
-    actualizarEstacionadoFardos( FormCropM : NgForm ) :void {
+    actualizarEstacionadoFardos(  ) :void {
 
       this.estacionadoFardos.crops_id=this.CropSelecto.id;
       this.estacionadoFardos.etapas_id=this.selectEtapa;
-      console.log(this.estacionadoFardos);
+
       this.estacionadoFardosService.ModificarRegistro(this.estacionadoFardos).subscribe( data=>{
         if(data.resultado){
           window.alert("Registro actualizado exitosamente");
@@ -987,7 +983,7 @@ export class DatoscropComponent implements OnInit {
       this.reset();
     }
 
-    actualizarPiscinaH( FormCropM : NgForm ) :void {
+    actualizarPiscinaH(  ) :void {
 
      this.piscinaHumectacion.crops_id=this.CropSelecto.id;
      this.piscinaHumectacion.etapas_id=this.selectEtapa;
@@ -1002,7 +998,7 @@ export class DatoscropComponent implements OnInit {
      this.reset();
    }
 
-    actualizarArmadoCordon( FormCropM : NgForm ) :void {
+    actualizarArmadoCordon(  ) :void {
 
       this.armadoCordon.crops_id=this.CropSelecto.id;
       this.armadoCordon.etapas_id=this.selectEtapa;
@@ -1017,9 +1013,8 @@ export class DatoscropComponent implements OnInit {
       this.reset();
     }
 
-    actualizarDia1( FormCropM : NgForm ) :void {
+    actualizarDia1(  ) :void {
 
-     console.log(this.dia1);
      this.dia1Service.ModificarRegistro(this.dia1).subscribe( data=>{
        if(data.resultado){
          window.alert("Registro actualizado exitosamente");
@@ -1030,7 +1025,7 @@ export class DatoscropComponent implements OnInit {
      this.reset();
    }
 
-    actualizarDia2( FormCropM : NgForm ) :void {
+    actualizarDia2(  ) :void {
 
        this.dia2Service.ModificarRegistro(this.dia2).subscribe( data=>{
          if(data.resultado){
@@ -1042,9 +1037,8 @@ export class DatoscropComponent implements OnInit {
        this.reset();
      }
 
-    actualizarDia3( FormCropM : NgForm ) :void {
+    actualizarDia3(  ) :void {
 
-     console.log(this.dia3);
      this.dia3Service.ModificarRegistro(this.dia3).subscribe( data=>{
        if(data.resultado){
          window.alert("Registro actualizado exitosamente");
@@ -1056,7 +1050,7 @@ export class DatoscropComponent implements OnInit {
 
    }
 
-    actualizarDia4( FormCropM : NgForm ) :void {
+    actualizarDia4(  ) :void {
 
 
      this.dia4Service.ModificarRegistro(this.dia4).subscribe( data=>{
@@ -1069,7 +1063,7 @@ export class DatoscropComponent implements OnInit {
      this.reset();
    }
 
-    actualizarDia5( FormCropM : NgForm ) :void {
+    actualizarDia5(  ) :void {
 
 
        this.dia5Service.ModificarRegistro(this.dia5).subscribe( data=>{
@@ -1082,9 +1076,8 @@ export class DatoscropComponent implements OnInit {
        this.reset();
      }
 
-    actualizarHeap( FormCropM : NgForm ) :void {
+    actualizarHeap(  ) :void {
 
-       console.log(this.heap);
        this.heapService.ModificarRegistro(this.heap).subscribe( data=>{
          if(data.resultado){
            window.alert("Registro actualizado exitosamente");
@@ -1145,7 +1138,7 @@ export class DatoscropComponent implements OnInit {
 
       this.estacionadoFardos.crops_id=this.CropSelecto.id;
       this.estacionadoFardos.etapas_id=this.selectEtapa;
-      console.log(this.estacionadoFardos);
+
       this.estacionadoFardosService.Eliminar(this.estacionadoFardos).subscribe( data=>{
         if(data.resultado){
           window.alert("Registro eliminado exitosamente");
@@ -1182,7 +1175,6 @@ export class DatoscropComponent implements OnInit {
     eliminarArmadoCordon(id:number) :void {
 
       this.armadoCordon=this.RegistrosArmadoCordon.find(a => a.id==id);
-      console.log(this.RegistrosArmadoCordon);
 
       this.armadoCordon.crops_id=this.CropSelecto.id;
       this.armadoCordon.etapas_id=this.selectEtapa;

@@ -12,24 +12,24 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class UsuariosComponent implements OnInit {
 
 
-	// Recepción de datos de la consulta desde query 
-	private usuarios:any[] = [];	
+	// Recepción de datos de la consulta desde query
+	private usuarios:any[] = [];
 
   constructor( private _usuariosService:UsuariosService,
                private router:Router,
                private ruta:ActivatedRoute
-             ) { 
+             ) {
 
   }
 
   ngOnInit() {
   	this._usuariosService.getAll().subscribe(respuesta=>{
-  		this.usuarios = respuesta;		
+  		this.usuarios = respuesta;
   	});
   }
 
   PreUpdateusuario( ModUsuario:Usuario ){
-    
+
     //this._usuariosService.UsuarioSelecto = Object.assign({}, ModUsuario);
 
   }
@@ -40,7 +40,7 @@ export class UsuariosComponent implements OnInit {
         this._usuariosService.getAll().subscribe(respuesta=>{
         this.usuarios = respuesta;});
         //this.router.navigate(['/usuarios']);
-        
+
     });
   }
 

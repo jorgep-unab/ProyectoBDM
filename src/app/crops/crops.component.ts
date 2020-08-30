@@ -3,8 +3,6 @@ import { CropsService } from '../servicios/crops.service';
 import { NgForm } from '@angular/forms';
 import { Crop } from '../interfaces/crop.interfaces';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DataTablesModule } from 'angular-datatables';
-import { DataTableDirective } from 'angular-datatables';
 
 
 @Component({

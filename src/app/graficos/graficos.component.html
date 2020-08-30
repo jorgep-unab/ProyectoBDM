@@ -1,6 +1,270 @@
-<div class="container main-container" align="center">
-   
-   <h3>Gráficos</h3>	
+<div class="container main-container">
+
+   <h4 align="center" class="animated fadeIn fast">Gráficos</h4>
    <hr>
+   <div class="col-lg-12">
+   	<button class="btn btn-primary text-light mx-1"
+    [disabled]="CropsSeleccionados==0 || EtapasSeleccionadas==0"
+    (click)="crearRegistros('graficar')">Generar gráficos</button>
+   </div>
+   <hr>
+   <div class="card">
+     <div class="card-header bg-primary text-light text-center">
+       <h5>Gráficos de Crops</h5>
+     </div>
+     <div class="card-body">
+       <div class="row justify-content-center mb-4">
+         <div class="card col-5 mx-auto">
+           <div class="card-header bg-primary text-light text-center">
+             <h6>Crops a graficar</h6>
+           </div>
+           <div class="card-body mb-3">
+             <label for="cropsDd" class="font-weight-bold">Seleccione los Crops a graficar (Max: 5)</label>
+             <select multiple id="cropsDd" class="custom-select"
+             [(ngModel)]="selectCrop"
+             ng-disabled="limiteRegistro">
+
+             <option [value]="crop.id" *ngFor="let crop of Crops"
+             (click)="asignarId(crop.id,'crop')"
+             (click)="selCrop()">{{crop.nombre}}</option>
+             </select>
+             <div *ngIf="CropsSeleccionados.length==5" class="text-danger">
+               <label>Máximo de Crops seleccionados alcanzado</label>
+             </div>
+             <hr>
+             <label for="cropsSelDd" class="font-weight-bold">Crops seleccionados</label>
+             <select multiple id="cropsSelDd" class="custom-select"
+             [(ngModel)]="selectSelCrop">
+
+             <option [value]="crop.id" *ngFor="let crop of CropsSeleccionados"
+             (click)="asignarId(crop.id,'SelCrop')"
+             (click)="deselCrop()">{{crop.nombre}}</option>
+             </select>
+           </div>
+         </div>
+         <div class="card col-5 mx-auto">
+           <div class="card-header bg-primary text-light text-center">
+             <h6>Etapas</h6>
+           </div>
+           <div class="card-body mb-3">
+             <label for="etapasDd" class="font-weight-bold">Seleccione las etapas para graficar los Crops</label>
+             <select multiple id="etapasDd" class="custom-select" [(ngModel)]="selectEtapa">
+             <option [value]="etapa.id" *ngFor="let etapa of Etapas"
+             (click)="asignarId(etapa.id,'etapa')"
+             (click)="selEtapa()">{{etapa.nombre}}</option>
+             </select>
+             <hr>
+             <label for="etapasSelDd" class="font-weight-bold">Etapas seleccionadas</label>
+             <select multiple id="etapasSelDd" class="custom-select" [(ngModel)]="selectEtapa">
+             <option [value]="etapa.id" *ngFor="let etapa of EtapasSeleccionadas"
+             (click)="asignarId(etapa.id,'SelEtapa')"
+             (click)="deselEtapa()">{{etapa.nombre}}</option>
+             </select>
+           </div>
+         </div>
+       </div>
+
+       <div class="card" *ngIf="mostrarGraficos">
+         <div class="card-header bg-success text-light text-center">
+           <h5>Gráficos de los Crops seleccionados</h5>
+         </div>
+         <div class="card-body">
+           <div class="col-4 mx-auto mb-4">
+             <label for="etapasTablaDd" class="font-weight-bold">Etapa</label>
+             <select id="etapasTablaDd" class="custom-select" [(ngModel)]="selectEtapaGrafico">
+             <option [value]="etapa.nombre" *ngFor="let etapa of EtapasSeleccionadas">{{etapa.nombre}}</option>
+             </select>
+           </div>
+
+           <!-- Gráficos -->
+           <div class="col-10 mx-auto" *ngIf="mostrarGraficos">
+
+             <!-- Gráficos purin -->
+             <div style="display: block;" *ngIf="selectEtapaGrafico=='Purin'">
+               <canvas baseChart
+                 [datasets]="purinChartData"
+                 [labels]="purinChartLabels"
+                 [chartType]="graficosChartType">
+               </canvas>
+             </div>
+
+             <!-- Gráficos Mojado fardos -->
+             <div style="display: block;" *ngIf="selectEtapaGrafico=='Mojado fardos'">
+               <canvas baseChart
+                 [datasets]="mojadoFardosChartData"
+                 [labels]="mojadoFardosChartLabels"
+                 [chartType]="graficosChartType">
+               </canvas>
+             </div>
+
+             <!-- Gráficos Mojado fardos -->
+             <div style="display: block;" *ngIf="selectEtapaGrafico=='Estacionado fardos'">
+               <canvas baseChart
+                 [datasets]="estacionadoFardosChartData"
+                 [labels]="estacionadoFardosChartLabels"
+                 [chartType]="graficosChartType">
+               </canvas>
+             </div>
+
+             <!-- Gráficos Piscina humectación -->
+             <div style="display: block;" *ngIf="selectEtapaGrafico=='Piscina humectacion'">
+               <canvas baseChart
+                 [datasets]="piscinaHumectacionChartData"
+                 [labels]="piscinaHumectacionChartLabels"
+                 [chartType]="graficosChartType">
+               </canvas>
+             </div>
+
+             <!-- Gráficos Armado cordón -->
+             <div style="display: block;" *ngIf="selectEtapaGrafico=='Armado cordon'">
+               <div class="mb-4">
+                 <canvas baseChart
+                   [datasets]="armadoCordonChartData1"
+                   [labels]="armadoCordonChartLabels1"
+                   [chartType]="graficosChartType">
+                 </canvas>
+               </div>
+               <hr>
+               <div>
+                 <canvas baseChart
+                   [datasets]="armadoCordonChartData2"
+                   [labels]="armadoCordonChartLabels2"
+                   [chartType]="graficosChartType">
+                 </canvas>
+               </div>
+
+             </div>
+
+             <!-- Gráficos Día 1 -->
+             <div style="display: block;" *ngIf="selectEtapaGrafico=='Dia 1 cordon (nitrog)'">
+               <div class="mb-4">
+                 <label class="badge badge-success">Primera pasada</label>
+                 <canvas baseChart
+                   [datasets]="dia1ChartData1"
+                   [labels]="dia1ChartLabels1"
+                   [chartType]="graficosChartType">
+                 </canvas>
+               </div>
+               <hr>
+               <div class="mb-4">
+                 <label class="badge badge-success">Segunda pasada</label>
+                 <canvas baseChart
+                   [datasets]="dia1ChartData2"
+                   [labels]="dia1ChartLabels2"
+                   [chartType]="graficosChartType">
+                 </canvas>
+               </div>
+               <hr>
+               <div>
+                 <label class="badge badge-success">Tercera pasada</label>
+                 <canvas baseChart
+                   [datasets]="dia1ChartData3"
+                   [labels]="dia1ChartLabels3"
+                   [chartType]="graficosChartType">
+                 </canvas>
+               </div>
+               <hr>
+               <div>
+                 <canvas baseChart
+                   [datasets]="dia1ChartData4"
+                   [labels]="dia1ChartLabels4"
+                   [chartType]="graficosChartType">
+                 </canvas>
+               </div>
+
+             </div>
+
+             <!-- Gráficos Día 2 -->
+             <div style="display: block;" *ngIf="selectEtapaGrafico=='Dia 2 cordon (agua)'">
+               <div class="mb-4">
+                 <canvas baseChart
+                   [datasets]="dia2ChartData1"
+                   [labels]="dia2ChartLabels1"
+                   [chartType]="graficosChartType">
+                 </canvas>
+               </div>
+               <hr>
+               <div class="mb-4">
+                 <canvas baseChart
+                   [datasets]="dia2ChartData2"
+                   [labels]="dia2ChartLabels2"
+                   [chartType]="graficosChartType">
+                 </canvas>
+               </div>
+             </div>
+
+             <!-- Gráficos Día 3 -->
+             <div style="display: block;" *ngIf="selectEtapaGrafico=='Dia 3 cordon (ox)'">
+               <div class="mb-4">
+                 <canvas baseChart
+                   [datasets]="dia3ChartData"
+                   [labels]="dia3ChartLabels"
+                   [chartType]="graficosChartType">
+                 </canvas>
+               </div>
+             </div>
+
+             <!-- Gráficos Día 4 -->
+             <div style="display: block;" *ngIf="selectEtapaGrafico=='Dia 4 cordon (agua)'">
+               <div class="mb-4">
+                 <canvas baseChart
+                   [datasets]="dia4ChartData"
+                   [labels]="dia4ChartLabels"
+                   [chartType]="graficosChartType">
+                 </canvas>
+               </div>
+             </div>
+
+             <!-- Gráficos Día 5 -->
+             <div style="display: block;" *ngIf="selectEtapaGrafico=='Dia 5 FB'">
+               <div class="mb-4">
+                 <canvas baseChart
+                   [datasets]="dia5ChartData1"
+                   [labels]="dia5ChartLabels1"
+                   [chartType]="graficosChartType">
+                 </canvas>
+               </div>
+               <hr>
+               <div>
+                 <canvas baseChart
+                   [datasets]="dia5ChartData2"
+                   [labels]="dia5ChartLabels2"
+                   [chartType]="graficosChartType">
+                 </canvas>
+               </div>
+             </div>
+
+             <!-- Gráficos Heap -->
+             <div style="display: block;" *ngIf="selectEtapaGrafico=='Heap'">
+               <div class="mb-4">
+                 <canvas baseChart
+                   [datasets]="heapChartData1"
+                   [labels]="heapChartLabels1"
+                   [chartType]="graficosChartType">
+                 </canvas>
+               </div>
+               <hr>
+               <div>
+                 <canvas baseChart
+                   [datasets]="heapChartData2"
+                   [labels]="heapChartLabels2"
+                   [chartType]="graficosChartType">
+                 </canvas>
+               </div>
+             </div>
+
+
+
+           </div>
+         </div>
+
+
+
+
+
+       </div>
+
+     </div>
+   </div>
 
 </div>

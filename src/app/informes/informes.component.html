@@ -1,6 +1,505 @@
-<div class="container main-container" align="center">
-   
-   <h3>Informes</h3>	
+<div class="container main-container">
+
+   <h4 align="center" class="animated fadeIn fast" >Informes</h4>
    <hr>
+   <div class="col-lg-12">
+    <button class="btn btn-primary text-light mx-1"
+    [disabled]="CropsSeleccionados==0 || EtapasSeleccionadas==0"
+    (click)="crearRegistros('tabla')">Ver registros de Crops seleccionados</button>
+
+   	<button class="btn btn-primary text-light mx-1"
+    [disabled]="CropsSeleccionados==0 || EtapasSeleccionadas==0"
+    (click)="crearRegistros('exportar')">Exportar</button>
+   </div>
+   <hr>
+   <div class="card">
+     <div class="card-header bg-primary text-light text-center">
+       <h5>Comparador de Crops</h5>
+     </div>
+     <div class="card-body">
+       <div class="row justify-content-center mb-4">
+         <div class="card col-5 mx-auto">
+           <div class="card-header bg-primary text-light text-center">
+             <h6>Crops a comparar</h6>
+           </div>
+           <div class="card-body mb-3">
+             <label for="cropsDd" class="font-weight-bold">Seleccione los Crops a comparar (Max: 10)</label>
+             <select multiple id="cropsDd" class="custom-select"
+             [(ngModel)]="selectCrop"
+             ng-disabled="limiteRegistro">
+
+             <option [value]="crop.id" *ngFor="let crop of Crops"
+             (click)="asignarId(crop.id,'crop')"
+             (click)="selCrop()">{{crop.nombre}}</option>
+             </select>
+             <div *ngIf="CropsSeleccionados.length==10" class="text-danger">
+               <label>Máximo de Crops seleccionados alcanzado</label>
+             </div>
+             <hr>
+             <label for="cropsSelDd" class="font-weight-bold">Crops seleccionados</label>
+             <select multiple id="cropsSelDd" class="custom-select"
+             [(ngModel)]="selectSelCrop">
+
+             <option [value]="crop.id" *ngFor="let crop of CropsSeleccionados"
+             (click)="asignarId(crop.id,'SelCrop')"
+             (click)="deselCrop()">{{crop.nombre}}</option>
+             </select>
+           </div>
+         </div>
+         <div class="card col-5 mx-auto">
+           <div class="card-header bg-primary text-light text-center">
+             <h6>Etapas</h6>
+           </div>
+           <div class="card-body mb-3">
+             <label for="etapasDd" class="font-weight-bold">Seleccione las etapas para comparar los Crops</label>
+             <select multiple id="etapasDd" class="custom-select" [(ngModel)]="selectEtapa">
+             <option [value]="etapa.id" *ngFor="let etapa of Etapas"
+             (click)="asignarId(etapa.id,'etapa')"
+             (click)="selEtapa()">{{etapa.nombre}}</option>
+             </select>
+             <hr>
+             <label for="etapasSelDd" class="font-weight-bold">Etapas seleccionadas</label>
+             <select multiple id="etapasSelDd" class="custom-select" [(ngModel)]="selectEtapa">
+             <option [value]="etapa.id" *ngFor="let etapa of EtapasSeleccionadas"
+             (click)="asignarId(etapa.id,'SelEtapa')"
+             (click)="deselEtapa()">{{etapa.nombre}}</option>
+             </select>
+           </div>
+         </div>
+       </div>
+       <div *ngIf="mostrarTabla" class="card">
+         <div class="card-header bg-primary text-light text-center">
+           <h5>Registros de los Crops seleccionados</h5>
+         </div>
+         <div class="card-body">
+           <div class="col-4 mx-auto mb-4">
+             <label for="etapasTablaDd" class="font-weight-bold" >Etapa</label>
+             <select id="etapasTablaDd" class="custom-select" [(ngModel)]="selectEtapaTabla">
+             <option [value]="etapa.nombre" *ngFor="let etapa of EtapasSeleccionadas">{{etapa.nombre}}</option>
+             </select>
+           </div>
+
+           <!-- TABLA DE PURIN -->
+           <div *ngIf="selectEtapaTabla=='Purin'">
+ 						<table class="table table-responsive table-bordered text-center">
+ 							<thead class="text-light" align="center">
+ 								<tr class="d-flex text-nowrap">
+ 									<th scope="col" align="center" class="col-4">Nombre del Crop</th>
+ 									<th scope="col" align="center" class="col-4">Electroconductividad</th>
+ 									<th scope="col" align="center" class="col-4">pH</th>
+ 									<th scope="col" align="center" class="col-4">TDS</th>
+ 									<th scope="col" align="center" class="col-4">Nitrógeno</th>
+ 								</tr>
+ 							</thead>
+ 							<tbody>
+ 								<tr *ngFor="let purin of regP" class="d-flex">
+ 									<td align="center" class="col-4">{{purin.Nombre_Crop }}</td>
+ 									<td align="center" class="col-4">{{purin.Electroconductividad}}</td>
+ 									<td align="center" class="col-4">{{purin.pH}}</td>
+ 									<td align="center" class="col-4">{{purin.TDS}}</td>
+ 									<td align="center" class="col-4">{{purin.Nitrogeno}}</td>
+ 								</tr>
+ 							</tbody>
+ 						</table>
+ 					 </div>
+
+           <!-- TABLA DE MOJADO FARDOS -->
+					 <div *ngIf="selectEtapaTabla=='Mojado fardos'">
+						<table class="table table-responsive table-bordered text-center">
+							<thead class="text-light" align="center">
+								<tr class="d-flex ">
+									<th scope="col" align="center" class="col-2">Nombre del Crop</th>
+									<th scope="col" align="center" class="col-2">Cantida de fardos usados</th>
+									<th scope="col" align="center" class="col-2">Guías de despacho usadas</th>
+									<th scope="col" align="center" class="col-2">Peso neto guías</th>
+									<th scope="col" align="center" class="col-2">Peso Pre-mojado</th>
+								  <th scope="col" align="center" class="col-2">Peso Post-mojado</th>
+									<th scope="col" align="center" class="col-2">Tiempo de hundido</th>
+									<th scope="col" align="center" class="col-2">Fecha de inicio</th>
+									<th scope="col" align="center" class="col-2">Fecha de término</th>
+								  <th scope="col" align="center" class="col-2">Fardos perdidos por desarme</th>
+
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let mojado of regMF" class="d-flex">
+									<td align="center" class="col-2" >{{ mojado.Nombre_Crop }}</td>
+									<td align="center" class="col-2" >{{ mojado.Cantidad_fardos_usados}}</td>
+									<td align="center" class="col-2" >{{mojado.Guias_despacho_usadas}}</td>
+									<td align="center" class="col-2" >{{mojado.Peso_neto_guias}}</td>
+									<td align="center" class="col-2" >{{mojado.Peso_fardos_premojado}}</td>
+									<td align="center" class="col-2" >{{mojado.Peso_fardos_postmojado}}</td>
+									<td align="center" class="col-2" >{{mojado.Tiempo_hundido}}</td>
+									<td align="center" class="col-2" >{{mojado.Fecha_inicio | date: 'yyyy-MM-dd'}}</td>
+									<td align="center" class="col-2" >{{mojado.Fecha_termino | date: 'yyyy-MM-dd'}}</td>
+									<td align="center" class="col-2" >{{mojado.Fardos_perdidos_desarme}}</td>
+
+								</tr>
+							</tbody>
+						</table>
+					 </div>
+
+           <!-- TABLA DE ESTACIONADO FARDOS -->
+ 				   <div *ngIf="selectEtapaTabla=='Estacionado fardos'">
+ 						<table class="table table-responsive table-bordered text-center">
+ 							<thead class="text-light" align="center">
+ 								<tr class="d-flex ">
+ 									<th scope="col" align="center" class="col-2 ">Nombre del Crop</th>
+ 									<th scope="col" align="center" class="col-2 ">% Fardos sobre pallet</th>
+ 									<th scope="col" align="center" class="col-2 ">Temperatura promedio día i</th>
+ 									<th scope="col" align="center" class="col-2 ">Humedad promedio día i</th>
+ 									<th scope="col" align="center" class="col-2 ">Oxígeno promedio día i</th>
+ 									<th scope="col" align="center" class="col-2 ">Fecha de inicio</th>
+ 									<th scope="col" align="center" class="col-2 ">Fecha de término</th>
+ 								  <th scope="col" align="center" class="col-2 ">Tiempo total estacionado</th>
+ 									<th scope="col" align="center" class="col-2 ">Calidad estructura</th>
+
+ 								</tr>
+ 							</thead>
+ 							<tbody>
+ 								<tr *ngFor="let estac of regEF" class="d-flex">
+ 									<td align="center" class="col-2" >{{ estac.Nombre_Crop }}</td>
+ 									<td align="center" class="col-2" >{{estac.Porcentaje_sobre_pallet}}</td>
+ 									<td align="center" class="col-2" >{{estac.Temperatura_promedio_Dia_i}}</td>
+ 									<td align="center" class="col-2" >{{estac.Humedad_promedio_Dia_i}}</td>
+ 									<td align="center" class="col-2" >{{estac.Oxigeno_promedio_Dia_i}}</td>
+ 									<td align="center" class="col-2" >{{estac.Fecha_inicio | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-2" >{{estac.Fecha_termino | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-2" >{{estac.Tiempo_total_estacionado}}</td>
+ 									<td align="center" class="col-2" >{{estac.Calidad_estructura}}</td>
+ 								</tr>
+ 							</tbody>
+ 						</table>
+ 					 </div>
+
+           <!-- TABLA DE PISCINA HUMECTACION -->
+ 				 	 <div *ngIf="selectEtapaTabla=='Piscina humectacion'">
+ 						<table class="table table-responsive table-bordered text-center">
+ 							<thead class="text-light" align="center">
+ 								<tr class="d-flex">
+ 									<th scope="col" align="center" class="col-3 ">Nombre del Crop</th>
+ 									<th scope="col" align="center" class="col-3 ">Litros de humectación asistida</th>
+ 									<th scope="col" align="center" class="col-3 ">Fecha de inicio</th>
+ 									<th scope="col" align="center" class="col-3 ">Fecha de término</th>
+ 									<th scope="col" align="center" class="col-3 ">Horas en piscina</th>
+ 									<th scope="col" align="center" class="col-3 "># Paladas paja desarmada</th>
+ 									<th scope="col" align="center" class="col-3 ">Peso paja desarmada</th>
+ 								</tr>
+ 							</thead>
+ 							<tbody>
+ 								<tr *ngFor="let piscina of regPH" class="d-flex">
+ 									<td align="center" class="col-3" >{{piscina.Nombre_Crop}}</td>
+ 									<td align="center" class="col-3" >{{piscina.Litros_humectacion_asistida}}</td>
+ 									<td align="center" class="col-3" >{{piscina.Fecha_inicio | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-3" >{{piscina.Fecha_termino | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-3" >{{piscina.Horas_en_piscina}}</td>
+ 									<td align="center" class="col-3" >{{piscina.Numero_paladas_paja}}</td>
+ 									<td align="center" class="col-3" >{{piscina.Peso_paja_desarmada}}</td>
+ 								</tr>
+ 							</tbody>
+ 						</table>
+ 					 </div>
+
+           <!-- TABLA DE ARMADOCORDON -->
+ 				   <div *ngIf="selectEtapaTabla=='Armado cordon'">
+ 						<table class="table table-responsive table-bordered text-center">
+ 							<thead class="text-light" align="center">
+ 								<tr class="d-flex  ">
+ 									<th scope="col" align="center" class="col-2 ">Nombre del Crop</th>
+ 									<th scope="col" align="center" class="col-2 ">Paladas compostera</th>
+ 									<th scope="col" align="center" class="col-2 ">Peso promedio paladas</th>
+ 									<th scope="col" align="center" class="col-2 ">Peso total</th>
+ 									<th scope="col" align="center" class="col-2 ">Compostera usada</th>
+ 									<th scope="col" align="center" class="col-2 ">Fecha de inicio</th>
+ 									<th scope="col" align="center" class="col-2 ">Fecha de término</th>
+ 									<th scope="col" align="center" class="col-2 ">Tiempo total</th>
+ 									<th scope="col" align="center" class="col-2 ">Altura cordón</th>
+ 									<th scope="col" align="center" class="col-2 ">Ancho cordón</th>
+ 									<th scope="col" align="center" class="col-2 ">Largo cordón</th>
+ 									<th scope="col" align="center" class="col-2 ">Temperatura</th>
+ 									<th scope="col" align="center" class="col-2 ">Humedad</th>
+ 									<th scope="col" align="center" class="col-2 ">Oxígeno</th>
+
+ 								</tr>
+ 							</thead>
+ 							<tbody>
+ 								<tr *ngFor="let armado of regAC" class="d-flex">
+ 									<td align="center" class="col-2" >{{ armado.Nombre_Crop }}</td>
+ 									<td align="center" class="col-2" >{{armado.Cantidad_paladas_compostera}}</td>
+ 									<td align="center" class="col-2" >{{armado.Peso_promedio_paladas}}</td>
+ 									<td align="center" class="col-2" >{{armado.Peso_total}}</td>
+ 									<td align="center" class="col-2" >{{armado.Compostera_usada}}</td>
+ 									<td align="center" class="col-2" >{{armado.Fecha_inicio | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-2" >{{armado.Fecha_termino | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-2" >{{armado.Tiempo_total}}</td>
+ 									<td align="center" class="col-2" >{{armado.Altura_cordon}}</td>
+ 									<td align="center" class="col-2" >{{armado.Ancho_cordon}}</td>
+ 									<td align="center" class="col-2" >{{armado.Largo_cordon}}</td>
+ 									<td align="center" class="col-2" >{{armado.Temperatura}}</td>
+ 									<td align="center" class="col-2" >{{armado.Humedad}}</td>
+ 									<td align="center" class="col-2" >{{armado.Oxigeno}}</td>
+ 								</tr>
+ 							</tbody>
+ 						</table>
+ 					 </div>
+
+
+           <!-- TABLA DE DIA 1-->
+ 					 <div *ngIf="selectEtapaTabla=='Dia 1 cordon (nitrog)'">
+ 						<table class="table table-responsive table-bordered text-center">
+ 							<thead class="text-light" align="center">
+ 								<tr class="d-flex">
+                  <th scope="col" align="center" class="col-1 ">Nombre del Crop</th>
+ 									<th scope="col" align="center" class="col-1 ">Fecha de inicio primera pasada</th>
+ 									<th scope="col" align="center" class="col-1 ">Número de paladas primera pasada</th>
+ 									<th scope="col" align="center" class="col-1 ">Peso promedio paladas primera pasada</th>
+ 									<th scope="col" align="center" class="col-1 ">Peso total de guano primera pasada</th>
+ 									<th scope="col" align="center" class="col-1 ">Cantidad de Sulfato de Amonio</th>
+ 									<th scope="col" align="center" class="col-1 ">Cantidad de Urea</th>
+ 									<th scope="col" align="center" class="col-1 ">Cantidad de Yeso</th>
+ 									<th scope="col" align="center" class="col-1 ">Fecha de termino primera pasada</th>
+ 									<th scope="col" align="center" class="col-1 ">Tiempo total primera pasada</th>
+ 									<th scope="col" align="center" class="col-1 ">Fecha inicio segunda pasada</th>
+ 									<th scope="col" align="center" class="col-1 ">Número de paladas segunda pasada</th>
+ 									<th scope="col" align="center" class="col-1 ">Peso promedio paladas segunda pasada</th>
+ 									<th scope="col" align="center" class="col-1 ">Peso total de Guano segunda pasada</th>
+ 									<th scope="col" align="center" class="col-1 ">Fecha de termino segunda pasada</th>
+ 									<th scope="col" align="center" class="col-1 ">Tiempo total segunda pasada</th>
+ 									<th scope="col" align="center" class="col-1 ">Fecha inicio tercera pasada</th>
+ 									<th scope="col" align="center" class="col-1 ">Número de paladas tercera pasada</th>
+ 									<th scope="col" align="center" class="col-1 ">Peso promedio paladas tercera pasada</th>
+ 									<th scope="col" align="center" class="col-1 ">Peso total de guano tercera pasada</th>
+ 									<th scope="col" align="center" class="col-1 ">Temperatura</th>
+ 									<th scope="col" align="center" class="col-1 ">Humedad</th>
+ 									<th scope="col" align="center" class="col-1 ">Oxigeno</th>
+ 									<th scope="col" align="center" class="col-1 ">Compostera Usada</th>
+ 								</tr>
+ 							</thead>
+ 							<tbody>
+ 								<tr *ngFor="let dias of regD1" class="d-flex">
+ 									<td align="center" class="col-1" >{{ dias.Nombre_Crop }}</td>
+ 									<td align="center" class="col-1" >{{dias.Fecha_inicio_primera_pasada | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-1" >{{dias.Numero_paladas_primera_pasada}}</td>
+ 									<td align="center" class="col-1" >{{dias.Peso_promedio_paladas_primera_pasada}}</td>
+ 									<td align="center" class="col-1" >{{dias.Peso_total_guano_fresco}}</td>
+ 									<td align="center" class="col-1" >{{dias.Cantidad_Sulfato_Amonio}}</td>
+ 									<td align="center" class="col-1" >{{dias.Cantidad_Urea}}</td>
+ 									<td align="center" class="col-1" >{{dias.Cantidad_Yeso}}</td>
+ 									<td align="center" class="col-1" >{{dias.Fecha_termino_primera_pasada | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-1" >{{dias.Tiempo_total_primera_pasada}}</td>
+ 									<td align="center" class="col-1" >{{dias.Fecha_inicio_segunda_pasada | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-1" >{{dias.Numero_paladas_segunda_pasada}}</td>
+ 									<td align="center" class="col-1" >{{dias.Peso_promedio_paladas_segunda_pasada}}</td>
+ 									<td align="center" class="col-1" >{{dias.Peso_total_guano_reproductora}}</td>
+ 									<td align="center" class="col-1" >{{dias.Fecha_termino_segunda_pasada | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-1" >{{dias.Tiempo_total_segunda_pasada}}</td>
+ 									<td align="center" class="col-1" >{{dias.Fecha_inicio_tercera_pasada | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-1" >{{dias.Numero_paladas_tercera_pasada}}</td>
+ 									<td align="center" class="col-1" >{{dias.Peso_promedio_paladas_tercera_pasada}}</td>
+ 									<td align="center" class="col-1" >{{dias.Peso_total_guano}}</td>
+ 									<td align="center" class="col-1" >{{dias.Temperatura}}</td>
+ 									<td align="center" class="col-1" >{{dias.Humedad}}</td>
+ 									<td align="center" class="col-1" >{{dias.Oxigeno}}</td>
+ 									<td align="center" class="col-1" >{{dias.Compostera_usada}}</td>
+
+
+ 								</tr>
+ 							</tbody>
+ 						</table>
+ 					 </div>
+
+           <!-- TABLA DE DIA 2  -->
+ 					 <div *ngIf="selectEtapaTabla=='Dia 2 cordon (agua)'">
+ 						<table class="table table-responsive table-bordered text-center">
+ 							<thead class="text-light" align="center">
+ 								<tr class="d-flex">
+ 									<th scope="col" align="center" class="col-2">Nombre del Crop</th>
+ 									<th scope="col" align="center" class="col-2 ">Fecha de inicio</th>
+ 									<th scope="col" align="center" class="col-2 ">Fecha de término</th>
+ 									<th scope="col" align="center" class="col-2 ">Tiempo total</th>
+ 									<th scope="col" align="center" class="col-2 ">Caudal inicial</th>
+ 									<th scope="col" align="center" class="col-2 ">Cuadal final</th>
+ 									<th scope="col" align="center" class="col-2 ">Litros de agua agregados</th>
+ 									<th scope="col" align="center" class="col-2 ">Litros metro lineal</th>
+ 									<th scope="col" align="center" class="col-2 ">Bajadas</th>
+ 									<th scope="col" align="center" class="col-2 ">Temperatura</th>
+ 									<th scope="col" align="center" class="col-2 ">Humedad</th>
+ 									<th scope="col" align="center" class="col-2 ">Oxigeno</th>
+ 									<th scope="col" align="center" class="col-2 ">Compostera usada</th>
+
+
+
+ 								</tr>
+ 							</thead>
+ 							<tbody>
+ 								<tr *ngFor="let dias of regD2" class="d-flex">
+ 									<td align="center" class="col-2" >{{ dias.Nombre_Crop }}</td>
+ 									<td align="center" class="col-2" >{{dias.Fecha_inicio | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-2" >{{dias.Fecha_termino | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-2" >{{dias.Tiempo_total}}</td>
+ 									<td align="center" class="col-2" >{{dias.Caudal_inicial}}</td>
+ 									<td align="center" class="col-2" >{{dias.Caudal_final}}</td>
+ 									<td align="center" class="col-2" >{{dias.Litros_agua_agregados}}</td>
+ 									<td align="center" class="col-2" >{{dias.Litros_por_metro_lineal}}</td>
+ 									<td align="center" class="col-2" >{{dias.Bajadas}}</td>
+ 									<td align="center" class="col-2" >{{dias.Temperatura}}</td>
+ 									<td align="center" class="col-2" >{{dias.Humedad}}</td>
+ 									<td align="center" class="col-2" >{{dias.Oxigeno}}</td>
+ 									<td align="center" class="col-2" >{{dias.Compostera_usada}}</td>
+ 								</tr>
+ 							</tbody>
+ 						</table>
+ 					 </div>
+
+           <!-- TABLA DE DIA 3-->
+ 					 <div *ngIf="selectEtapaTabla=='Dia 3 cordon (ox)'">
+ 						<table class="table table-responsive table-bordered text-center">
+ 							<thead class="text-light" align="center">
+ 								<tr class="d-flex">
+ 									<th scope="col" align="center" class="col-2">Nombre del Crop</th>
+ 									<th scope="col" align="center" class="col-2 ">Fecha de inicio</th>
+ 									<th scope="col" align="center" class="col-2 ">Fecha de término</th>
+ 									<th scope="col" align="center" class="col-2 ">Tiempo total</th>
+ 									<th scope="col" align="center" class="col-2 ">Temperatura</th>
+ 									<th scope="col" align="center" class="col-2 ">Humedad</th>
+ 									<th scope="col" align="center" class="col-2 ">Oxígeno</th>
+ 									<th scope="col" align="center" class="col-2 ">Compostera usada</th>
+ 								</tr>
+ 							</thead>
+ 							<tbody>
+ 								<tr *ngFor="let dias of regD3" class="d-flex">
+ 									<td align="center" class="col-2" >{{ dias.Nombre_Crop }}</td>
+ 									<td align="center" class="col-2" >{{dias.Fecha_inicio | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-2" >{{dias.Fecha_termino | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-2" >{{dias.Tiempo_total}}</td>
+ 									<td align="center" class="col-2" >{{dias.Temperatura}}</td>
+ 									<td align="center" class="col-2" >{{dias.Humedad}}</td>
+ 									<td align="center" class="col-2" >{{dias.Oxigeno}}</td>
+ 									<td align="center" class="col-2" >{{dias.Compostera_usada}}</td>
+ 								</tr>
+ 							</tbody>
+ 						</table>
+ 					 </div>
+
+           <!-- TABLA DE DIA 4-->
+ 					 <div *ngIf="selectEtapaTabla=='Dia 4 cordon (agua)'">
+ 						<table class="table table-responsive table-bordered text-center">
+ 							<thead class="text-light" align="center">
+ 								<tr class="d-flex">
+ 									<th scope="col" align="center" class="col-2">Nombre del Crop</th>
+ 									<th scope="col" align="center" class="col-2 ">Fecha de inicio</th>
+ 									<th scope="col" align="center" class="col-2 ">Fecha de término</th>
+ 									<th scope="col" align="center" class="col-2 ">Tiempo total</th>
+ 									<th scope="col" align="center" class="col-2 ">Caudal incial</th>
+ 									<th scope="col" align="center" class="col-2 ">Caudal final</th>
+ 									<th scope="col" align="center" class="col-2 ">Litros de agua agregados</th>
+ 									<th scope="col" align="center" class="col-2 ">Litro por metro lineal</th>
+ 									<th scope="col" align="center" class="col-2 ">Bajadas</th>
+ 									<th scope="col" align="center" class="col-2 ">Compostera usada</th>
+
+ 								</tr>
+ 							</thead>
+ 							<tbody>
+ 								<tr *ngFor="let dias of regD4" class="d-flex">
+ 									<td align="center" class="col-2" >{{ dias.Nombre_Crop }}</td>
+ 									<td align="center" class="col-2" >{{dias.Fecha_inicio | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-2" >{{dias.Fecha_termino | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-2" >{{dias.Tiempo_total}}</td>
+ 									<td align="center" class="col-2" >{{dias.Caudal_inicial}}</td>
+ 									<td align="center" class="col-2" >{{dias.Caudal_final}}</td>
+ 									<td align="center" class="col-2" >{{dias.Litros_agua_agregados}}</td>
+ 									<td align="center" class="col-2" >{{dias.Litros_por_metro_lineal}}</td>
+ 									<td align="center" class="col-2" >{{dias.Bajadas}}</td>
+ 									<td align="center" class="col-2" >{{dias.Compostera_usada}}</td>
+
+ 								</tr>
+ 							</tbody>
+ 						</table>
+ 					 </div>
+
+           <!-- TABLA DE DIA 5 //  -->
+ 					 <div *ngIf="selectEtapaTabla=='Dia 5 FB'">
+ 						<table class="table table-responsive table-bordered text-center">
+ 							<thead class="text-light" align="center">
+ 								<tr class="d-flex">
+ 									<th scope="col" align="center" class="col-2">Nombre del Crop</th>
+ 									<th scope="col" align="center" class="col-2 ">Fecha de inicio</th>
+ 									<th scope="col" align="center" class="col-2 ">Fecha de término</th>
+ 									<th scope="col" align="center" class="col-2 ">Tiempo total</th>
+ 									<th scope="col" align="center" class="col-3 ">Bunker</th>
+ 									<th scope="col" align="center" class="col-2 ">Número de spigots</th>
+ 									<th scope="col" align="center" class="col-2 ">Número de paladas</th>
+ 									<th scope="col" align="center" class="col-2 ">Peso promedio de paladas</th>
+ 									<th scope="col" align="center" class="col-2 ">Peso total llenado Bunker</th>
+ 									<th scope="col" align="center" class="col-2 ">Peso perdida material</th>
+ 									<th scope="col" align="center" class="col-2 ">Altura llenado</th>
+ 									<th scope="col" align="center" class="col-2 ">Humedad</th>
+ 									<th scope="col" align="center" class="col-2 ">pH</th>
+
+ 								</tr>
+ 							</thead>
+ 							<tbody>
+ 								<tr *ngFor="let dias of regD5" class="d-flex">
+ 									<td align="center" class="col-2" >{{ dias.Nombre_Crop }}</td>
+ 									<td align="center" class="col-2" >{{dias.Fecha_inicio | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-2" >{{dias.Fecha_termino | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-2" >{{dias.Tiempo_total}}</td>
+ 									<td align="center" class="col-3" >{{dias.Bunker}}</td>
+ 									<td align="center" class="col-2" >{{dias.Numero_Spigots}}</td>
+ 									<td align="center" class="col-2" >{{dias.Numero_paladas}}</td>
+ 									<td align="center" class="col-2" >{{dias.Peso_promedio_paladas}}</td>
+ 									<td align="center" class="col-2" >{{dias.Peso_total_llenado_bunker}}</td>
+ 									<td align="center" class="col-2" >{{dias.Peso_perdida_material}}</td>
+ 									<td align="center" class="col-2" >{{dias.Altura_llenado}}</td>
+ 									<td align="center" class="col-2" >{{dias.Humedad}}</td>
+ 									<td align="center" class="col-2" >{{dias.pH}}</td>
+
+ 								</tr>
+ 							</tbody>
+ 						</table>
+ 					 </div>
+
+           <!-- TABLA DE HEAP -->
+ 					<div *ngIf="selectEtapaTabla=='Heap'">
+ 						<table class="table table-responsive table-bordered text-center">
+ 							<thead class="text-light" align="center">
+ 								<tr class="d-flex">
+ 									<th scope="col" align="center" class="col-2">Nombre_Crop</th>
+ 									<th scope="col" align="center" class="col-2 ">Amoniaco AHNH3</th>
+ 									<th scope="col" align="center" class="col-2 ">Fecha inicio Armado</th>
+ 									<th scope="col" align="center" class="col-2 ">Fecha término Armado</th>
+ 									<th scope="col" align="center" class="col-2 ">Altura</th>
+ 									<th scope="col" align="center" class="col-2 ">Ancho</th>
+ 									<th scope="col" align="center" class="col-2 ">Largo</th>
+ 									<th scope="col" align="center" class="col-2 ">Número de Paladas</th>
+ 									<th scope="col" align="center" class="col-2 ">Peso promedio Paladas</th>
+ 									<th scope="col" align="center" class="col-2 ">Peso perdida paladas</th>
+ 								</tr>
+ 							</thead>
+ 							<tbody>
+ 								<tr *ngFor="let heap of regH" class="d-flex">
+ 									<td align="center" class="col-2" >{{ heap.Nombre_Crop}}</td>
+ 									<td align="center" class="col-2" >{{heap.Amoniaco_AHNH3}}</td>
+ 									<td align="center" class="col-2" >{{heap.Fecha_inicio_armado | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-2" >{{heap.Fecha_termino_armado | date: 'yyyy-MM-dd'}}</td>
+ 									<td align="center" class="col-2" >{{heap.Altura_heap}}</td>
+ 									<td align="center" class="col-2" >{{heap.Ancho_heap}}</td>
+ 									<td align="center" class="col-2" >{{heap.Largo_heap}}</td>
+ 									<td align="center" class="col-2" >{{heap.Numero_paladas}}</td>
+ 									<td align="center" class="col-2" >{{heap.Peso_promedio_paladas}}</td>
+ 									<td align="center" class="col-2" >{{heap.Peso_perdida_material}}</td>
+
+ 								</tr>
+ 							</tbody>
+ 						</table>
+ 					</div>
+
+
+
+
+         </div>
+       </div>
+     </div>
+   </div>
 
 </div>
