@@ -1,4 +1,4 @@
-<div class="container main-container">
+<div *ngIf="sesion && permisos[4]=='1'" class="container main-container">
 
    <h4 align="center" class="animated fadeIn fast">Gráficos</h4>
    <hr>
@@ -267,4 +267,7 @@
      </div>
    </div>
 
+</div>
+<div *ngIf="!sesion || permisos[4]=='0'" class="text-center mx-auto col-6 alert alert-danger">
+	Usted no tiene acceso a esta sección
 </div>

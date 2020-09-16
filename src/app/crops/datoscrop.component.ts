@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DataTablesModule } from 'angular-datatables';
-import { DataTableDirective } from 'angular-datatables';
+import { CookieService } from 'ngx-cookie-service';
 
 //Servicios
 import { CropsService } from '../servicios/crops.service';
@@ -462,27 +461,36 @@ export class DatoscropComponent implements OnInit {
 
   id:string;
   selectEtapa:0;
+  sesion:boolean;
+  permisos:string;
 
-  constructor(public cropsService:CropsService,
-    public etapasService:EtapasService,
-    public purinService:PurinService,
-    public mojadoFardosService:MojadoFardosService,
-    public estacionadoFardosService:EstacionadoFardosService,
-    public piscinaHumectacionService:PiscinaHumectacionService,
-    public armadoCordonService:ArmadoCordonService,
-    public dia1Service:Dia1Service,
-    public dia2Service:Dia2Service,
-    public dia3Service:Dia3Service,
-    public dia4Service:Dia4Service,
-    public dia5Service:Dia5Service,
-    public heapService:HeapService,
-    public router:Router,
-    public ruta:ActivatedRoute ) {
+  constructor(private cropsService:CropsService,
+    private etapasService:EtapasService,
+    private purinService:PurinService,
+    private mojadoFardosService:MojadoFardosService,
+    private estacionadoFardosService:EstacionadoFardosService,
+    private piscinaHumectacionService:PiscinaHumectacionService,
+    private armadoCordonService:ArmadoCordonService,
+    private dia1Service:Dia1Service,
+    private dia2Service:Dia2Service,
+    private dia3Service:Dia3Service,
+    private dia4Service:Dia4Service,
+    private dia5Service:Dia5Service,
+    private heapService:HeapService,
+    private router:Router,
+    private cookieService: CookieService,
+    private ruta:ActivatedRoute ) {
 
     }
 
-    //TODO: PREGUNTAR SI SE REQUIEREN LIMITES EN LOS RANGOS DE LOS DATOS
     ngOnInit() {
+
+      this.sesion = this.cookieService.check('Usuario');
+
+      if (this.sesion) {
+        this.permisos = this.cookieService.get('Permisos');
+      }
+
       this.ruta.params.subscribe( parametros=>{
         // Trae el usuario seleccionado
         this.cropsService.getONE(parametros.id).subscribe(respuesta=>{
@@ -714,7 +722,7 @@ export class DatoscropComponent implements OnInit {
     }
 
     //MÉTODOS DE GUARDADO
-    guardarPurin() :void {
+    guardarPurin( FormCropM : NgForm ) :void {
 
       this.purin.crops_id=this.CropSelecto.id;
 
@@ -734,7 +742,7 @@ export class DatoscropComponent implements OnInit {
 
     }
 
-    guardarMojadoFardos() :void {
+    guardarMojadoFardos( FormCropM : NgForm ) :void {
 
       this.mojadoFardos.crops_id=this.CropSelecto.id;
       this.mojadoFardos.etapas_id=this.selectEtapa;
@@ -752,7 +760,7 @@ export class DatoscropComponent implements OnInit {
       })
     }
 
-    guardarEstacionadoFardos() :void {
+    guardarEstacionadoFardos( FormCropM : NgForm ) :void {
 
       this.estacionadoFardos.crops_id=this.CropSelecto.id;
       this.estacionadoFardos.etapas_id=this.selectEtapa;
@@ -770,7 +778,7 @@ export class DatoscropComponent implements OnInit {
       })
     }
 
-    guardarPiscinaH() :void {
+    guardarPiscinaH(  FormCropM : NgForm ) :void {
 
             this.piscinaHumectacion.crops_id=this.CropSelecto.id;
 
@@ -791,7 +799,7 @@ export class DatoscropComponent implements OnInit {
             this.reset();
           }
 
-    guardarArmadoCordon() :void {
+    guardarArmadoCordon( FormCropM : NgForm ) :void {
 
       this.armadoCordon.crops_id=this.CropSelecto.id;
 
@@ -810,7 +818,7 @@ export class DatoscropComponent implements OnInit {
       })
     }
 
-    guardarDia1() :void {
+    guardarDia1( FormCropM : NgForm ) :void {
 
             this.dia1.crops_id=this.CropSelecto.id;
 
@@ -831,7 +839,7 @@ export class DatoscropComponent implements OnInit {
             this.reset();
           }
 
-    guardarDia2() :void {
+    guardarDia2( FormCropM : NgForm ) :void {
 
             this.dia2.crops_id=this.CropSelecto.id;
 
@@ -852,7 +860,7 @@ export class DatoscropComponent implements OnInit {
             this.reset();
           }
 
-    guardarDia3() :void {
+    guardarDia3( FormCropM : NgForm ) :void {
 
             this.dia3.crops_id=this.CropSelecto.id;
 
@@ -873,7 +881,7 @@ export class DatoscropComponent implements OnInit {
             this.reset();
           }
 
-    guardarDia4(  ) :void {
+    guardarDia4( FormCropM : NgForm ) :void {
 
             this.dia4.crops_id=this.CropSelecto.id;
 
@@ -894,7 +902,7 @@ export class DatoscropComponent implements OnInit {
             this.reset();
           }
 
-    guardarDia5(  ) :void {
+    guardarDia5( FormCropM : NgForm ) :void {
 
             this.dia5.crops_id=this.CropSelecto.id;
 
@@ -916,7 +924,7 @@ export class DatoscropComponent implements OnInit {
 
 
 
-    guardarHeap(  ) :void {
+    guardarHeap( FormCropM : NgForm ) :void {
 
          this.heap.crops_id=this.CropSelecto.id;
 
@@ -938,7 +946,7 @@ export class DatoscropComponent implements OnInit {
 
 
     //MÉTODOS DE ACTUALIZACION
-    actualizarPurin() :void {
+    actualizarPurin( ) :void {
 
       this.purin.crops_id=this.CropSelecto.id;
       this.purin.etapas_id=this.selectEtapa;
@@ -953,7 +961,7 @@ export class DatoscropComponent implements OnInit {
       this.reset();
     }
 
-    actualizarMojadoFardos(  ) :void {
+    actualizarMojadoFardos( ) :void {
 
       this.mojadoFardos.crops_id=this.CropSelecto.id;
       this.mojadoFardos.etapas_id=this.selectEtapa;
@@ -968,7 +976,7 @@ export class DatoscropComponent implements OnInit {
       this.reset();
     }
 
-    actualizarEstacionadoFardos(  ) :void {
+    actualizarEstacionadoFardos( ) :void {
 
       this.estacionadoFardos.crops_id=this.CropSelecto.id;
       this.estacionadoFardos.etapas_id=this.selectEtapa;
@@ -983,7 +991,7 @@ export class DatoscropComponent implements OnInit {
       this.reset();
     }
 
-    actualizarPiscinaH(  ) :void {
+    actualizarPiscinaH( ) :void {
 
      this.piscinaHumectacion.crops_id=this.CropSelecto.id;
      this.piscinaHumectacion.etapas_id=this.selectEtapa;
@@ -998,7 +1006,7 @@ export class DatoscropComponent implements OnInit {
      this.reset();
    }
 
-    actualizarArmadoCordon(  ) :void {
+    actualizarArmadoCordon( ) :void {
 
       this.armadoCordon.crops_id=this.CropSelecto.id;
       this.armadoCordon.etapas_id=this.selectEtapa;
@@ -1013,7 +1021,7 @@ export class DatoscropComponent implements OnInit {
       this.reset();
     }
 
-    actualizarDia1(  ) :void {
+    actualizarDia1( ) :void {
 
      this.dia1Service.ModificarRegistro(this.dia1).subscribe( data=>{
        if(data.resultado){
@@ -1025,7 +1033,7 @@ export class DatoscropComponent implements OnInit {
      this.reset();
    }
 
-    actualizarDia2(  ) :void {
+    actualizarDia2( ) :void {
 
        this.dia2Service.ModificarRegistro(this.dia2).subscribe( data=>{
          if(data.resultado){
@@ -1037,7 +1045,7 @@ export class DatoscropComponent implements OnInit {
        this.reset();
      }
 
-    actualizarDia3(  ) :void {
+    actualizarDia3( ) :void {
 
      this.dia3Service.ModificarRegistro(this.dia3).subscribe( data=>{
        if(data.resultado){
@@ -1050,7 +1058,7 @@ export class DatoscropComponent implements OnInit {
 
    }
 
-    actualizarDia4(  ) :void {
+    actualizarDia4( ) :void {
 
 
      this.dia4Service.ModificarRegistro(this.dia4).subscribe( data=>{
@@ -1063,7 +1071,7 @@ export class DatoscropComponent implements OnInit {
      this.reset();
    }
 
-    actualizarDia5(  ) :void {
+    actualizarDia5( ) :void {
 
 
        this.dia5Service.ModificarRegistro(this.dia5).subscribe( data=>{
@@ -1076,7 +1084,7 @@ export class DatoscropComponent implements OnInit {
        this.reset();
      }
 
-    actualizarHeap(  ) :void {
+    actualizarHeap( ) :void {
 
        this.heapService.ModificarRegistro(this.heap).subscribe( data=>{
          if(data.resultado){

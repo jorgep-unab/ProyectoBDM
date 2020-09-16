@@ -1,1203 +1,1306 @@
-<h3 align="center">Actualiza Crops</h3>
-<hr>
+<div *ngIf="sesion && permisos[0]=='1'">
+	<h3 align="center">Actualiza Crops</h3>
+	<hr>
 
-<div class="container mb-5 col-12">
-	<div class="row">
-		<!-- <div *ngIf="EtapaSelecto" class="col-md-12"> -->
+	<div class="container mb-5 col-12">
+		<div class="row">
+			<!-- <div *ngIf="EtapaSelecto" class="col-md-12"> -->
 
-		<div class="col-md-12">
-			<hr>
+			<div class="col-md-12">
+				<hr>
 
-			<div class="card">
-				<div class="card-header bg-primary text-light">
-					Modificar variables del Crop {{CropSelecto.nombre}}
-				</div>
-
-				<div class="card-body">
-					<div class="row">
-						<div class="form-group mx-3">
-							<label for="cropNombreTxt" class="font-weight-bold">
-								Identificador del Crop
-							</label>
-							<input id="cropNombreTxt" class="form-control"
-							type="text" placeholder="{{CropSelecto.nombre}}" readonly>
-						</div>
-						<div class="form-group mx-3">
-							<label for="etapasDd" class="font-weight-bold" >Etapa</label>
-							<select id="etapasDd" class="custom-select" [(ngModel)]="selectEtapa"
-							(change)="MostrarTabla()">
-							<option [value]="etapa.id" *ngFor="let etapa of Etapas">{{etapa.nombre}}</option>
-							</select>
-					</div>
-				</div>
 				<div class="card">
-					<div class="card-header bg-primary text-center text-light">
-						Muestra de datos
+					<div class="card-header bg-primary text-light">
+						Modificar variables del Crop {{CropSelecto.nombre}}
 					</div>
-						<div class="card-body mb-2">
-							<div class="row justify-content-center px-3">
 
-								<button type="button" class="btn btn-info mx-2"
-								data-toggle="modal" data-target="#ingresoRegModal"
-								*ngIf="selectEtapa>0">
-								Agregar medición
-								</button>
-								<button type="button" class="btn btn-info mx-2"
-								(click)="MostrarTabla()"
-								*ngIf="selectEtapa>0">
-								Actualizar tabla
-								</button>
+					<div class="card-body">
+						<div class="row">
+							<div class="form-group mx-3">
+								<label for="cropNombreTxt" class="font-weight-bold">
+									Identificador del Crop
+								</label>
+								<input id="cropNombreTxt" class="form-control"
+								type="text" placeholder="{{CropSelecto.nombre}}" readonly>
+							</div>
+							<div class="form-group mx-3">
+								<label for="etapasDd" class="font-weight-bold" >Etapa</label>
+								<select id="etapasDd" class="custom-select" [(ngModel)]="selectEtapa"
+								(change)="MostrarTabla()">
+								<option [value]="etapa.id" *ngFor="let etapa of Etapas">{{etapa.nombre}}</option>
+								</select>
 						</div>
 					</div>
+					<div class="card">
+						<div class="card-header bg-primary text-center text-light">
+							Muestra de datos
+						</div>
+							<div class="card-body mb-2">
+								<div class="row justify-content-center px-3">
 
-					<!-- TABLAS -->
+									<button type="button" class="btn btn-info mx-2"
+									data-toggle="modal" data-target="#ingresoRegModal"
+									*ngIf="selectEtapa>0">
+									Agregar medición
+									</button>
+									<button type="button" class="btn btn-info mx-2"
+									(click)="MostrarTabla()"
+									*ngIf="selectEtapa>0">
+									Actualizar tabla
+									</button>
+							</div>
+						</div>
 
-					<!-- TABLA DE PURIN -->
-					<div *ngIf="selectEtapa==1 && RegistrosPurin.length!=0">
-						<table class="table table-responsive table-bordered text-center">
-							<thead class="text-light" align="center">
-								<tr class="d-flex">
-									<th scope="col" align="center" class="col-3">Acciones</th>
-									<th scope="col" align="center" class="col-2"># Registro</th>
-									<th scope="col" align="center" class="col-2">Electroconductividad</th>
-									<th scope="col" align="center" class="col-2">pH</th>
-									<th scope="col" align="center" class="col-2">TDS</th>
-									<th scope="col" align="center" class="col-2">Nitrógeno</th>
+						<!-- TABLAS -->
 
-								</tr>
-							</thead>
-							<tbody>
-								<tr *ngFor="let purin of RegistrosPurin" class="d-flex">
-									<td align="center" class="col-3 justify-content-between">
-										<button type="button" name="button"
-										class="btn btn-danger m-1"
-										data-toggle="modal" (click)=eliminarPurin(purin.id)>Eliminar</button>
-										<button type="button" name="button"
-										class="btn btn-primary m-1" (click)="asignarId(purin.id,'purin')"
-										(click)=actualizarPurin()>Guardar cambios</button>
+						<!-- TABLA DE PURIN -->
+						<div *ngIf="selectEtapa==1 && RegistrosPurin.length!=0">
+							<table class="table table-responsive table-bordered text-center">
+								<thead class="text-light" align="center">
+									<tr class="d-flex">
+										<th scope="col" align="center" class="col-3">Acciones</th>
+										<th scope="col" align="center" class="col-2"># Registro</th>
+										<th scope="col" align="center" class="col-2">Electroconductividad</th>
+										<th scope="col" align="center" class="col-2">pH</th>
+										<th scope="col" align="center" class="col-2">TDS</th>
+										<th scope="col" align="center" class="col-2">Nitrógeno</th>
 
-									</td>
-									<td align="center" class="col-2">{{ purin.id }}</td>
-									<td align="center" class="col-2"><input [(ngModel)]="purin.electroconductividad"
-									type="number"
-									name="electroAct"
-									class="form-control"
-									value = purin.electroconductividad
-									required></td>
-									<td align="center" class="col-2"><input [(ngModel)]="purin.ph"
-									type="number"
-									name="phAct"
-									class="form-control"
-									value = purin.ph
-									required></td>
-									<td align="center" class="col-2"><input [(ngModel)]="purin.tds"
-									type="number"
-									name="tdsAct"
-									class="form-control"
-									value = purin.tds
-									required></td>
-									<td align="center" class="col-2"><input [(ngModel)]="purin.nitrogeno"
-									type="number"
-									name="nitrogenoAct"
-									class="form-control"
-									value = purin.nitrogeno
-									required></td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let purin of RegistrosPurin" class="d-flex">
+										<td align="center" class="col-3 justify-content-between">
+											<button type="button" name="button"
+											class="btn btn-danger m-1"
+											data-toggle="modal" (click)=eliminarPurin(purin.id)>Eliminar</button>
+											<button type="button" name="button"
+											class="btn btn-primary m-1" (click)="asignarId(purin.id,'purin')"
+											(click)=actualizarPurin()>Guardar cambios</button>
 
-								</tr>
-							</tbody>
-						</table>
+										</td>
+										<td align="center" class="col-2">{{ purin.id }}</td>
+										<td align="center" class="col-2"><input [(ngModel)]="purin.electroconductividad"
+										type="number"
+										name="electroAct"
+										class="form-control"
+										value = purin.electroconductividad
+										required></td>
+										<td align="center" class="col-2"><input [(ngModel)]="purin.ph"
+										type="number"
+										name="phAct"
+										class="form-control"
+										value = purin.ph
+										required></td>
+										<td align="center" class="col-2"><input [(ngModel)]="purin.tds"
+										type="number"
+										name="tdsAct"
+										class="form-control"
+										value = purin.tds
+										required></td>
+										<td align="center" class="col-2"><input [(ngModel)]="purin.nitrogeno"
+										type="number"
+										name="nitrogenoAct"
+										class="form-control"
+										value = purin.nitrogeno
+										required></td>
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<!-- TABLA DE MOJADO FARDOS -->
+						<div *ngIf="selectEtapa==2 && RegistrosMojadoFardos.length!=0">
+							<table class="table table-responsive table-bordered text-center">
+								<thead class="text-light" align="center">
+									<tr class="d-flex">
+										<th scope="col" align="center" class="col-3">Acciones</th>
+										<th scope="col" align="center" class="col-2"># Registro</th>
+										<th scope="col" align="center" class="col-2">Número de fardos usados</th>
+										<th scope="col" align="center" class="col-2">Guías de despacho usadas</th>
+										<th scope="col" align="center" class="col-2">Peso neto guías</th>
+										<th scope="col" align="center" class="col-2">Peso Pre-mojado</th>
+									  <th scope="col" align="center" class="col-2">Peso Post-mojado</th>
+										<th scope="col" align="center" class="col-2">Tiempo de hundido</th>
+										<th scope="col" align="center" class="col-2">Fecha de inicio</th>
+										<th scope="col" align="center" class="col-2">Fecha de término</th>
+									  <th scope="col" align="center" class="col-2">Fardos perdidos por desarme</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let mojado of RegistrosMojadoFardos" class="d-flex">
+										<td align="center" class="justify-content-between col-3">
+											<button type="button" name="button"
+											class="btn btn-danger m-1"
+											data-toggle="modal" (click)=eliminarMojadoFardos(mojado.id)>Eliminar</button>
+											<button type="button" name="button"
+											class="btn btn-primary m-1" (click)="asignarId(mojado.id,'mojadoF')"
+											(click)=actualizarMojadoFardos()>Guardar cambios</button>
+
+										</td>
+										<td align="center" class="col-2" >{{ mojado.id }}</td>
+										<td align="center" class="col-2" ><input [(ngModel)]="mojado.num_fardos_usados"
+										type="number"
+										name="num_fardos_usadosAct"
+										class="form-control"
+										value = mojado.num_fardos_usados
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="mojado.guias_despacho_usadas"
+										type="number"
+										name="guias_despacho_usadasAct"
+										class="form-control"
+										value = mojado.guias_despacho_usadas
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="mojado.peso_neto_guias"
+										type="number"
+										name="peso_neto_guiasAct"
+										class="form-control"
+										value = mojado.peso_neto_guias
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="mojado.peso_fardos_premojado"
+										type="number"
+										name="peso_fardos_premojadoAct"
+										class="form-control"
+										value = mojado.peso_fardos_premojado
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="mojado.peso_fardos_postmojado"
+										type="number"
+										name="peso_fardos_postmojadoAct"
+										class="form-control"
+										value =mojado.peso_fardos_postmojado
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="mojado.tiempo_hundido"
+										type="number"
+										name="tiempo_hundidoAct"
+										class="form-control"
+										value =mojado.tiempo_hundido
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="mojado.fecha_inicio | date: 'yyyy-MM-dd'"
+										(ngModelChange)="mojado.fecha_inicio = $event"
+										type="date"
+										name="fecha_inicioAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="mojado.fecha_termino | date: 'yyyy-MM-dd'"
+										(ngModelChange)="mojado.fecha_termino = $event"
+										type="date"
+										name="fecha_terminoAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="mojado.fardos_perdidos_desarme"
+										type="number"
+										name="fardos_perdidos_desarmeAct"
+										class="form-control"
+										value =mojado.fardos_perdidos_desarme
+										required></td>
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<!-- TABLA DE ESTACIONADO FARDOS -->
+						<div *ngIf="selectEtapa==3 && RegistrosEstacionadoFardos.length!=0">
+							<table class="table table-responsive table-bordered text-center">
+								<thead class="text-light" align="center">
+									<tr class="d-flex">
+										<th scope="col" align="center" class="col-3 ">Acciones</th>
+										<th scope="col" align="center" class="col-2 "># Registro</th>
+										<th scope="col" align="center" class="col-2 ">% Fardos sobre pallet</th>
+										<th scope="col" align="center" class="col-2 ">Temperatura promedio día i</th>
+										<th scope="col" align="center" class="col-2 ">Humedad promedio día i</th>
+										<th scope="col" align="center" class="col-2 ">Oxígeno promedio día i</th>
+										<th scope="col" align="center" class="col-2 ">Fecha de inicio</th>
+										<th scope="col" align="center" class="col-2 ">Fecha de término</th>
+									  <th scope="col" align="center" class="col-2 ">Tiempo total estacionado</th>
+										<th scope="col" align="center" class="col-2 ">Calidad estructura</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let estac of RegistrosEstacionadoFardos" class="d-flex">
+										<td align="center" class="col-3 justify-content-between">
+											<button type="button" name="button"
+											class="btn btn-danger m-1"
+											data-toggle="modal" (click)=eliminarEstacionadoFardos(estac.id)>Eliminar</button>
+											<button type="button" name="button"
+											class="btn btn-primary m-1" (click)="asignarId(estac.id,'estacionF')"
+											(click)="actualizarEstacionadoFardos()">Guardar cambios</button>
+										</td>
+										<td align="center" class="col-2" >{{ estac.id }}</td>
+										<td align="center" class="col-2" ><input [(ngModel)]="estac.porcentaje_sobre_pallet"
+										type="number"
+										name="porcentaje_sobre_palletAct"
+										class="form-control"
+										value =estac.porcentaje_sobre_pallet
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="estac.temp_promedio_diai"
+										type="number"
+										name="temp_promedio_diaiAct"
+										class="form-control"
+										value =estac.temp_promedio_diai
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="estac.humedad_promedio_diai"
+										type="number"
+										name="humedad_promedio_diaiAct"
+										class="form-control"
+										value =estac.humedad_promedio_diai
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="estac.oxigeno_promedio_diai"
+										type="number"
+										name="oxigeno_promedio_diaiAct"
+										class="form-control"
+										value =estac.oxigeno_promedio_diai
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="estac.fecha_inicio | date: 'yyyy-MM-dd'"
+										(ngModelChange)="estac.fecha_inicio = $event"
+										type="date"
+										name="fecha_inicioAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="estac.fecha_termino | date: 'yyyy-MM-dd'"
+										(ngModelChange)="estac.fecha_termino = $event"
+										type="date"
+										name="fecha_terminoAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="estac.tiempo_total_estacionado"
+										type="number"
+										name="tiempo_total_estacionadoAct"
+										class="form-control"
+										value =estac.tiempo_total_estacionado
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="estac.calidad_estructura"
+										type="text"
+										name="calidad_estructuraAct"
+										class="form-control"
+										value =estac.calidad_estructura
+										required></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<!-- TABLA DE PISCINA HUMECTACION -->
+						<div *ngIf="selectEtapa==4 && RegistrosPiscinaH.length!=0">
+							<table class="table table-responsive table-bordered text-center">
+								<thead class="text-light" align="center">
+									<tr class="d-flex">
+										<th scope="col" align="center" class="col-3 ">Acciones</th>
+										<th scope="col" align="center" class="col-2 "># Registro</th>
+										<th scope="col" align="center" class="col-2 ">Litros de humectación asistida</th>
+										<th scope="col" align="center" class="col-2 ">Fecha de inicio</th>
+										<th scope="col" align="center" class="col-2 ">Fecha de término</th>
+										<th scope="col" align="center" class="col-2 ">Horas en piscina</th>
+										<th scope="col" align="center" class="col-2 "># Paladas paja desarmada</th>
+										<th scope="col" align="center" class="col-2 ">Peso paja desarmada</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let piscina of RegistrosPiscinaH" class="d-flex">
+										<td align="center" class="col-3 justify-content-between">
+											<button type="button" name="button"
+											class="btn btn-danger m-1"
+											data-toggle="modal" (click)=eliminarPiscinaH(piscina.id)>Eliminar</button>
+											<button type="button" name="button"
+											class="btn btn-primary m-1" (click)="asignarId(piscina.id,'piscinaH')"
+											(click)="actualizarPiscinaH()">Guardar cambios</button>
+										</td>
+										<td align="center" class="col-2" >{{ piscina.id }}</td>
+										<td align="center" class="col-2" ><input [(ngModel)]="piscina.litros_humect_asistida"
+										type="number"
+										name="litros_humect_asistidaAct"
+										class="form-control"
+										value =piscina.litros_humect_asistida
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="piscina.fecha_inicio | date: 'yyyy-MM-dd'"
+										(ngModelChange)="piscina.fecha_inicio = $event"
+										type="date"
+										name="fecha_inicioAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="piscina.fecha_termino | date: 'yyyy-MM-dd'"
+										(ngModelChange)="piscina.fecha_termino = $event"
+										type="date"
+										name="fecha_terminoAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="piscina.horas_piscina_humect"
+										type="number"
+										name="horas_piscina_humectAct"
+										class="form-control"
+										value =piscina.horas_piscina_humect
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="piscina.num_paladas_desarmada"
+										type="number"
+										name="num_paladas_desarmadaAct"
+										class="form-control"
+										value =piscina.num_paladas_desarmada
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="piscina.peso_paja_desarmada"
+										type="number"
+										name="peso_paja_desarmadaAct"
+										class="form-control"
+										value =piscina.peso_paja_desarmada
+										required></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<!-- TABLA DE ARMADOCORDON -->
+						<div *ngIf="selectEtapa==5 && RegistrosArmadoCordon.length!=0">
+							<table class="table table-responsive table-bordered text-center">
+								<thead class="text-light" align="center">
+									<tr class="d-flex">
+										<th scope="col" align="center" class="col-3">Acciones</th>
+										<th scope="col" align="center" class="col-2"># Registro</th>
+										<th scope="col" align="center" class="col-2 ">Paladas compostera</th>
+										<th scope="col" align="center" class="col-2 ">Peso promedio paladas</th>
+										<th scope="col" align="center" class="col-2 ">Peso total</th>
+										<th scope="col" align="center" class="col-2 ">Compostera usada</th>
+										<th scope="col" align="center" class="col-2 ">Fecha de inicio</th>
+										<th scope="col" align="center" class="col-2 ">Fecha de término</th>
+										<th scope="col" align="center" class="col-2 ">Tiempo total</th>
+										<th scope="col" align="center" class="col-2 ">Altura cordón</th>
+										<th scope="col" align="center" class="col-2 ">Ancho cordón</th>
+										<th scope="col" align="center" class="col-2 ">Largo cordón</th>
+										<th scope="col" align="center" class="col-2 ">Temperatura</th>
+										<th scope="col" align="center" class="col-2 ">Humedad</th>
+										<th scope="col" align="center" class="col-2 ">Oxígeno</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let armado of RegistrosArmadoCordon" class="d-flex">
+										<td align="center" class="col-3 justify-content-between">
+											<button type="button" name="button" (click)="eliminarArmadoCordon(armado.id)"
+											class="btn btn-danger m-1">Eliminar</button>
+											<button type="button" name="button"
+											class="btn btn-primary m-1" (click)="asignarId(armado.id,'armCor')"
+											(click)="actualizarArmadoCordon()">Guardar cambios</button>
+										</td>
+										<td align="center" class="col-2" >{{ armado.id }}</td>
+										<td align="center" class="col-2" ><input [(ngModel)]="armado.num_paladas_compostera"
+										type="number"
+										name="num_paladas_composteraAct"
+										class="form-control"
+										value =armado.num_paladas_compostera
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="armado.peso_prom_paladas"
+										type="number"
+										name="peso_prom_paladasAct"
+										class="form-control"
+										value =armado.peso_prom_paladas
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="armado.peso_total"
+										type="number"
+										name="peso_totalAct"
+										class="form-control"
+										value =armado.peso_total
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="armado.compostera_usada"
+										type="text"
+										name="compostera_usadaAct"
+										class="form-control"
+										value =armado.compostera_usada
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="armado.fecha_inicio | date: 'yyyy-MM-dd'"
+										(ngModelChange)="armado.fecha_inicio = $event"
+										type="date"
+										name="fecha_terminoAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="armado.fecha_termino | date: 'yyyy-MM-dd'"
+										(ngModelChange)="armado.fecha_termino = $event"
+										type="date"
+										name="fecha_terminoAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="armado.tiempo_total"
+										(ngModelChange)="armado.tiempo_total = $event"
+										type="time"
+										name="tiempo_totalAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="armado.altura_cordon"
+										type="number"
+										name="altura_cordonAct"
+										class="form-control"
+										value =armado.altura_cordon
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="armado.ancho_cordon"
+										type="number"
+										name="ancho_cordonAct"
+										class="form-control"
+										value =armado.ancho_cordon
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="armado.largo_cordon"
+										type="number"
+										name="largo_cordonAct"
+										class="form-control"
+										value =armado.largo_cordon
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="armado.temperatura"
+										type="number"
+										name="temperaturaAct"
+										class="form-control"
+										value =armado.temperatura
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="armado.humedad"
+										type="number"
+										name="humedadAct"
+										class="form-control"
+										value =armado.humedad
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="armado.oxigeno"
+										type="number"
+										name="oxigenoAct"
+										class="form-control"
+										value =armado.oxigeno
+										required></td>
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<!-- TABLA DE DIA 1-->
+						<div *ngIf="selectEtapa==6 && RegistrosDia1.length!=0">
+							<table class="table table-responsive table-bordered text-center">
+								<thead class="text-light" align="center">
+									<tr class="d-flex">
+										<th scope="col" align="center" class="col-2">Acciones</th>
+										<th scope="col" align="center" class="col-1"># Registro</th>
+										<th scope="col" align="center" class="col-2 ">Fecha de inicio primera pasada</th>
+										<th scope="col" align="center" class="col-2 ">Número de paladas primera pasada</th>
+										<th scope="col" align="center" class="col-2 ">Peso promedio paladas primera pasada</th>
+										<th scope="col" align="center" class="col-2 ">Peso total de guano primera pasada</th>
+										<th scope="col" align="center" class="col-2 ">Cantidad de Sulfato de Amonio</th>
+										<th scope="col" align="center" class="col-2 ">Cantidad de Urea</th>
+										<th scope="col" align="center" class="col-2 ">Cantidad de Yeso</th>
+										<th scope="col" align="center" class="col-2 ">Fecha de termino primera pasada</th>
+										<th scope="col" align="center" class="col-2 ">Tiempo total primera pasada</th>
+										<th scope="col" align="center" class="col-2 ">Fecha inicio segunda pasada</th>
+										<th scope="col" align="center" class="col-2 ">Número de paladas segunda pasada</th>
+										<th scope="col" align="center" class="col-2 ">Peso promedio paladas segunda pasada</th>
+										<th scope="col" align="center" class="col-2 ">Peso total de Guano segunda pasada</th>
+										<th scope="col" align="center" class="col-2 ">Fecha de termino segunda pasada</th>
+										<th scope="col" align="center" class="col-2 ">Tiempo total segunda pasada</th>
+										<th scope="col" align="center" class="col-2 ">Fecha inicio tercera pasada</th>
+										<th scope="col" align="center" class="col-2 ">Número de paladas tercera pasada</th>
+										<th scope="col" align="center" class="col-2 ">Peso promedio paladas tercera pasada</th>
+										<th scope="col" align="center" class="col-2 ">Peso total de guano tercera pasada</th>
+										<th scope="col" align="center" class="col-2 ">Temperatura</th>
+										<th scope="col" align="center" class="col-2 ">Humedad</th>
+										<th scope="col" align="center" class="col-2 ">Oxigeno</th>
+										<th scope="col" align="center" class="col-2 ">Compostera Usada</th>
+
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let dias of RegistrosDia1" class="d-flex">
+										<td align="center" class="col-2 justify-content-between">
+											<button type="button" name="button"
+											class="btn btn-danger m-1"
+											data-toggle="modal" (click)=eliminarDia1(dias.id)>Eliminar</button>
+											<button type="button" name="button"
+											class="btn btn-primary m-1" (click)="asignarId(dias.id,'dia1')"
+											(click)="actualizarDia1()">Guardar cambios</button>
+										</td>
+										<td align="center" class="col-1" >{{ dias.id }}</td>
+										<td align="center" class="col-2" ><input [ngModel]="dias.fecha_inicio_pasada1 | date: 'yyyy-MM-dd'"
+										(ngModelChange)="dias.fecha_inicio_pasada1 = $event"
+										type="date"
+										name="fecha_inicio_pasada1Act"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.num_paladas_guano1"
+										type="number"
+										name="num_paladas_guano1Act"
+										class="form-control"
+										value =dias.num_paladas_guano1
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.peso_prom_paladas1"
+										type="number"
+										name="peso_prom_paladas1Act"
+										class="form-control"
+										value =dias.peso_prom_paladas1
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.peso_total_guano1"
+										type="number"
+										name="peso_total_guano1Act"
+										class="form-control"
+										value =dias.peso_total_guano1
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.num_sulfato_amonio"
+										type="number"
+										name="num_sulfato_amonioAct"
+										class="form-control"
+										value =dias.num_sulfato_amonio
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.num_urea"
+										type="number"
+										name="num_ureaAct"
+										class="form-control"
+										value =dias.num_urea
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.num_yeso"
+										type="number"
+										name="num_yesoAct"
+										class="form-control"
+										value =dias.num_yeso
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="dias.fecha_termino_pasada1 | date: 'yyyy-MM-dd'"
+										(ngModelChange)="dias.fecha_termino_pasada1 = $event"
+										type="date"
+										name="fecha_termino_pasada1Act"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="dias.tiempo_total_pasada1"
+										(ngModelChange)="dias.tiempo_total_pasada1 = $event"
+										type="time"
+										name="tiempo_total_pasada1Act"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="dias.fecha_inicio_pasada2 | date: 'yyyy-MM-dd'"
+										(ngModelChange)="dias.fecha_inicio_pasada2 = $event"
+										type="date"
+										name="fecha_inicio_pasada2Act"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.num_paladas_guano2"
+										type="number"
+										name="num_paladas_guano2Act"
+										class="form-control"
+										value =dias.num_paladas_guano2
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.peso_prom_paladas2"
+										type="number"
+										name="peso_prom_paladas2Act"
+										class="form-control"
+										value =dias.peso_prom_paladas2
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.peso_total_guano2"
+										type="number"
+										name="peso_total_guano2Act"
+										class="form-control"
+										value =dias.peso_total_guano2
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="dias.fecha_termino_pasada2 | date: 'yyyy-MM-dd'"
+										(ngModelChange)="dias.fecha_termino_pasada2 = $event"
+										type="date"
+										name="fecha_termino_pasada2Act"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="dias.tiempo_total_pasada2"
+										(ngModelChange)="dias.tiempo_total_pasada2 = $event"
+										type="time"
+										name="tiempo_total_pasada2Act"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="dias.fecha_inicio_pasada3 | date: 'yyyy-MM-dd'"
+										(ngModelChange)="dias.fecha_inicio_pasada3 = $event"
+										type="date"
+										name="fecha_inicio_pasada3Act"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.num_paladas_guano3"
+										type="number"
+										name="num_paladas_guano3Act"
+										class="form-control"
+										value =dias.num_paladas_guano3
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.peso_prom_paladas3"
+										type="number"
+										name="peso_prom_paladas3Act"
+										class="form-control"
+										value =dias.peso_prom_paladas3
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.peso_total_guano3"
+										type="number"
+										name="peso_total_guano3Act"
+										class="form-control"
+										value =dias.peso_total_guano3
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.temperatura"
+										type="number"
+										name="temperaturaAct"
+										class="form-control"
+										value =dias.temperatura
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.humedad"
+										type="number"
+										name="humedadAct"
+										class="form-control"
+										value =dias.humedad
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.oxigeno"
+										type="number"
+										name="oxigenoAct"
+										class="form-control"
+										value =dias.oxigeno
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.compostera_usada"
+										type="text"
+										name="compostera_usadaAct"
+										class="form-control"
+										value =dias.compostera_usada
+										required></td>
+
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<!-- FIN DIA 1 -->
+
+						<!-- TABLA DE DIA 2  -->
+						<div *ngIf="selectEtapa==7 && RegistrosDia2.length!=0">
+							<table class="table table-responsive table-bordered text-center">
+								<thead class="text-light" align="center">
+									<tr class="d-flex">
+										<th scope="col" align="center" class="col-3">Acciones</th>
+										<th scope="col" align="center" class="col-2"># Registro</th>
+										<th scope="col" align="center" class="col-2 ">Fecha de inicio</th>
+										<th scope="col" align="center" class="col-2 ">Fecha de término</th>
+										<th scope="col" align="center" class="col-2 ">Tiempo total</th>
+										<th scope="col" align="center" class="col-2 ">Caudal inicial</th>
+										<th scope="col" align="center" class="col-2 ">Cuadal final</th>
+										<th scope="col" align="center" class="col-2 ">Litros de agua agregados</th>
+										<th scope="col" align="center" class="col-2 ">Litros metro lineal</th>
+										<th scope="col" align="center" class="col-2 ">Bajadas</th>
+										<th scope="col" align="center" class="col-2 ">Temperatura</th>
+										<th scope="col" align="center" class="col-2 ">Humedad</th>
+										<th scope="col" align="center" class="col-2 ">Oxigeno</th>
+										<th scope="col" align="center" class="col-2 ">Compostera usada</th>
+
+
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let dias of RegistrosDia2" class="d-flex">
+										<td align="center" class="col-3 justify-content-between">
+											<button type="button" name="button"
+											class="btn btn-danger m-1"
+											data-toggle="modal" (click)=eliminarDia2(dias.id)>Eliminar</button>
+											<button type="button" name="button"
+											class="btn btn-primary m-1" (click)="asignarId(dias.id,'dia2')"
+											(click)="actualizarDia2()">Guardar cambios</button>
+
+										</td>
+										<td align="center" class="col-2" >{{ dias.id }}</td>
+										<td align="center" class="col-2" ><input [ngModel]="dias.fecha_inicio | date: 'yyyy-MM-dd'"
+										(ngModelChange)="dias.fecha_inicio = $event"
+										type="date"
+										name="fecha_inicioAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="dias.fecha_termino | date: 'yyyy-MM-dd'"
+										(ngModelChange)="dias.fecha_termino = $event"
+										type="date"
+										name="fecha_terminoAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="dias.tiempo_total"
+										(ngModelChange)="dias.tiempo_total = $event"
+										type="time"
+										name="tiempo_totalAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.caudal_inicial"
+										type="number"
+										name="caudal_inicialAct"
+										class="form-control"
+										value =dias.caudal_inicial
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.caudal_final"
+										type="number"
+										name="caudal_finalAct"
+										class="form-control"
+										value =dias.caudal_final
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.litros_agua_agregados"
+										type="number"
+										name="litros_agua_agregadosAct"
+										class="form-control"
+										value =dias.litros_agua_agregados
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.litros_metro_lineal"
+										type="number"
+										name="litros_metro_linealAct"
+										class="form-control"
+										value =dias.litros_metro_lineal
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.bajadas"
+										type="number"
+										name="bajadasAct"
+										class="form-control"
+										value =dias.bajadas
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.temperatura"
+										type="number"
+										name="temperaturaAct"
+										class="form-control"
+										value =dias.temperatura
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.humedad"
+										type="number"
+										name="humedadAct"
+										class="form-control"
+										value =dias.humedad
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.oxigeno"
+										type="number"
+										name="oxigenoAct"
+										class="form-control"
+										value =dias.oxigeno
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.compostera_usada"
+										type="text"
+										name="compostera_usadaAct"
+										class="form-control"
+										value =dias.compostera_usada
+										required></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<!-- FIN DIA 2 -->
+
+						<!-- TABLA DE DIA 3-->
+						<div *ngIf="selectEtapa==8 && RegistrosDia3.length!=0">
+							<table class="table table-responsive table-bordered text-center">
+								<thead class="text-light" align="center">
+									<tr class="d-flex">
+										<th scope="col" align="center" class="col-3">Acciones</th>
+										<th scope="col" align="center" class="col-2"># Registro</th>
+										<th scope="col" align="center" class="col-2 ">Fecha de inicio</th>
+										<th scope="col" align="center" class="col-2 ">Fecha de término</th>
+										<th scope="col" align="center" class="col-2 ">Tiempo total</th>
+										<th scope="col" align="center" class="col-2 ">Temperatura</th>
+										<th scope="col" align="center" class="col-2 ">Humedad</th>
+										<th scope="col" align="center" class="col-2 ">Oxígeno</th>
+										<th scope="col" align="center" class="col-2 ">Compostera usada</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let dias of RegistrosDia3" class="d-flex">
+										<td align="center" class="col-3 justify-content-between">
+											<button type="button" name="button"
+											class="btn btn-danger m-1"
+											data-toggle="modal" (click)=eliminarDia3(dias.id)>Eliminar</button>
+											<button type="button" name="button"
+											class="btn btn-primary m-1" (click)="asignarId(dias.id,'dia3')"
+										  (click)="actualizarDia3()">Guardar cambios</button>
+										</td>
+										<td align="center" class="col-2" >{{ dias.id }}</td>
+										<td align="center" class="col-2" ><input [ngModel]="dias.fecha_inicio | date: 'yyyy-MM-dd'"
+										(ngModelChange)="dias.fecha_inicio = $event"
+										type="date"
+										name="fecha_inicioAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="dias.fecha_termino | date: 'yyyy-MM-dd'"
+										(ngModelChange)="dias.fecha_termino = $event"
+										type="date"
+										name="fecha_terminoAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="dias.tiempo_total"
+										(ngModelChange)="dias.tiempo_total = $event"
+										type="time"
+										name="tiempo_totalAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.temperatura"
+										type="number"
+										name="temperaturaAct"
+										class="form-control"
+										value =dias.temperatura
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.humedad"
+										type="number"
+										name="humedadAct"
+										class="form-control"
+										value =dias.humedad
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.oxigeno"
+										type="number"
+										name="oxigenoAct"
+										class="form-control"
+										value =dias.oxigeno
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.compostera_usada"
+										type="text"
+										name="compostera_usadaAct"
+										class="form-control"
+										value =dias.compostera_usada
+										required></td>
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- FIN DIA 3 -->
+
+						<!-- TABLA DE DIA 4-->
+						<div *ngIf="selectEtapa==9 && RegistrosDia4.length!=0">
+							<table class="table table-responsive table-bordered text-center">
+								<thead class="text-light" align="center">
+									<tr class="d-flex">
+										<th scope="col" align="center" class="col-3">Acciones</th>
+										<th scope="col" align="center" class="col-2"># Registro</th>
+										<th scope="col" align="center" class="col-2 ">Fecha de inicio</th>
+										<th scope="col" align="center" class="col-2 ">Fecha de término</th>
+										<th scope="col" align="center" class="col-2 ">Tiempo total</th>
+										<th scope="col" align="center" class="col-2 ">Caudal incial</th>
+										<th scope="col" align="center" class="col-2 ">Caudal final</th>
+										<th scope="col" align="center" class="col-2 ">Litros de agua agregados</th>
+										<th scope="col" align="center" class="col-2 ">Litro por metro lineal</th>
+										<th scope="col" align="center" class="col-2 ">Bajadas</th>
+										<th scope="col" align="center" class="col-2 ">Compostera usada</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let dias of RegistrosDia4" class="d-flex">
+										<td align="center" class="col-3 justify-content-between">
+											<button type="button" name="button"
+											class="btn btn-danger m-1"
+											data-toggle="modal" (click)=eliminarDia4(dias.id)>Eliminar</button>
+											<button type="button" name="button"
+											class="btn btn-primary m-1" (click)="asignarId(dias.id,'dia4')"
+											(click)="actualizarDia4()">Guardar cambios</button>
+										</td>
+										<td align="center" class="col-2" >{{ dias.id }}</td>
+										<td align="center" class="col-2" ><input [ngModel]="dias.fecha_inicio | date: 'yyyy-MM-dd'"
+										(ngModelChange)="dias.fecha_inicio = $event"
+										type="date"
+										name="fecha_inicioAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="dias.fecha_termino| date: 'yyyy-MM-dd'"
+										(ngModelChange)="dias.fecha_termino = $event"
+										type="date"
+										name="fecha_terminoAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="dias.tiempo_total"
+										(ngModelChange)="dias.tiempo_total = $event"
+										type="time"
+										name="tiempo_totalAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.caudal_inicial"
+										type="number"
+										name="caudal_inicialAct"
+										class="form-control"
+										value =dias.caudal_inicial
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.caudal_final"
+										type="number"
+										name="caudal_finalAct"
+										class="form-control"
+										value =dias.caudal_final
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.litros_agua_agregados"
+										type="number"
+										name="litros_agua_agregadosAct"
+										class="form-control"
+										value =dias.litros_agua_agregados
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.litros_metro_lineal"
+										type="number"
+										name="litros_metro_linealAct"
+										class="form-control"
+										value =dias.litros_metro_lineal
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.bajadas"
+										type="number"
+										name="bajadasAct"
+										class="form-control"
+										value =dias.bajadas
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.compostera_usada"
+										type="text"
+										name="compostera_usadaAct"
+										class="form-control"
+										value =dias.compostera_usada
+										required></td>
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- FIN DIA 4 -->
+
+						<!-- TABLA DE DIA 5 //  -->
+						<div *ngIf="selectEtapa==10 && RegistrosDia5.length!=0">
+							<table class="table table-responsive table-bordered text-center">
+								<thead class="text-light" align="center">
+									<tr class="d-flex">
+										<th scope="col" align="center" class="col-3">Acciones</th>
+										<th scope="col" align="center" class="col-2"># Registro</th>
+										<th scope="col" align="center" class="col-2 ">Fecha de inicio</th>
+										<th scope="col" align="center" class="col-2 ">Fecha de término</th>
+										<th scope="col" align="center" class="col-2 ">Tiempo total</th>
+										<th scope="col" align="center" class="col-3 ">Bunker</th>
+										<th scope="col" align="center" class="col-2 ">Número de spigots</th>
+										<th scope="col" align="center" class="col-2 ">Número de paladas</th>
+										<th scope="col" align="center" class="col-2 ">Peso promedio de paladas</th>
+										<th scope="col" align="center" class="col-2 ">Peso total llenado Bunker</th>
+										<th scope="col" align="center" class="col-2 ">Peso perdida material</th>
+										<th scope="col" align="center" class="col-2 ">Altura llenado</th>
+										<th scope="col" align="center" class="col-2 ">Humedad</th>
+										<th scope="col" align="center" class="col-2 ">pH</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let dias of RegistrosDia5" class="d-flex">
+										<td align="center" class="col-3 justify-content-between">
+											<button type="button" name="button"
+											class="btn btn-danger m-1"
+											data-toggle="modal" (click)=eliminarDia5(dias.id)>Eliminar</button>
+											<button type="button" name="button"
+											class="btn btn-primary m-1" (click)="asignarId(dias.id,'dia5')"
+										  (click)="actualizarDia5()">Guardar cambios</button>
+
+										</td>
+										<td align="center" class="col-2" >{{ dias.id }}</td>
+										<td align="center" class="col-2" ><input [ngModel]="dias.fecha_inicio | date: 'yyyy-MM-dd'"
+										(ngModelChange)="dias.fecha_inicio = $event"
+										type="date"
+										name="fecha_inicioAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="dias.fecha_termino | date: 'yyyy-MM-dd'"
+										(ngModelChange)="dias.fecha_termino = $event"
+										type="date"
+										name="fecha_terminoAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="dias.tiempo_total"
+										(ngModelChange)="dias.tiempo_total = $event"
+										type="time"
+										name="tiempo_totalAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-3" ><input [(ngModel)]="dias.bunker"
+										type="text"
+										name="bunkerAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.num_spigots"
+										type="number"
+										name="num_spigotsAct"
+										class="form-control"
+										value =dias.num_spigots
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.num_paladas"
+										type="number"
+										name="num_paladasAct"
+										class="form-control"
+										value =dias.num_paladas
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.peso_prom_paladas"
+										type="number"
+										name="peso_prom_paladasAct"
+										class="form-control"
+										value =dias.peso_prom_paladas
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.peso_total_llenado_bunker"
+										type="number"
+										name="peso_total_llenado_bunkerAct"
+										class="form-control"
+										value =dias.peso_total_llenado_bunker
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.peso_perdida_material"
+										type="number"
+										name="peso_perdida_materialAct"
+										class="form-control"
+										value =dias.peso_perdida_material
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.altura_llenado"
+										type="number"
+										name="altura_llenadoAct"
+										class="form-control"
+										value =dias.altura_llenado
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.humedad"
+										type="number"
+										name="humedadAct"
+										class="form-control"
+										value =dias.humedad
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="dias.ph"
+										type="number"
+										name="phAct"
+										class="form-control"
+										value =dias.ph
+										required></td>
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<!-- FIN DIA 5 -->
+
+						<!-- TABLA DE HEAP -->
+						<div *ngIf="selectEtapa==11 && RegistrosHeap.length!=0">
+							<table class="table table-responsive table-bordered text-center">
+								<thead class="text-light" align="center">
+									<tr class="d-flex">
+										<th scope="col" align="center" class="col-3">Acciones</th>
+										<th scope="col" align="center" class="col-2"># Registro</th>
+										<th scope="col" align="center" class="col-2 ">Amoniaco AHNH3</th>
+										<th scope="col" align="center" class="col-2 ">Fecha inicio Armado</th>
+										<th scope="col" align="center" class="col-2 ">Fecha término Armado</th>
+										<th scope="col" align="center" class="col-2 ">Altura</th>
+										<th scope="col" align="center" class="col-2 ">Ancho</th>
+										<th scope="col" align="center" class="col-2 ">Largo</th>
+										<th scope="col" align="center" class="col-2 ">Número de Paladas</th>
+										<th scope="col" align="center" class="col-2 ">Peso promedio Paladas</th>
+										<th scope="col" align="center" class="col-2 ">Peso perdida paladas</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let heap of RegistrosHeap" class="d-flex">
+										<td align="center" class="col-3">
+											<button type="button" name="button" (click)="eliminarHeap(heap.id)"
+											class="btn btn-danger m-1">Eliminar</button>
+											<button type="button" name="button"
+											class="btn btn-primary m-1" (click)="asignarId(heap.id,'heap')"
+											(click)="actualizarHeap()">Guardar cambios</button>
+										</td>
+										<td align="center" class="col-2" >{{ heap.id }}</td>
+										<td align="center" class="col-2" ><input [(ngModel)]="heap.amoniaco"
+										type="number"
+										name="amoniacoAct"
+										class="form-control"
+										value =heap.amoniaco
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="heap.fecha_inicio_armado | date: 'yyyy-MM-dd'"
+										(ngModelChange)="heap.fecha_inicio_armado = $event"
+										type="date"
+										name="fecha_inicio_armadoAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [ngModel]="heap.fecha_termino_armado | date: 'yyyy-MM-dd'"
+										(ngModelChange)="heap.fecha_termino_armado = $event"
+										type="date"
+										name="fecha_termino_armadoAct"
+										class="form-control"
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="heap.altura_heap"
+										type="number"
+										name="altura_heapAct"
+										class="form-control"
+										value =heap.altura_heap
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="heap.ancho_heap"
+										type="number"
+										name="ancho_heapAct"
+										class="form-control"
+										value =heap.ancho_heap
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="heap.largo_heap"
+										type="number"
+										name="largo_heapAct"
+										class="form-control"
+										value =heap.largo_heap
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="heap.num_paladas"
+										type="number"
+										name="num_paladasAct"
+										class="form-control"
+										value =heap.num_paladas
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="heap.peso_prom_paladas"
+										type="number"
+										name="peso_prom_paladasAct"
+										class="form-control"
+										value =heap.peso_prom_paladas
+										required></td>
+										<td align="center" class="col-2" ><input [(ngModel)]="heap.peso_perdida_material"
+										type="number"
+										name="peso_perdida_materialAct"
+										class="form-control"
+										value =heap.peso_perdida_material
+										required></td>
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
 					</div>
-
-					<!-- TABLA DE MOJADO FARDOS -->
-					<div *ngIf="selectEtapa==2 && RegistrosMojadoFardos.length!=0">
-						<table class="table table-responsive table-bordered text-center">
-							<thead class="text-light" align="center">
-								<tr class="d-flex">
-									<th scope="col" align="center" class="col-3">Acciones</th>
-									<th scope="col" align="center" class="col-2"># Registro</th>
-									<th scope="col" align="center" class="col-2">Número de fardos usados</th>
-									<th scope="col" align="center" class="col-2">Guías de despacho usadas</th>
-									<th scope="col" align="center" class="col-2">Peso neto guías</th>
-									<th scope="col" align="center" class="col-2">Peso Pre-mojado</th>
-								  <th scope="col" align="center" class="col-2">Peso Post-mojado</th>
-									<th scope="col" align="center" class="col-2">Tiempo de hundido</th>
-									<th scope="col" align="center" class="col-2">Fecha de inicio</th>
-									<th scope="col" align="center" class="col-2">Fecha de término</th>
-								  <th scope="col" align="center" class="col-2">Fardos perdidos por desarme</th>
-
-								</tr>
-							</thead>
-							<tbody>
-								<tr *ngFor="let mojado of RegistrosMojadoFardos" class="d-flex">
-									<td align="center" class="justify-content-between col-3">
-										<button type="button" name="button"
-										class="btn btn-danger m-1"
-										data-toggle="modal" (click)=eliminarMojadoFardos(mojado.id)>Eliminar</button>
-										<button type="button" name="button"
-										class="btn btn-primary m-1" (click)="asignarId(mojado.id,'mojadoF')"
-										(click)=actualizarMojadoFardos()>Guardar cambios</button>
-
-									</td>
-									<td align="center" class="col-2" >{{ mojado.id }}</td>
-									<td align="center" class="col-2" ><input [(ngModel)]="mojado.num_fardos_usados"
-									type="number"
-									name="num_fardos_usadosAct"
-									class="form-control"
-									value = mojado.num_fardos_usados
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="mojado.guias_despacho_usadas"
-									type="number"
-									name="guias_despacho_usadasAct"
-									class="form-control"
-									value = mojado.guias_despacho_usadas
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="mojado.peso_neto_guias"
-									type="number"
-									name="peso_neto_guiasAct"
-									class="form-control"
-									value = mojado.peso_neto_guias
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="mojado.peso_fardos_premojado"
-									type="number"
-									name="peso_fardos_premojadoAct"
-									class="form-control"
-									value = mojado.peso_fardos_premojado
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="mojado.peso_fardos_postmojado"
-									type="number"
-									name="peso_fardos_postmojadoAct"
-									class="form-control"
-									value =mojado.peso_fardos_postmojado
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="mojado.tiempo_hundido"
-									type="number"
-									name="tiempo_hundidoAct"
-									class="form-control"
-									value =mojado.tiempo_hundido
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="mojado.fecha_inicio | date: 'yyyy-MM-dd'"
-									(ngModelChange)="mojado.fecha_inicio = $event"
-									type="date"
-									name="fecha_inicioAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="mojado.fecha_termino | date: 'yyyy-MM-dd'"
-									(ngModelChange)="mojado.fecha_termino = $event"
-									type="date"
-									name="fecha_terminoAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="mojado.fardos_perdidos_desarme"
-									type="number"
-									name="fardos_perdidos_desarmeAct"
-									class="form-control"
-									value =mojado.fardos_perdidos_desarme
-									required></td>
-
-								</tr>
-							</tbody>
-						</table>
-					</div>
-
-					<!-- TABLA DE ESTACIONADO FARDOS -->
-					<div *ngIf="selectEtapa==3 && RegistrosEstacionadoFardos.length!=0">
-						<table class="table table-responsive table-bordered text-center">
-							<thead class="text-light" align="center">
-								<tr class="d-flex">
-									<th scope="col" align="center" class="col-3 ">Acciones</th>
-									<th scope="col" align="center" class="col-2 "># Registro</th>
-									<th scope="col" align="center" class="col-2 ">% Fardos sobre pallet</th>
-									<th scope="col" align="center" class="col-2 ">Temperatura promedio día i</th>
-									<th scope="col" align="center" class="col-2 ">Humedad promedio día i</th>
-									<th scope="col" align="center" class="col-2 ">Oxígeno promedio día i</th>
-									<th scope="col" align="center" class="col-2 ">Fecha de inicio</th>
-									<th scope="col" align="center" class="col-2 ">Fecha de término</th>
-								  <th scope="col" align="center" class="col-2 ">Tiempo total estacionado</th>
-									<th scope="col" align="center" class="col-2 ">Calidad estructura</th>
-
-								</tr>
-							</thead>
-							<tbody>
-								<tr *ngFor="let estac of RegistrosEstacionadoFardos" class="d-flex">
-									<td align="center" class="col-3 justify-content-between">
-										<button type="button" name="button"
-										class="btn btn-danger m-1"
-										data-toggle="modal" (click)=eliminarEstacionadoFardos(estac.id)>Eliminar</button>
-										<button type="button" name="button"
-										class="btn btn-primary m-1" (click)="asignarId(estac.id,'estacionF')"
-										(click)="actualizarEstacionadoFardos()">Guardar cambios</button>
-									</td>
-									<td align="center" class="col-2" >{{ estac.id }}</td>
-									<td align="center" class="col-2" ><input [(ngModel)]="estac.porcentaje_sobre_pallet"
-									type="number"
-									name="porcentaje_sobre_palletAct"
-									class="form-control"
-									value =estac.porcentaje_sobre_pallet
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="estac.temp_promedio_diai"
-									type="number"
-									name="temp_promedio_diaiAct"
-									class="form-control"
-									value =estac.temp_promedio_diai
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="estac.humedad_promedio_diai"
-									type="number"
-									name="humedad_promedio_diaiAct"
-									class="form-control"
-									value =estac.humedad_promedio_diai
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="estac.oxigeno_promedio_diai"
-									type="number"
-									name="oxigeno_promedio_diaiAct"
-									class="form-control"
-									value =estac.oxigeno_promedio_diai
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="estac.fecha_inicio | date: 'yyyy-MM-dd'"
-									(ngModelChange)="estac.fecha_inicio = $event"
-									type="date"
-									name="fecha_inicioAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="estac.fecha_termino | date: 'yyyy-MM-dd'"
-									(ngModelChange)="estac.fecha_termino = $event"
-									type="date"
-									name="fecha_terminoAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="estac.tiempo_total_estacionado"
-									type="number"
-									name="tiempo_total_estacionadoAct"
-									class="form-control"
-									value =estac.tiempo_total_estacionado
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="estac.calidad_estructura"
-									type="text"
-									name="calidad_estructuraAct"
-									class="form-control"
-									value =estac.calidad_estructura
-									required></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-
-					<!-- TABLA DE PISCINA HUMECTACION -->
-					<div *ngIf="selectEtapa==4 && RegistrosPiscinaH.length!=0">
-						<table class="table table-responsive table-bordered text-center">
-							<thead class="text-light" align="center">
-								<tr class="d-flex">
-									<th scope="col" align="center" class="col-3 ">Acciones</th>
-									<th scope="col" align="center" class="col-2 "># Registro</th>
-									<th scope="col" align="center" class="col-2 ">Litros de humectación asistida</th>
-									<th scope="col" align="center" class="col-2 ">Fecha de inicio</th>
-									<th scope="col" align="center" class="col-2 ">Fecha de término</th>
-									<th scope="col" align="center" class="col-2 ">Horas en piscina</th>
-									<th scope="col" align="center" class="col-2 "># Paladas paja desarmada</th>
-									<th scope="col" align="center" class="col-2 ">Peso paja desarmada</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr *ngFor="let piscina of RegistrosPiscinaH" class="d-flex">
-									<td align="center" class="col-3 justify-content-between">
-										<button type="button" name="button"
-										class="btn btn-danger m-1"
-										data-toggle="modal" (click)=eliminarPiscinaH(piscina.id)>Eliminar</button>
-										<button type="button" name="button"
-										class="btn btn-primary m-1" (click)="asignarId(piscina.id,'piscinaH')"
-										(click)="actualizarPiscinaH()">Guardar cambios</button>
-									</td>
-									<td align="center" class="col-2" >{{ piscina.id }}</td>
-									<td align="center" class="col-2" ><input [(ngModel)]="piscina.litros_humect_asistida"
-									type="number"
-									name="litros_humect_asistidaAct"
-									class="form-control"
-									value =piscina.litros_humect_asistida
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="piscina.fecha_inicio | date: 'yyyy-MM-dd'"
-									(ngModelChange)="piscina.fecha_inicio = $event"
-									type="date"
-									name="fecha_inicioAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="piscina.fecha_termino | date: 'yyyy-MM-dd'"
-									(ngModelChange)="piscina.fecha_termino = $event"
-									type="date"
-									name="fecha_terminoAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="piscina.horas_piscina_humect"
-									type="number"
-									name="horas_piscina_humectAct"
-									class="form-control"
-									value =piscina.horas_piscina_humect
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="piscina.num_paladas_desarmada"
-									type="number"
-									name="num_paladas_desarmadaAct"
-									class="form-control"
-									value =piscina.num_paladas_desarmada
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="piscina.peso_paja_desarmada"
-									type="number"
-									name="peso_paja_desarmadaAct"
-									class="form-control"
-									value =piscina.peso_paja_desarmada
-									required></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-
-					<!-- TABLA DE ARMADOCORDON -->
-					<div *ngIf="selectEtapa==5 && RegistrosArmadoCordon.length!=0">
-						<table class="table table-responsive table-bordered text-center">
-							<thead class="text-light" align="center">
-								<tr class="d-flex">
-									<th scope="col" align="center" class="col-3">Acciones</th>
-									<th scope="col" align="center" class="col-2"># Registro</th>
-									<th scope="col" align="center" class="col-2 ">Paladas compostera</th>
-									<th scope="col" align="center" class="col-2 ">Peso promedio paladas</th>
-									<th scope="col" align="center" class="col-2 ">Peso total</th>
-									<th scope="col" align="center" class="col-2 ">Compostera usada</th>
-									<th scope="col" align="center" class="col-2 ">Fecha de inicio</th>
-									<th scope="col" align="center" class="col-2 ">Fecha de término</th>
-									<th scope="col" align="center" class="col-2 ">Tiempo total</th>
-									<th scope="col" align="center" class="col-2 ">Altura cordón</th>
-									<th scope="col" align="center" class="col-2 ">Ancho cordón</th>
-									<th scope="col" align="center" class="col-2 ">Largo cordón</th>
-									<th scope="col" align="center" class="col-2 ">Temperatura</th>
-									<th scope="col" align="center" class="col-2 ">Humedad</th>
-									<th scope="col" align="center" class="col-2 ">Oxígeno</th>
-
-								</tr>
-							</thead>
-							<tbody>
-								<tr *ngFor="let armado of RegistrosArmadoCordon" class="d-flex">
-									<td align="center" class="col-3 justify-content-between">
-										<button type="button" name="button" (click)="eliminarArmadoCordon(armado.id)"
-										class="btn btn-danger m-1">Eliminar</button>
-										<button type="button" name="button"
-										class="btn btn-primary m-1" (click)="asignarId(armado.id,'armCor')"
-										(click)="actualizarArmadoCordon()">Guardar cambios</button>
-									</td>
-									<td align="center" class="col-2" >{{ armado.id }}</td>
-									<td align="center" class="col-2" ><input [(ngModel)]="armado.num_paladas_compostera"
-									type="number"
-									name="num_paladas_composteraAct"
-									class="form-control"
-									value =armado.num_paladas_compostera
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="armado.peso_prom_paladas"
-									type="number"
-									name="peso_prom_paladasAct"
-									class="form-control"
-									value =armado.peso_prom_paladas
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="armado.peso_total"
-									type="number"
-									name="peso_totalAct"
-									class="form-control"
-									value =armado.peso_total
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="armado.compostera_usada"
-									type="text"
-									name="compostera_usadaAct"
-									class="form-control"
-									value =armado.compostera_usada
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="armado.fecha_inicio | date: 'yyyy-MM-dd'"
-									(ngModelChange)="armado.fecha_inicio = $event"
-									type="date"
-									name="fecha_terminoAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="armado.fecha_termino | date: 'yyyy-MM-dd'"
-									(ngModelChange)="armado.fecha_termino = $event"
-									type="date"
-									name="fecha_terminoAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="armado.tiempo_total"
-									(ngModelChange)="armado.tiempo_total = $event"
-									type="time"
-									name="tiempo_totalAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="armado.altura_cordon"
-									type="number"
-									name="altura_cordonAct"
-									class="form-control"
-									value =armado.altura_cordon
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="armado.ancho_cordon"
-									type="number"
-									name="ancho_cordonAct"
-									class="form-control"
-									value =armado.ancho_cordon
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="armado.largo_cordon"
-									type="number"
-									name="largo_cordonAct"
-									class="form-control"
-									value =armado.largo_cordon
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="armado.temperatura"
-									type="number"
-									name="temperaturaAct"
-									class="form-control"
-									value =armado.temperatura
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="armado.humedad"
-									type="number"
-									name="humedadAct"
-									class="form-control"
-									value =armado.humedad
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="armado.oxigeno"
-									type="number"
-									name="oxigenoAct"
-									class="form-control"
-									value =armado.oxigeno
-									required></td>
-
-								</tr>
-							</tbody>
-						</table>
-					</div>
-
-					<!-- TABLA DE DIA 1-->
-					<div *ngIf="selectEtapa==6 && RegistrosDia1.length!=0">
-						<table class="table table-responsive table-bordered text-center">
-							<thead class="text-light" align="center">
-								<tr class="d-flex">
-									<th scope="col" align="center" class="col-2">Acciones</th>
-									<th scope="col" align="center" class="col-1"># Registro</th>
-									<th scope="col" align="center" class="col-2 ">Fecha de inicio primera pasada</th>
-									<th scope="col" align="center" class="col-2 ">Número de paladas primera pasada</th>
-									<th scope="col" align="center" class="col-2 ">Peso promedio paladas primera pasada</th>
-									<th scope="col" align="center" class="col-2 ">Peso total de guano primera pasada</th>
-									<th scope="col" align="center" class="col-2 ">Cantidad de Sulfato de Amonio</th>
-									<th scope="col" align="center" class="col-2 ">Cantidad de Urea</th>
-									<th scope="col" align="center" class="col-2 ">Cantidad de Yeso</th>
-									<th scope="col" align="center" class="col-2 ">Fecha de termino primera pasada</th>
-									<th scope="col" align="center" class="col-2 ">Tiempo total primera pasada</th>
-									<th scope="col" align="center" class="col-2 ">Fecha inicio segunda pasada</th>
-									<th scope="col" align="center" class="col-2 ">Número de paladas segunda pasada</th>
-									<th scope="col" align="center" class="col-2 ">Peso promedio paladas segunda pasada</th>
-									<th scope="col" align="center" class="col-2 ">Peso total de Guano segunda pasada</th>
-									<th scope="col" align="center" class="col-2 ">Fecha de termino segunda pasada</th>
-									<th scope="col" align="center" class="col-2 ">Tiempo total segunda pasada</th>
-									<th scope="col" align="center" class="col-2 ">Fecha inicio tercera pasada</th>
-									<th scope="col" align="center" class="col-2 ">Número de paladas tercera pasada</th>
-									<th scope="col" align="center" class="col-2 ">Peso promedio paladas tercera pasada</th>
-									<th scope="col" align="center" class="col-2 ">Peso total de guano tercera pasada</th>
-									<th scope="col" align="center" class="col-2 ">Temperatura</th>
-									<th scope="col" align="center" class="col-2 ">Humedad</th>
-									<th scope="col" align="center" class="col-2 ">Oxigeno</th>
-									<th scope="col" align="center" class="col-2 ">Compostera Usada</th>
-
-
-								</tr>
-							</thead>
-							<tbody>
-								<tr *ngFor="let dias of RegistrosDia1" class="d-flex">
-									<td align="center" class="col-2 justify-content-between">
-										<button type="button" name="button"
-										class="btn btn-danger m-1"
-										data-toggle="modal" (click)=eliminarDia1(dias.id)>Eliminar</button>
-										<button type="button" name="button"
-										class="btn btn-primary m-1" (click)="asignarId(dias.id,'dia1')"
-										(click)="actualizarDia1()">Guardar cambios</button>
-									</td>
-									<td align="center" class="col-1" >{{ dias.id }}</td>
-									<td align="center" class="col-2" ><input [ngModel]="dias.fecha_inicio_pasada1 | date: 'yyyy-MM-dd'"
-									(ngModelChange)="dias.fecha_inicio_pasada1 = $event"
-									type="date"
-									name="fecha_inicio_pasada1Act"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.num_paladas_guano1"
-									type="number"
-									name="num_paladas_guano1Act"
-									class="form-control"
-									value =dias.num_paladas_guano1
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.peso_prom_paladas1"
-									type="number"
-									name="peso_prom_paladas1Act"
-									class="form-control"
-									value =dias.peso_prom_paladas1
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.peso_total_guano1"
-									type="number"
-									name="peso_total_guano1Act"
-									class="form-control"
-									value =dias.peso_total_guano1
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.num_sulfato_amonio"
-									type="number"
-									name="num_sulfato_amonioAct"
-									class="form-control"
-									value =dias.num_sulfato_amonio
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.num_urea"
-									type="number"
-									name="num_ureaAct"
-									class="form-control"
-									value =dias.num_urea
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.num_yeso"
-									type="number"
-									name="num_yesoAct"
-									class="form-control"
-									value =dias.num_yeso
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="dias.fecha_termino_pasada1 | date: 'yyyy-MM-dd'"
-									(ngModelChange)="dias.fecha_termino_pasada1 = $event"
-									type="date"
-									name="fecha_termino_pasada1Act"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="dias.tiempo_total_pasada1"
-									(ngModelChange)="dias.tiempo_total_pasada1 = $event"
-									type="time"
-									name="tiempo_total_pasada1Act"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="dias.fecha_inicio_pasada2 | date: 'yyyy-MM-dd'"
-									(ngModelChange)="dias.fecha_inicio_pasada2 = $event"
-									type="date"
-									name="fecha_inicio_pasada2Act"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.num_paladas_guano2"
-									type="number"
-									name="num_paladas_guano2Act"
-									class="form-control"
-									value =dias.num_paladas_guano2
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.peso_prom_paladas2"
-									type="number"
-									name="peso_prom_paladas2Act"
-									class="form-control"
-									value =dias.peso_prom_paladas2
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.peso_total_guano2"
-									type="number"
-									name="peso_total_guano2Act"
-									class="form-control"
-									value =dias.peso_total_guano2
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="dias.fecha_termino_pasada2 | date: 'yyyy-MM-dd'"
-									(ngModelChange)="dias.fecha_termino_pasada2 = $event"
-									type="date"
-									name="fecha_termino_pasada2Act"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="dias.tiempo_total_pasada2"
-									(ngModelChange)="dias.tiempo_total_pasada2 = $event"
-									type="time"
-									name="tiempo_total_pasada2Act"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="dias.fecha_inicio_pasada3 | date: 'yyyy-MM-dd'"
-									(ngModelChange)="dias.fecha_inicio_pasada3 = $event"
-									type="date"
-									name="fecha_inicio_pasada3Act"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.num_paladas_guano3"
-									type="number"
-									name="num_paladas_guano3Act"
-									class="form-control"
-									value =dias.num_paladas_guano3
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.peso_prom_paladas3"
-									type="number"
-									name="peso_prom_paladas3Act"
-									class="form-control"
-									value =dias.peso_prom_paladas3
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.peso_total_guano3"
-									type="number"
-									name="peso_total_guano3Act"
-									class="form-control"
-									value =dias.peso_total_guano3
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.temperatura"
-									type="number"
-									name="temperaturaAct"
-									class="form-control"
-									value =dias.temperatura
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.humedad"
-									type="number"
-									name="humedadAct"
-									class="form-control"
-									value =dias.humedad
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.oxigeno"
-									type="number"
-									name="oxigenoAct"
-									class="form-control"
-									value =dias.oxigeno
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.compostera_usada"
-									type="text"
-									name="compostera_usadaAct"
-									class="form-control"
-									value =dias.compostera_usada
-									required></td>
-
-
-								</tr>
-							</tbody>
-						</table>
-					</div>
-
-					<!-- FIN DIA 1 -->
-
-					<!-- TABLA DE DIA 2  -->
-					<div *ngIf="selectEtapa==7 && RegistrosDia2.length!=0">
-						<table class="table table-responsive table-bordered text-center">
-							<thead class="text-light" align="center">
-								<tr class="d-flex">
-									<th scope="col" align="center" class="col-3">Acciones</th>
-									<th scope="col" align="center" class="col-2"># Registro</th>
-									<th scope="col" align="center" class="col-2 ">Fecha de inicio</th>
-									<th scope="col" align="center" class="col-2 ">Fecha de término</th>
-									<th scope="col" align="center" class="col-2 ">Tiempo total</th>
-									<th scope="col" align="center" class="col-2 ">Caudal inicial</th>
-									<th scope="col" align="center" class="col-2 ">Cuadal final</th>
-									<th scope="col" align="center" class="col-2 ">Litros de agua agregados</th>
-									<th scope="col" align="center" class="col-2 ">Litros metro lineal</th>
-									<th scope="col" align="center" class="col-2 ">Bajadas</th>
-									<th scope="col" align="center" class="col-2 ">Temperatura</th>
-									<th scope="col" align="center" class="col-2 ">Humedad</th>
-									<th scope="col" align="center" class="col-2 ">Oxigeno</th>
-									<th scope="col" align="center" class="col-2 ">Compostera usada</th>
-
-
-
-								</tr>
-							</thead>
-							<tbody>
-								<tr *ngFor="let dias of RegistrosDia2" class="d-flex">
-									<td align="center" class="col-3 justify-content-between">
-										<button type="button" name="button"
-										class="btn btn-danger m-1"
-										data-toggle="modal" (click)=eliminarDia2(dias.id)>Eliminar</button>
-										<button type="button" name="button"
-										class="btn btn-primary m-1" (click)="asignarId(dias.id,'dia2')"
-										(click)="actualizarDia2()">Guardar cambios</button>
-
-									</td>
-									<td align="center" class="col-2" >{{ dias.id }}</td>
-									<td align="center" class="col-2" ><input [ngModel]="dias.fecha_inicio | date: 'yyyy-MM-dd'"
-									(ngModelChange)="dias.fecha_inicio = $event"
-									type="date"
-									name="fecha_inicioAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="dias.fecha_termino | date: 'yyyy-MM-dd'"
-									(ngModelChange)="dias.fecha_termino = $event"
-									type="date"
-									name="fecha_terminoAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="dias.tiempo_total"
-									(ngModelChange)="dias.tiempo_total = $event"
-									type="time"
-									name="tiempo_totalAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.caudal_inicial"
-									type="number"
-									name="caudal_inicialAct"
-									class="form-control"
-									value =dias.caudal_inicial
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.caudal_final"
-									type="number"
-									name="caudal_finalAct"
-									class="form-control"
-									value =dias.caudal_final
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.litros_agua_agregados"
-									type="number"
-									name="litros_agua_agregadosAct"
-									class="form-control"
-									value =dias.litros_agua_agregados
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.litros_metro_lineal"
-									type="number"
-									name="litros_metro_linealAct"
-									class="form-control"
-									value =dias.litros_metro_lineal
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.bajadas"
-									type="number"
-									name="bajadasAct"
-									class="form-control"
-									value =dias.bajadas
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.temperatura"
-									type="number"
-									name="temperaturaAct"
-									class="form-control"
-									value =dias.temperatura
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.humedad"
-									type="number"
-									name="humedadAct"
-									class="form-control"
-									value =dias.humedad
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.oxigeno"
-									type="number"
-									name="oxigenoAct"
-									class="form-control"
-									value =dias.oxigeno
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.compostera_usada"
-									type="text"
-									name="compostera_usadaAct"
-									class="form-control"
-									value =dias.compostera_usada
-									required></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-
-					<!-- FIN DIA 2 -->
-
-					<!-- TABLA DE DIA 3-->
-					<div *ngIf="selectEtapa==8 && RegistrosDia3.length!=0">
-						<table class="table table-responsive table-bordered text-center">
-							<thead class="text-light" align="center">
-								<tr class="d-flex">
-									<th scope="col" align="center" class="col-3">Acciones</th>
-									<th scope="col" align="center" class="col-2"># Registro</th>
-									<th scope="col" align="center" class="col-2 ">Fecha de inicio</th>
-									<th scope="col" align="center" class="col-2 ">Fecha de término</th>
-									<th scope="col" align="center" class="col-2 ">Tiempo total</th>
-									<th scope="col" align="center" class="col-2 ">Temperatura</th>
-									<th scope="col" align="center" class="col-2 ">Humedad</th>
-									<th scope="col" align="center" class="col-2 ">Oxígeno</th>
-									<th scope="col" align="center" class="col-2 ">Compostera usada</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr *ngFor="let dias of RegistrosDia3" class="d-flex">
-									<td align="center" class="col-3 justify-content-between">
-										<button type="button" name="button"
-										class="btn btn-danger m-1"
-										data-toggle="modal" (click)=eliminarDia3(dias.id)>Eliminar</button>
-										<button type="button" name="button"
-										class="btn btn-primary m-1" (click)="asignarId(dias.id,'dia3')"
-									  (click)="actualizarDia3()">Guardar cambios</button>
-									</td>
-									<td align="center" class="col-2" >{{ dias.id }}</td>
-									<td align="center" class="col-2" ><input [ngModel]="dias.fecha_inicio | date: 'yyyy-MM-dd'"
-									(ngModelChange)="dias.fecha_inicio = $event"
-									type="date"
-									name="fecha_inicioAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="dias.fecha_termino | date: 'yyyy-MM-dd'"
-									(ngModelChange)="dias.fecha_termino = $event"
-									type="date"
-									name="fecha_terminoAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="dias.tiempo_total"
-									(ngModelChange)="dias.tiempo_total = $event"
-									type="time"
-									name="tiempo_totalAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.temperatura"
-									type="number"
-									name="temperaturaAct"
-									class="form-control"
-									value =dias.temperatura
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.humedad"
-									type="number"
-									name="humedadAct"
-									class="form-control"
-									value =dias.humedad
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.oxigeno"
-									type="number"
-									name="oxigenoAct"
-									class="form-control"
-									value =dias.oxigeno
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.compostera_usada"
-									type="text"
-									name="compostera_usadaAct"
-									class="form-control"
-									value =dias.compostera_usada
-									required></td>
-
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<!-- FIN DIA 3 -->
-
-					<!-- TABLA DE DIA 4-->
-					<div *ngIf="selectEtapa==9 && RegistrosDia4.length!=0">
-						<table class="table table-responsive table-bordered text-center">
-							<thead class="text-light" align="center">
-								<tr class="d-flex">
-									<th scope="col" align="center" class="col-3">Acciones</th>
-									<th scope="col" align="center" class="col-2"># Registro</th>
-									<th scope="col" align="center" class="col-2 ">Fecha de inicio</th>
-									<th scope="col" align="center" class="col-2 ">Fecha de término</th>
-									<th scope="col" align="center" class="col-2 ">Tiempo total</th>
-									<th scope="col" align="center" class="col-2 ">Caudal incial</th>
-									<th scope="col" align="center" class="col-2 ">Caudal final</th>
-									<th scope="col" align="center" class="col-2 ">Litros de agua agregados</th>
-									<th scope="col" align="center" class="col-2 ">Litro por metro lineal</th>
-									<th scope="col" align="center" class="col-2 ">Bajadas</th>
-									<th scope="col" align="center" class="col-2 ">Compostera usada</th>
-
-								</tr>
-							</thead>
-							<tbody>
-								<tr *ngFor="let dias of RegistrosDia4" class="d-flex">
-									<td align="center" class="col-3 justify-content-between">
-										<button type="button" name="button"
-										class="btn btn-danger m-1"
-										data-toggle="modal" (click)=eliminarDia4(dias.id)>Eliminar</button>
-										<button type="button" name="button"
-										class="btn btn-primary m-1" (click)="asignarId(dias.id,'dia4')"
-										(click)="actualizarDia4()">Guardar cambios</button>
-									</td>
-									<td align="center" class="col-2" >{{ dias.id }}</td>
-									<td align="center" class="col-2" ><input [ngModel]="dias.fecha_inicio | date: 'yyyy-MM-dd'"
-									(ngModelChange)="dias.fecha_inicio = $event"
-									type="date"
-									name="fecha_inicioAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="dias.fecha_termino| date: 'yyyy-MM-dd'"
-									(ngModelChange)="dias.fecha_termino = $event"
-									type="date"
-									name="fecha_terminoAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="dias.tiempo_total"
-									(ngModelChange)="dias.tiempo_total = $event"
-									type="time"
-									name="tiempo_totalAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.caudal_inicial"
-									type="number"
-									name="caudal_inicialAct"
-									class="form-control"
-									value =dias.caudal_inicial
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.caudal_final"
-									type="number"
-									name="caudal_finalAct"
-									class="form-control"
-									value =dias.caudal_final
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.litros_agua_agregados"
-									type="number"
-									name="litros_agua_agregadosAct"
-									class="form-control"
-									value =dias.litros_agua_agregados
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.litros_metro_lineal"
-									type="number"
-									name="litros_metro_linealAct"
-									class="form-control"
-									value =dias.litros_metro_lineal
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.bajadas"
-									type="number"
-									name="bajadasAct"
-									class="form-control"
-									value =dias.bajadas
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.compostera_usada"
-									type="text"
-									name="compostera_usadaAct"
-									class="form-control"
-									value =dias.compostera_usada
-									required></td>
-
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<!-- FIN DIA 4 -->
-
-					<!-- TABLA DE DIA 5 //  -->
-					<div *ngIf="selectEtapa==10 && RegistrosDia5.length!=0">
-						<table class="table table-responsive table-bordered text-center">
-							<thead class="text-light" align="center">
-								<tr class="d-flex">
-									<th scope="col" align="center" class="col-3">Acciones</th>
-									<th scope="col" align="center" class="col-2"># Registro</th>
-									<th scope="col" align="center" class="col-2 ">Fecha de inicio</th>
-									<th scope="col" align="center" class="col-2 ">Fecha de término</th>
-									<th scope="col" align="center" class="col-2 ">Tiempo total</th>
-									<th scope="col" align="center" class="col-3 ">Bunker</th>
-									<th scope="col" align="center" class="col-2 ">Número de spigots</th>
-									<th scope="col" align="center" class="col-2 ">Número de paladas</th>
-									<th scope="col" align="center" class="col-2 ">Peso promedio de paladas</th>
-									<th scope="col" align="center" class="col-2 ">Peso total llenado Bunker</th>
-									<th scope="col" align="center" class="col-2 ">Peso perdida material</th>
-									<th scope="col" align="center" class="col-2 ">Altura llenado</th>
-									<th scope="col" align="center" class="col-2 ">Humedad</th>
-									<th scope="col" align="center" class="col-2 ">pH</th>
-
-								</tr>
-							</thead>
-							<tbody>
-								<tr *ngFor="let dias of RegistrosDia5" class="d-flex">
-									<td align="center" class="col-3 justify-content-between">
-										<button type="button" name="button"
-										class="btn btn-danger m-1"
-										data-toggle="modal" (click)=eliminarDia5(dias.id)>Eliminar</button>
-										<button type="button" name="button"
-										class="btn btn-primary m-1" (click)="asignarId(dias.id,'dia5')"
-									  (click)="actualizarDia5()">Guardar cambios</button>
-
-									</td>
-									<td align="center" class="col-2" >{{ dias.id }}</td>
-									<td align="center" class="col-2" ><input [ngModel]="dias.fecha_inicio | date: 'yyyy-MM-dd'"
-									(ngModelChange)="dias.fecha_inicio = $event"
-									type="date"
-									name="fecha_inicioAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="dias.fecha_termino | date: 'yyyy-MM-dd'"
-									(ngModelChange)="dias.fecha_termino = $event"
-									type="date"
-									name="fecha_terminoAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="dias.tiempo_total"
-									(ngModelChange)="dias.tiempo_total = $event"
-									type="time"
-									name="tiempo_totalAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-3" ><input [(ngModel)]="dias.bunker"
-									type="text"
-									name="bunkerAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.num_spigots"
-									type="number"
-									name="num_spigotsAct"
-									class="form-control"
-									value =dias.num_spigots
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.num_paladas"
-									type="number"
-									name="num_paladasAct"
-									class="form-control"
-									value =dias.num_paladas
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.peso_prom_paladas"
-									type="number"
-									name="peso_prom_paladasAct"
-									class="form-control"
-									value =dias.peso_prom_paladas
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.peso_total_llenado_bunker"
-									type="number"
-									name="peso_total_llenado_bunkerAct"
-									class="form-control"
-									value =dias.peso_total_llenado_bunker
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.peso_perdida_material"
-									type="number"
-									name="peso_perdida_materialAct"
-									class="form-control"
-									value =dias.peso_perdida_material
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.altura_llenado"
-									type="number"
-									name="altura_llenadoAct"
-									class="form-control"
-									value =dias.altura_llenado
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.humedad"
-									type="number"
-									name="humedadAct"
-									class="form-control"
-									value =dias.humedad
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="dias.ph"
-									type="number"
-									name="phAct"
-									class="form-control"
-									value =dias.ph
-									required></td>
-
-								</tr>
-							</tbody>
-						</table>
-					</div>
-
-					<!-- FIN DIA 5 -->
-
-					<!-- TABLA DE HEAP -->
-					<div *ngIf="selectEtapa==11 && RegistrosHeap.length!=0">
-						<table class="table table-responsive table-bordered text-center">
-							<thead class="text-light" align="center">
-								<tr class="d-flex">
-									<th scope="col" align="center" class="col-3">Acciones</th>
-									<th scope="col" align="center" class="col-2"># Registro</th>
-									<th scope="col" align="center" class="col-2 ">Amoniaco AHNH3</th>
-									<th scope="col" align="center" class="col-2 ">Fecha inicio Armado</th>
-									<th scope="col" align="center" class="col-2 ">Fecha término Armado</th>
-									<th scope="col" align="center" class="col-2 ">Altura</th>
-									<th scope="col" align="center" class="col-2 ">Ancho</th>
-									<th scope="col" align="center" class="col-2 ">Largo</th>
-									<th scope="col" align="center" class="col-2 ">Número de Paladas</th>
-									<th scope="col" align="center" class="col-2 ">Peso promedio Paladas</th>
-									<th scope="col" align="center" class="col-2 ">Peso perdida paladas</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr *ngFor="let heap of RegistrosHeap" class="d-flex">
-									<td align="center" class="col-3">
-										<button type="button" name="button" (click)="eliminarHeap(heap.id)"
-										class="btn btn-danger m-1">Eliminar</button>
-										<button type="button" name="button"
-										class="btn btn-primary m-1" (click)="asignarId(heap.id,'heap')"
-										(click)="actualizarHeap()">Guardar cambios</button>
-									</td>
-									<td align="center" class="col-2" >{{ heap.id }}</td>
-									<td align="center" class="col-2" ><input [(ngModel)]="heap.amoniaco"
-									type="number"
-									name="amoniacoAct"
-									class="form-control"
-									value =heap.amoniaco
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="heap.fecha_inicio_armado | date: 'yyyy-MM-dd'"
-									(ngModelChange)="heap.fecha_inicio_armado = $event"
-									type="date"
-									name="fecha_inicio_armadoAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [ngModel]="heap.fecha_termino_armado | date: 'yyyy-MM-dd'"
-									(ngModelChange)="heap.fecha_termino_armado = $event"
-									type="date"
-									name="fecha_termino_armadoAct"
-									class="form-control"
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="heap.altura_heap"
-									type="number"
-									name="altura_heapAct"
-									class="form-control"
-									value =heap.altura_heap
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="heap.ancho_heap"
-									type="number"
-									name="ancho_heapAct"
-									class="form-control"
-									value =heap.ancho_heap
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="heap.largo_heap"
-									type="number"
-									name="largo_heapAct"
-									class="form-control"
-									value =heap.largo_heap
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="heap.num_paladas"
-									type="number"
-									name="num_paladasAct"
-									class="form-control"
-									value =heap.num_paladas
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="heap.peso_prom_paladas"
-									type="number"
-									name="peso_prom_paladasAct"
-									class="form-control"
-									value =heap.peso_prom_paladas
-									required></td>
-									<td align="center" class="col-2" ><input [(ngModel)]="heap.peso_perdida_material"
-									type="number"
-									name="peso_perdida_materialAct"
-									class="form-control"
-									value =heap.peso_perdida_material
-									required></td>
-
-								</tr>
-							</tbody>
-						</table>
-					</div>
-
 				</div>
 			</div>
-		</div>
-		<br>
-		<br>
+			<br>
+			<br>
 
-	<hr>
-	<!-- MODAL FORMULARIOS DE INGRESO -->
-	<div class="modal fade" id="ingresoRegModal" tabindex="-1" role="dialog" aria-labelledby="ingresoRegModal" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title text-dark" id="ingresoRegModal">Ingrese los datos requeridos para la etapa</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body text-dark">
+		<hr>
+		<!-- MODAL FORMULARIOS DE INGRESO -->
+		<div class="modal fade" id="ingresoRegModal" tabindex="-1" role="dialog" aria-labelledby="ingresoRegModal" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title text-dark" id="ingresoRegModal">Ingrese los datos requeridos para la etapa</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body text-dark">
 
 
-					<!-- - INICIO FORMULARIO DE LA ETAPA PURIN-->
-				<div *ngIf="selectEtapa==1">
-						<form (ngSubmit)="guardarPurin()" #forma="ngForm">
+						<!-- - INICIO FORMULARIO DE LA ETAPA PURIN-->
+					<div *ngIf="selectEtapa==1">
+							<form (ngSubmit)="guardarPurin(forma)" #forma="ngForm">
+								<div class="card-body bg-light">
+									<div class="form-group">
+										<label>Electroconductividad</label>
+										<input 	[(ngModel)]="purin.electroconductividad"
+										id="electroReg"
+										type="number"
+										name="electroReg"
+										class="form-control"
+										required>
+									</div>
+									<div class="form-group">
+										<label>pH</label>
+										<input 	[(ngModel)]="purin.ph"
+										id="phReg"
+										type="number"
+										name="phReg"
+										class="form-control"
+										required>
+									</div>
+									<div class="form-group">
+										<label>TDS</label>
+										<input 	[(ngModel)]="purin.tds"
+										id="tdsReg"
+										type="number"
+										name="tdsReg"
+										class="form-control"
+										required>
+									</div>
+									<div class="form-group">
+										<label>Nítrogeno</label>
+										<input 	[(ngModel)]="purin.nitrogeno"
+										id="nitrogenoReg"
+										type="number"
+										name="nitrogenoReg"
+										class="form-control"
+										required>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cerrar</button>
+									<button [disabled]="!forma.valid"
+									type="submit" class="btn btn-outline-primary">
+									Ingresar medición
+								</button>
+							</div>
+							</form>
+					</div>
+
+					<!-- - FIN DEL FORMULARIO DE LA ETAPA PURIN-->
+
+
+					<!-- - INICIO FORMULARIO DE LA ETAPA MOJADO FARDOS-->
+					<div *ngIf="selectEtapa==2">
+
+						<form (ngSubmit)="guardarMojadoFardos(forma)" #forma="ngForm">
 							<div class="card-body bg-light">
 								<div class="form-group">
-									<label>Electroconductividad</label>
-									<input 	[(ngModel)]="purin.electroconductividad"
-									id="electroReg"
+									<label>Número de fardos utilizados</label>
+									<input 	[(ngModel)]="mojadoFardos.num_fardos_usados"
 									type="number"
-									name="electroReg"
+									name="numFardosUsados"
 									class="form-control"
+									placeholder="0"
 									required>
 								</div>
 								<div class="form-group">
-									<label>pH</label>
-									<input 	[(ngModel)]="purin.ph"
-									id="phReg"
+									<label>Guías de despacho usadas</label>
+									<input 	[(ngModel)]="mojadoFardos.guias_despacho_usadas"
 									type="number"
-									name="phReg"
+									name="guiasDespachoUsadas"
 									class="form-control"
+									placeholder="0"
 									required>
 								</div>
 								<div class="form-group">
-									<label>TDS</label>
-									<input 	[(ngModel)]="purin.tds"
-									id="tdsReg"
+									<label>Peso neto ocupado por guía de despacho</label>
+									<input 	[(ngModel)]="mojadoFardos.peso_neto_guias"
 									type="number"
-									name="tdsReg"
+									name="pesoNetoGuias"
 									class="form-control"
+									placeholder="0"
 									required>
 								</div>
 								<div class="form-group">
-									<label>Nítrogeno</label>
-									<input 	[(ngModel)]="purin.nitrogeno"
-									id="nitrogenoReg"
+									<label>Peso de los fardos pre-mojado</label>
+									<input 	[(ngModel)]="mojadoFardos.peso_fardos_premojado"
 									type="number"
-									name="nitrogenoReg"
+									name="pesoFardosPremojado"
 									class="form-control"
+									placeholder="0"
+									required>
+								</div>
+								<div class="form-group">
+									<label>Peso de los fardos post-mojado</label>
+									<input 	[(ngModel)]="mojadoFardos.peso_fardos_postmojado"
+									type="number"
+									name="pesoFardosPostmojado"
+									class="form-control"
+									placeholder="0"
+									required>
+								</div>
+								<div class="form-group">
+									<label>Tiempo de hundido</label>
+									<input 	[(ngModel)]="mojadoFardos.tiempo_hundido"
+									type="number"
+									name="tiempoHundido"
+									class="form-control"
+									placeholder="0"
+									required>
+								</div>
+
+								<div class="form-group">
+									<label>Fecha de inicio</label>
+									<input 	[(ngModel)]="mojadoFardos.fecha_inicio"
+									type="date"
+									name="fechainicio"
+									class="form-control"
+									placeholder=""
+									required>
+								</div>
+								<div class="form-group">
+									<label>Fecha de termino</label>
+									<input 	[(ngModel)]="mojadoFardos.fecha_termino"
+									type="date"
+									name="fechatérmino"
+									class="form-control"
+									placeholder=""
+									required>
+								</div>
+
+								<div class="form-group">
+									<label>Fardos perdidos por desarme</label>
+									<input 	[(ngModel)]="mojadoFardos.fardos_perdidos_desarme"
+									type="number"
+									name="fardosPerdidos"
+									class="form-control"
+									placeholder="0"
 									required>
 								</div>
 							</div>
@@ -1208,100 +1311,90 @@
 								Ingresar medición
 							</button>
 						</div>
-						</form>
-				</div>
+					</form>
+					</div>
+				<!-- - FIN DEL FORMULARIO DE LA ETAPA MOJADO FARDOS-->
 
-				<!-- - FIN DEL FORMULARIO DE LA ETAPA PURIN-->
 
+				<!-- - INICIO DEL FORMULARIO DE LA ETAPA ESTACIONADO FARDOS-->
+				<div *ngIf="selectEtapa==3">
 
-				<!-- - INICIO FORMULARIO DE LA ETAPA MOJADO FARDOS-->
-				<div *ngIf="selectEtapa==2">
-
-					<form (ngSubmit)="guardarMojadoFardos()" #forma="ngForm">
+					<form (ngSubmit)="guardarEstacionadoFardos(forma)" #forma="ngForm">
 						<div class="card-body bg-light">
 							<div class="form-group">
-								<label>Número de fardos utilizados</label>
-								<input 	[(ngModel)]="mojadoFardos.num_fardos_usados"
+								<label>% fardos sobre pallet</label>
+								<input 	[(ngModel)]="estacionadoFardos.porcentaje_sobre_pallet"
 								type="number"
-								name="numFardosUsados"
+								name="porcentajePallet"
 								class="form-control"
 								placeholder="0"
 								required>
 							</div>
 							<div class="form-group">
-								<label>Guías de despacho usadas</label>
-								<input 	[(ngModel)]="mojadoFardos.guias_despacho_usadas"
+								<label>Temperatura promedio fardos día i</label>
+								<input 	[(ngModel)]="estacionadoFardos.temp_promedio_diai"
 								type="number"
-								name="guiasDespachoUsadas"
+								name="tempPromedioDiai"
 								class="form-control"
 								placeholder="0"
 								required>
 							</div>
 							<div class="form-group">
-								<label>Peso neto ocupado por guía de despacho</label>
-								<input 	[(ngModel)]="mojadoFardos.peso_neto_guias"
+								<label>Humedad promedio fardos día i</label>
+								<input 	[(ngModel)]="estacionadoFardos.humedad_promedio_diai"
 								type="number"
-								name="pesoNetoGuias"
+								name="humedadPromedioDiai"
 								class="form-control"
 								placeholder="0"
 								required>
 							</div>
 							<div class="form-group">
-								<label>Peso de los fardos pre-mojado</label>
-								<input 	[(ngModel)]="mojadoFardos.peso_fardos_premojado"
+								<label>Oxígeno promedio fardos día i</label>
+								<input 	[(ngModel)]="estacionadoFardos.oxigeno_promedio_diai"
 								type="number"
-								name="pesoFardosPremojado"
+								name="oxigenoPromedioDiai"
 								class="form-control"
 								placeholder="0"
 								required>
 							</div>
 							<div class="form-group">
-								<label>Peso de los fardos post-mojado</label>
-								<input 	[(ngModel)]="mojadoFardos.peso_fardos_postmojado"
-								type="number"
-								name="pesoFardosPostmojado"
+								<label>Fecha de inicio</label>
+								<input 	[(ngModel)]="estacionadoFardos.fecha_inicio"
+								type="date"
+								name="fechainicio"
 								class="form-control"
 								placeholder="0"
 								required>
 							</div>
 							<div class="form-group">
-								<label>Tiempo de hundido</label>
-								<input 	[(ngModel)]="mojadoFardos.tiempo_hundido"
-								type="number"
-								name="tiempoHundido"
+								<label>Fecha de termino</label>
+								<input 	[(ngModel)]="estacionadoFardos.fecha_termino"
+								type="date"
+								name="fechatérmino"
 								class="form-control"
 								placeholder="0"
 								required>
 							</div>
 
 							<div class="form-group">
-								<label>Fecha de inicio</label>
-								<input 	[(ngModel)]="mojadoFardos.fecha_inicio"
-								type="date"
+								<label>Tiempo total estacionado</label>
+								<input 	[(ngModel)]="estacionadoFardos.tiempo_total_estacionado"
+								type="number"
 								name="fechainicio"
 								class="form-control"
 								placeholder=""
 								required>
 							</div>
 							<div class="form-group">
-								<label>Fecha de termino</label>
-								<input 	[(ngModel)]="mojadoFardos.fecha_termino"
-								type="date"
+								<label>Calidad estructura</label>
+								<input 	[(ngModel)]="estacionadoFardos.calidad_estructura"
+								type="text"
 								name="fechatérmino"
 								class="form-control"
 								placeholder=""
 								required>
 							</div>
 
-							<div class="form-group">
-								<label>Fardos perdidos por desarme</label>
-								<input 	[(ngModel)]="mojadoFardos.fardos_perdidos_desarme"
-								type="number"
-								name="fardosPerdidos"
-								class="form-control"
-								placeholder="0"
-								required>
-							</div>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cerrar</button>
@@ -1312,720 +1405,554 @@
 					</div>
 				</form>
 				</div>
-			<!-- - FIN DEL FORMULARIO DE LA ETAPA MOJADO FARDOS-->
 
+				<!-- - FIN DEL FORMULARIO DE LA ETAPA ESTACIONADO FARDOS-->
 
-			<!-- - INICIO DEL FORMULARIO DE LA ETAPA ESTACIONADO FARDOS-->
-			<div *ngIf="selectEtapa==3">
+				<!-- - INICIO DEL FORMULARIO DE LA ETAPA PISCINA HUMECTACION-->
+				<div *ngIf="selectEtapa==4">
 
-				<form (ngSubmit)="guardarEstacionadoFardos()" #forma="ngForm">
-					<div class="card-body bg-light">
-						<div class="form-group">
-							<label>% fardos sobre pallet</label>
-							<input 	[(ngModel)]="estacionadoFardos.porcentaje_sobre_pallet"
-							type="number"
-							name="porcentajePallet"
-							class="form-control"
-							placeholder="0"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Temperatura promedio fardos día i</label>
-							<input 	[(ngModel)]="estacionadoFardos.temp_promedio_diai"
-							type="number"
-							name="tempPromedioDiai"
-							class="form-control"
-							placeholder="0"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Humedad promedio fardos día i</label>
-							<input 	[(ngModel)]="estacionadoFardos.humedad_promedio_diai"
-							type="number"
-							name="humedadPromedioDiai"
-							class="form-control"
-							placeholder="0"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Oxígeno promedio fardos día i</label>
-							<input 	[(ngModel)]="estacionadoFardos.oxigeno_promedio_diai"
-							type="number"
-							name="oxigenoPromedioDiai"
-							class="form-control"
-							placeholder="0"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Fecha de inicio</label>
-							<input 	[(ngModel)]="estacionadoFardos.fecha_inicio"
-							type="date"
-							name="fechainicio"
-							class="form-control"
-							placeholder="0"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Fecha de termino</label>
-							<input 	[(ngModel)]="estacionadoFardos.fecha_termino"
-							type="date"
-							name="fechatérmino"
-							class="form-control"
-							placeholder="0"
-							required>
-						</div>
+					<form (ngSubmit)="guardarPiscinaH(forma)" #forma="ngForm">
+						<div class="card-body bg-light">
+							<div class="form-group">
+								<label>Litros de humectación asistida</label>
+								<input 	[(ngModel)]="piscinaHumectacion.litros_humect_asistida"
+								type="number"
+								name="litros_humect_asistidaReg"
+								class="form-control"
+								placeholder="0"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Fecha de inicio</label>
+								<input 	[(ngModel)]="piscinaHumectacion.fecha_inicio"
+								type="date"
+								name="fechainicioReg"
+								class="form-control"
+								placeholder="0"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Fecha de termino</label>
+								<input 	[(ngModel)]="piscinaHumectacion.fecha_termino"
+								type="date"
+								name="fechatérminoReg"
+								class="form-control"
+								placeholder="0"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Horas en piscina de humectación</label>
+								<input 	[(ngModel)]="piscinaHumectacion.horas_piscina_humect"
+								type="number"
+								name="horas_piscina_humectReg"
+								class="form-control"
+								placeholder=""
+								required>
+							</div>
+							<div class="form-group">
+								<label>Número de paladas paja desarmada</label>
+								<input 	[(ngModel)]="piscinaHumectacion.num_paladas_desarmada"
+								type="number"
+								name="num_paladas_desarmadaReg"
+								class="form-control"
+								placeholder=""
+								required>
+							</div>
+							<div class="form-group">
+								<label>Peso paja desarmada</label>
+								<input 	[(ngModel)]="piscinaHumectacion.peso_paja_desarmada"
+								type="number"
+								name="peso_paja_desarmadaReg"
+								class="form-control"
+								placeholder=""
+								required>
+							</div>
 
-						<div class="form-group">
-							<label>Tiempo total estacionado</label>
-							<input 	[(ngModel)]="estacionadoFardos.tiempo_total_estacionado"
-							type="number"
-							name="fechainicio"
-							class="form-control"
-							placeholder=""
-							required>
 						</div>
-						<div class="form-group">
-							<label>Calidad estructura</label>
-							<input 	[(ngModel)]="estacionadoFardos.calidad_estructura"
-							type="text"
-							name="fechatérmino"
-							class="form-control"
-							placeholder=""
-							required>
-						</div>
-
+						<div class="modal-footer">
+							<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cerrar</button>
+							<button [disabled]="!forma.valid"
+							type="submit" class="btn btn-outline-primary">
+							Ingresar medición
+						</button>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cerrar</button>
-						<button [disabled]="!forma.valid"
-						type="submit" class="btn btn-outline-primary">
-						Ingresar medición
-					</button>
-				</div>
-			</form>
-			</div>
-
-			<!-- - FIN DEL FORMULARIO DE LA ETAPA ESTACIONADO FARDOS-->
-
-			<!-- - INICIO DEL FORMULARIO DE LA ETAPA PISCINA HUMECTACION-->
-			<div *ngIf="selectEtapa==4">
-
-				<form (ngSubmit)="guardarPiscinaH()" #forma="ngForm">
-					<div class="card-body bg-light">
-						<div class="form-group">
-							<label>Litros de humectación asistida</label>
-							<input 	[(ngModel)]="piscinaHumectacion.litros_humect_asistida"
-							type="number"
-							name="litros_humect_asistidaReg"
-							class="form-control"
-							placeholder="0"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Fecha de inicio</label>
-							<input 	[(ngModel)]="piscinaHumectacion.fecha_inicio"
-							type="date"
-							name="fechainicioReg"
-							class="form-control"
-							placeholder="0"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Fecha de termino</label>
-							<input 	[(ngModel)]="piscinaHumectacion.fecha_termino"
-							type="date"
-							name="fechatérminoReg"
-							class="form-control"
-							placeholder="0"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Horas en piscina de humectación</label>
-							<input 	[(ngModel)]="piscinaHumectacion.horas_piscina_humect"
-							type="number"
-							name="horas_piscina_humectReg"
-							class="form-control"
-							placeholder=""
-							required>
-						</div>
-						<div class="form-group">
-							<label>Número de paladas paja desarmada</label>
-							<input 	[(ngModel)]="piscinaHumectacion.num_paladas_desarmada"
-							type="number"
-							name="num_paladas_desarmadaReg"
-							class="form-control"
-							placeholder=""
-							required>
-						</div>
-						<div class="form-group">
-							<label>Peso paja desarmada</label>
-							<input 	[(ngModel)]="piscinaHumectacion.peso_paja_desarmada"
-							type="number"
-							name="peso_paja_desarmadaReg"
-							class="form-control"
-							placeholder=""
-							required>
-						</div>
-
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cerrar</button>
-						<button [disabled]="!forma.valid"
-						type="submit" class="btn btn-outline-primary">
-						Ingresar medición
-					</button>
-				</div>
-			</form>
-			</div>
-
-			<!-- - FIN DEL FORMULARIO DE LA ETAPA PISCINA HUMECTACION-->
-
-
-			<!-- - INICIO DEL FORMULARIO DE LA ETAPA ARMADO CORDON-->
-			<div *ngIf="selectEtapa==5">
-				<form (ngSubmit)="guardarArmadoCordon()" #forma="ngForm">
-					<div class="card-body bg-light">
-						<div class="form-group">
-							<label>Cantidad de paladas a compostera</label>
-							<input 	[(ngModel)]="armadoCordon.num_paladas_compostera"
-							type="number"
-							name="numPaladasReg"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Peso promedio paladas</label>
-							<input 	[(ngModel)]="armadoCordon.peso_promedio_paladas"
-							type="number"
-							name="pesoPromedioReg"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Peso total</label>
-							<input 	[(ngModel)]="armadoCordon.peso_total"
-							type="number"
-							name="pesoTotalReg"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Compostera usada</label>
-							<input 	[(ngModel)]="armadoCordon.compostera_usada"
-							type="text"
-							name="composteraReg"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Fecha de inicio</label>
-							<input 	[(ngModel)]="armadoCordon.fecha_inicio"
-							type="date"
-							name="fechaIni"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Fecha de termino</label>
-							<input 	[(ngModel)]="armadoCordon.fecha_termino"
-							type="date"
-							name="fechaTer"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Tiempo total</label>
-							<input 	[(ngModel)]="armadoCordon.tiempo_total"
-							type="time"
-							name="tiempo"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Altura cordón</label>
-							<input 	[(ngModel)]="armadoCordon.altura_cordon"
-							type="number"
-							name="altura"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Ancho cordón</label>
-							<input 	[(ngModel)]="armadoCordon.ancho_cordon"
-							type="number"
-							name="ancho"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Largo cordón</label>
-							<input 	[(ngModel)]="armadoCordon.largo_cordon"
-							type="number"
-							name="largo"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Temperatura</label>
-							<input 	[(ngModel)]="armadoCordon.temperatura"
-							type="number"
-							name="temperatura"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Humedad</label>
-							<input 	[(ngModel)]="armadoCordon.humedad"
-							type="number"
-							name="humedad"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Oxígeno</label>
-							<input 	[(ngModel)]="armadoCordon.oxigeno"
-							type="number"
-							name="oxigeno"
-							class="form-control"
-							required>
-						</div>
-
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cerrar</button>
-						<button [disabled]="!forma.valid"
-						type="submit" class="btn btn-outline-primary">
-						Ingresar medición
-					</button>
-				</div>
-
-			</form>
-			</div>
-			<!-- - FIN DEL FORMULARIO DE LA ETAPA ARMADO CORDON-->
-
-			<!-- - INICIO FORMULARIO DEL DIA1-->
-			<div *ngIf="selectEtapa==6">
-				<form (ngSubmit)="guardarDia1()" #forma="ngForm">
-					<div class="card-body bg-light">
-						<div class="form-group">
-							<label>Fecha de inicio primera pasada</label>
-							<input 	[(ngModel)]="dia1.fecha_inicio_pasada1 "
-							type="date"
-							name=" fecha_inicio_pasada1 "
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Número de paladas de guano primera pasada</label>
-							<input 	[(ngModel)]="dia1.num_paladas_guano1"
-							type="number"
-							name="num_paladas_guano1"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Peso promedio paladas primera pasada</label>
-							<input 	[(ngModel)]="dia1.peso_prom_paladas1"
-							type="number"
-							name="peso_prom_paladas1"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Peso total guano primera pasada</label>
-							<input 	[(ngModel)]="dia1.peso_total_guano1"
-							type="number"
-							name="peso_total_guano1"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Cantidad de Sulfato de Amonio</label>
-							<input 	[(ngModel)]="dia1.num_sulfato_amonio"
-							type="number"
-							name="num_sulfato_amonio"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Cantidad de Urea</label>
-							<input 	[(ngModel)]="dia1.num_urea"
-							type="number"
-							name="num_urea"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Cantidad de Yeso</label>
-							<input 	[(ngModel)]="dia1.num_yeso"
-							type="number"
-							name="num_yeso"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Fecha de término primera pasada</label>
-							<input 	[(ngModel)]="dia1.fecha_termino_pasada1"
-							type="date"
-							name="fecha_termino_pasada1"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Tiempo total primera pasada</label>
-							<input 	[(ngModel)]="dia1.tiempo_total_pasada1"
-							type="time"
-							name="tiempo_total_pasada1"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Fecha inicio segunda pasada</label>
-							<input 	[(ngModel)]="dia1.fecha_inicio_pasada2"
-							type="date"
-							name="fecha_inicio_pasada2"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Número de paladas de guano segunda pasada</label>
-							<input 	[(ngModel)]="dia1.num_paladas_guano2"
-							id="num_paladas_guano2"
-							type="number"
-							name="num_paladas_guano2"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Peso promedio paladas segunda pasada</label>
-							<input 	[(ngModel)]="dia1.peso_prom_paladas2"
-							id="peso_prom_paladas2"
-							type="number"
-							name="peso_prom_paladas2"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Peso total guano segunda pasada</label>
-							<input 	[(ngModel)]="dia1.peso_total_guano2"
-							id="peso_total_guano2"
-							type="number"
-							name="peso_total_guano2"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Fecha término segunda pasada</label>
-							<input 	[(ngModel)]="dia1.fecha_termino_pasada2"
-							id="fecha_termino_pasada2"
-							type="date"
-							name="fecha_termino_pasada2"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Tiempo total segunda pasada</label>
-							<input 	[(ngModel)]="dia1.tiempo_total_pasada2"
-							id="tiempo_total_pasada2"
-							type="time"
-							name="tiempo_total_pasada2"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Fecha inicio tercera pasada</label>
-							<input 	[(ngModel)]="dia1.fecha_inicio_pasada3"
-							type="date"
-							name="fecha_inicio_pasada3"
-							class="form-control"
-							required>
-						</div>
-
-						<div class="form-group">
-							<label>Número de paladas de guano tercera pasada</label>
-							<input 	[(ngModel)]="dia1.num_paladas_guano3"
-							type="number"
-							name="num_paladas_guano3"
-							class="form-control"
-							required>
-						</div>
-
-						<div class="form-group">
-							<label>Peso promedio paladas tercera pasada</label>
-							<input 	[(ngModel)]="dia1.peso_prom_paladas3"
-							type="number"
-							name="peso_prom_paladas3"
-							class="form-control"
-							required>
-						</div>
-
-						<div class="form-group">
-							<label>Peso total guano tercera pasada</label>
-							<input 	[(ngModel)]="dia1.peso_total_guano3"
-							type="number"
-							name="peso_total_guano3"
-							class="form-control"
-							required>
-						</div>
-
-						<div class="form-group">
-							<label>Temperatura</label>
-							<input 	[(ngModel)]="dia1.temperatura"
-							type="number"
-							name="temperatura"
-							class="form-control"
-							required>
-						</div>
-
-						<div class="form-group">
-							<label>Humedad</label>
-							<input 	[(ngModel)]="dia1.humedad"
-							type="number"
-							name="humedad"
-							class="form-control"
-							required>
-						</div>
-
-						<div class="form-group">
-							<label>Oxigeno</label>
-							<input 	[(ngModel)]="dia1.oxigeno"
-							type="number"
-							name="oxigeno"
-							class="form-control"
-							required>
-						</div>
-
-						<div class="form-group">
-							<label>Compostera usada</label>
-							<input 	[(ngModel)]="dia1.compostera_usada"
-							type="text"
-							name="compostera_usada"
-							class="form-control"
-							required>
-						</div>
-
-
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cerrar</button>
-						<button [disabled]="!forma.valid"
-						type="submit" class="btn btn-outline-primary">
-						Ingresar medición
-					</button>
-				</div>
 				</form>
-			</div>
-
-				<!-- - FIN DEL FORMULARIO DE LA DIA1-->
-
-			<!-- - INICIO FORMULARIO DEL DIA2-->
-				<div *ngIf="selectEtapa==7">
-								<form (ngSubmit)="guardarDia2()" #forma="ngForm">
-									<div class="card-body bg-light">
-										<div class="form-group">
-											<label>Fecha de inicio</label>
-											<input 	[(ngModel)]="dia2.fecha_inicio"
-											id="fecha_inicio"
-											type="date"
-											name="fecha_inicio"
-											class="form-control"
-											required>
-										</div>
-										<div class="form-group">
-											<label>Fecha de término</label>
-											<input 	[(ngModel)]="dia2.fecha_termino"
-											id="fecha_termino"
-											type="date"
-											name="fecha_termino"
-											class="form-control"
-											required>
-										</div>
-										<div class="form-group">
-											<label>Tiempo Total</label>
-											<input 	[(ngModel)]="dia2.tiempo_total"
-											id="tiempo_total"
-											type="time"
-											name="tiempo_total"
-											class="form-control"
-											required>
-										</div>
-										<div class="form-group">
-											<label>Caudal Inicial</label>
-											<input 	[(ngModel)]="dia2.caudal_inicial"
-											id="caudal_inicial"
-											type="number"
-											name="caudal_inicial"
-											class="form-control"
-											required>
-										</div>
-										<div class="form-group">
-											<label>Caudal Final</label>
-											<input 	[(ngModel)]="dia2.caudal_final"
-											id="caudal_final"
-											type="number"
-											name="caudal_final"
-											class="form-control"
-											required>
-										</div>
-										<div class="form-group">
-											<label>Litros de Agua Agregados</label>
-											<input 	[(ngModel)]="dia2.litros_agua_agregados"
-											id="litros_agua_agregados"
-											type="number"
-											name="litros_agua_agregados"
-											class="form-control"
-											required>
-										</div>
-										<div class="form-group">
-											<label>Litros Metro Lineal</label>
-											<input 	[(ngModel)]="dia2.litros_metro_lineal"
-											id="litros_metro_lineal"
-											type="number"
-											name="litros_metro_lineal"
-											class="form-control"
-											required>
-										</div>
-										<div class="form-group">
-											<label>Bajadas</label>
-											<input 	[(ngModel)]="dia2.bajadas"
-											id="bajadas"
-											type="number"
-											name="bajadas"
-											class="form-control"
-											required>
-										</div>
-										<div class="form-group">
-											<label>Temperatura</label>
-											<input 	[(ngModel)]="dia2.temperatura"
-											id="temperatura"
-											type="number"
-											name="temperatura"
-											class="form-control"
-											required>
-										</div>
-										<div class="form-group">
-											<label>Humedad</label>
-											<input 	[(ngModel)]="dia2.humedad"
-											id="humedad"
-											type="number"
-											name="humedad"
-											class="form-control"
-											required>
-										</div>
-										<div class="form-group">
-											<label>Oxigeno</label>
-											<input 	[(ngModel)]="dia2.oxigeno"
-											id="oxigeno"
-											type="number"
-											name="oxigeno"
-											class="form-control"
-											required>
-										</div>
-										<div class="form-group">
-											<label>Compostera Usada</label>
-											<input 	[(ngModel)]="dia2.compostera_usada"
-											id="compostera_usada"
-											type="text"
-											name="compostera_usada"
-											class="form-control"
-											required>
-										</div>
-
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cerrar</button>
-										<button [disabled]="!forma.valid"
-										type="submit" class="btn btn-outline-primary">
-										Ingresar medición
-									</button>
-								</div>
-								</form>
 				</div>
 
-				<!-- - FIN DEL FORMULARIO DE LA DIA2-->
+				<!-- - FIN DEL FORMULARIO DE LA ETAPA PISCINA HUMECTACION-->
 
 
-			<!-- - INICIO FORMULARIO DEL DIA3-->
-			<div *ngIf="selectEtapa==8">
-				<form (ngSubmit)="guardarDia3()" #forma="ngForm">
-					<div class="card-body bg-light">
-						<div class="form-group">
-							<label>Fecha de inicio</label>
-							<input 	[(ngModel)]="dia3.fecha_inicio"
-							type="date"
-							name="fecha_inicio"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Fecha de término</label>
-							<input 	[(ngModel)]="dia3.fecha_termino"
-							type="date"
-							name="fecha_termino"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Tiempo Total</label>
-							<input 	[(ngModel)]="dia3.tiempo_total"
-							type="time"
-							name="tiempo_total"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Temperatura</label>
-							<input 	[(ngModel)]="dia3.temperatura"
-							type="number"
-							name="temperatura"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Humedad</label>
-							<input 	[(ngModel)]="dia3.humedad"
-							type="number"
-							name="humedad"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Oxigeno</label>
-							<input 	[(ngModel)]="dia3.oxigeno"
-							type="number"
-							name="oxigeno"
-							class="form-control"
-							required>
-						</div>
-						<div class="form-group">
-							<label>Compostera Usada</label>
-							<input 	[(ngModel)]="dia3.compostera_usada"
-							type="text"
-							name="compostera_usada"
-							class="form-control"
-							required>
-						</div>
+				<!-- - INICIO DEL FORMULARIO DE LA ETAPA ARMADO CORDON-->
+				<div *ngIf="selectEtapa==5">
+					<form (ngSubmit)="guardarArmadoCordon(forma)" #forma="ngForm">
+						<div class="card-body bg-light">
+							<div class="form-group">
+								<label>Cantidad de paladas a compostera</label>
+								<input 	[(ngModel)]="armadoCordon.num_paladas_compostera"
+								type="number"
+								name="numPaladasReg"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Peso promedio paladas</label>
+								<input 	[(ngModel)]="armadoCordon.peso_promedio_paladas"
+								type="number"
+								name="pesoPromedioReg"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Peso total</label>
+								<input 	[(ngModel)]="armadoCordon.peso_total"
+								type="number"
+								name="pesoTotalReg"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Compostera usada</label>
+								<input 	[(ngModel)]="armadoCordon.compostera_usada"
+								type="text"
+								name="composteraReg"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Fecha de inicio</label>
+								<input 	[(ngModel)]="armadoCordon.fecha_inicio"
+								type="date"
+								name="fechaIni"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Fecha de termino</label>
+								<input 	[(ngModel)]="armadoCordon.fecha_termino"
+								type="date"
+								name="fechaTer"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Tiempo total</label>
+								<input 	[(ngModel)]="armadoCordon.tiempo_total"
+								type="time"
+								name="tiempo"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Altura cordón</label>
+								<input 	[(ngModel)]="armadoCordon.altura_cordon"
+								type="number"
+								name="altura"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Ancho cordón</label>
+								<input 	[(ngModel)]="armadoCordon.ancho_cordon"
+								type="number"
+								name="ancho"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Largo cordón</label>
+								<input 	[(ngModel)]="armadoCordon.largo_cordon"
+								type="number"
+								name="largo"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Temperatura</label>
+								<input 	[(ngModel)]="armadoCordon.temperatura"
+								type="number"
+								name="temperatura"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Humedad</label>
+								<input 	[(ngModel)]="armadoCordon.humedad"
+								type="number"
+								name="humedad"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Oxígeno</label>
+								<input 	[(ngModel)]="armadoCordon.oxigeno"
+								type="number"
+								name="oxigeno"
+								class="form-control"
+								required>
+							</div>
 
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cerrar</button>
+							<button [disabled]="!forma.valid"
+							type="submit" class="btn btn-outline-primary">
+							Ingresar medición
+						</button>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cerrar</button>
-						<button [disabled]="!forma.valid"
-						type="submit" class="btn btn-outline-primary">
-						Ingresar medición
-					</button>
+
+				</form>
 				</div>
-			</form>
-		</div>
+				<!-- - FIN DEL FORMULARIO DE LA ETAPA ARMADO CORDON-->
 
-		<!-- - FIN DEL FORMULARIO DE LA DIA3-->
+				<!-- - INICIO FORMULARIO DEL DIA1-->
+				<div *ngIf="selectEtapa==6">
+					<form (ngSubmit)="guardarDia1(forma)" #forma="ngForm">
+						<div class="card-body bg-light">
+							<div class="form-group">
+								<label>Fecha de inicio primera pasada</label>
+								<input 	[(ngModel)]="dia1.fecha_inicio_pasada1 "
+								type="date"
+								name=" fecha_inicio_pasada1 "
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Número de paladas de guano primera pasada</label>
+								<input 	[(ngModel)]="dia1.num_paladas_guano1"
+								type="number"
+								name="num_paladas_guano1"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Peso promedio paladas primera pasada</label>
+								<input 	[(ngModel)]="dia1.peso_prom_paladas1"
+								type="number"
+								name="peso_prom_paladas1"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Peso total guano primera pasada</label>
+								<input 	[(ngModel)]="dia1.peso_total_guano1"
+								type="number"
+								name="peso_total_guano1"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Cantidad de Sulfato de Amonio</label>
+								<input 	[(ngModel)]="dia1.num_sulfato_amonio"
+								type="number"
+								name="num_sulfato_amonio"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Cantidad de Urea</label>
+								<input 	[(ngModel)]="dia1.num_urea"
+								type="number"
+								name="num_urea"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Cantidad de Yeso</label>
+								<input 	[(ngModel)]="dia1.num_yeso"
+								type="number"
+								name="num_yeso"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Fecha de término primera pasada</label>
+								<input 	[(ngModel)]="dia1.fecha_termino_pasada1"
+								type="date"
+								name="fecha_termino_pasada1"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Tiempo total primera pasada</label>
+								<input 	[(ngModel)]="dia1.tiempo_total_pasada1"
+								type="time"
+								name="tiempo_total_pasada1"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Fecha inicio segunda pasada</label>
+								<input 	[(ngModel)]="dia1.fecha_inicio_pasada2"
+								type="date"
+								name="fecha_inicio_pasada2"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Número de paladas de guano segunda pasada</label>
+								<input 	[(ngModel)]="dia1.num_paladas_guano2"
+								id="num_paladas_guano2"
+								type="number"
+								name="num_paladas_guano2"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Peso promedio paladas segunda pasada</label>
+								<input 	[(ngModel)]="dia1.peso_prom_paladas2"
+								id="peso_prom_paladas2"
+								type="number"
+								name="peso_prom_paladas2"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Peso total guano segunda pasada</label>
+								<input 	[(ngModel)]="dia1.peso_total_guano2"
+								id="peso_total_guano2"
+								type="number"
+								name="peso_total_guano2"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Fecha término segunda pasada</label>
+								<input 	[(ngModel)]="dia1.fecha_termino_pasada2"
+								id="fecha_termino_pasada2"
+								type="date"
+								name="fecha_termino_pasada2"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Tiempo total segunda pasada</label>
+								<input 	[(ngModel)]="dia1.tiempo_total_pasada2"
+								id="tiempo_total_pasada2"
+								type="time"
+								name="tiempo_total_pasada2"
+								class="form-control"
+								required>
+							</div>
+							<div class="form-group">
+								<label>Fecha inicio tercera pasada</label>
+								<input 	[(ngModel)]="dia1.fecha_inicio_pasada3"
+								type="date"
+								name="fecha_inicio_pasada3"
+								class="form-control"
+								required>
+							</div>
 
-		<!-- - INICIO FORMULARIO DEL DIA4-->
-				<div *ngIf="selectEtapa==9">
-					<form (ngSubmit)="guardarDia4()" #forma="ngForm">
+							<div class="form-group">
+								<label>Número de paladas de guano tercera pasada</label>
+								<input 	[(ngModel)]="dia1.num_paladas_guano3"
+								type="number"
+								name="num_paladas_guano3"
+								class="form-control"
+								required>
+							</div>
+
+							<div class="form-group">
+								<label>Peso promedio paladas tercera pasada</label>
+								<input 	[(ngModel)]="dia1.peso_prom_paladas3"
+								type="number"
+								name="peso_prom_paladas3"
+								class="form-control"
+								required>
+							</div>
+
+							<div class="form-group">
+								<label>Peso total guano tercera pasada</label>
+								<input 	[(ngModel)]="dia1.peso_total_guano3"
+								type="number"
+								name="peso_total_guano3"
+								class="form-control"
+								required>
+							</div>
+
+							<div class="form-group">
+								<label>Temperatura</label>
+								<input 	[(ngModel)]="dia1.temperatura"
+								type="number"
+								name="temperatura"
+								class="form-control"
+								required>
+							</div>
+
+							<div class="form-group">
+								<label>Humedad</label>
+								<input 	[(ngModel)]="dia1.humedad"
+								type="number"
+								name="humedad"
+								class="form-control"
+								required>
+							</div>
+
+							<div class="form-group">
+								<label>Oxigeno</label>
+								<input 	[(ngModel)]="dia1.oxigeno"
+								type="number"
+								name="oxigeno"
+								class="form-control"
+								required>
+							</div>
+
+							<div class="form-group">
+								<label>Compostera usada</label>
+								<input 	[(ngModel)]="dia1.compostera_usada"
+								type="text"
+								name="compostera_usada"
+								class="form-control"
+								required>
+							</div>
+
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cerrar</button>
+							<button [disabled]="!forma.valid"
+							type="submit" class="btn btn-outline-primary">
+							Ingresar medición
+						</button>
+					</div>
+					</form>
+				</div>
+
+					<!-- - FIN DEL FORMULARIO DE LA DIA1-->
+
+				<!-- - INICIO FORMULARIO DEL DIA2-->
+					<div *ngIf="selectEtapa==7">
+									<form (ngSubmit)="guardarDia2(forma)" #forma="ngForm">
+										<div class="card-body bg-light">
+											<div class="form-group">
+												<label>Fecha de inicio</label>
+												<input 	[(ngModel)]="dia2.fecha_inicio"
+												id="fecha_inicio"
+												type="date"
+												name="fecha_inicio"
+												class="form-control"
+												required>
+											</div>
+											<div class="form-group">
+												<label>Fecha de término</label>
+												<input 	[(ngModel)]="dia2.fecha_termino"
+												id="fecha_termino"
+												type="date"
+												name="fecha_termino"
+												class="form-control"
+												required>
+											</div>
+											<div class="form-group">
+												<label>Tiempo Total</label>
+												<input 	[(ngModel)]="dia2.tiempo_total"
+												id="tiempo_total"
+												type="time"
+												name="tiempo_total"
+												class="form-control"
+												required>
+											</div>
+											<div class="form-group">
+												<label>Caudal Inicial</label>
+												<input 	[(ngModel)]="dia2.caudal_inicial"
+												id="caudal_inicial"
+												type="number"
+												name="caudal_inicial"
+												class="form-control"
+												required>
+											</div>
+											<div class="form-group">
+												<label>Caudal Final</label>
+												<input 	[(ngModel)]="dia2.caudal_final"
+												id="caudal_final"
+												type="number"
+												name="caudal_final"
+												class="form-control"
+												required>
+											</div>
+											<div class="form-group">
+												<label>Litros de Agua Agregados</label>
+												<input 	[(ngModel)]="dia2.litros_agua_agregados"
+												id="litros_agua_agregados"
+												type="number"
+												name="litros_agua_agregados"
+												class="form-control"
+												required>
+											</div>
+											<div class="form-group">
+												<label>Litros Metro Lineal</label>
+												<input 	[(ngModel)]="dia2.litros_metro_lineal"
+												id="litros_metro_lineal"
+												type="number"
+												name="litros_metro_lineal"
+												class="form-control"
+												required>
+											</div>
+											<div class="form-group">
+												<label>Bajadas</label>
+												<input 	[(ngModel)]="dia2.bajadas"
+												id="bajadas"
+												type="number"
+												name="bajadas"
+												class="form-control"
+												required>
+											</div>
+											<div class="form-group">
+												<label>Temperatura</label>
+												<input 	[(ngModel)]="dia2.temperatura"
+												id="temperatura"
+												type="number"
+												name="temperatura"
+												class="form-control"
+												required>
+											</div>
+											<div class="form-group">
+												<label>Humedad</label>
+												<input 	[(ngModel)]="dia2.humedad"
+												id="humedad"
+												type="number"
+												name="humedad"
+												class="form-control"
+												required>
+											</div>
+											<div class="form-group">
+												<label>Oxigeno</label>
+												<input 	[(ngModel)]="dia2.oxigeno"
+												id="oxigeno"
+												type="number"
+												name="oxigeno"
+												class="form-control"
+												required>
+											</div>
+											<div class="form-group">
+												<label>Compostera Usada</label>
+												<input 	[(ngModel)]="dia2.compostera_usada"
+												id="compostera_usada"
+												type="text"
+												name="compostera_usada"
+												class="form-control"
+												required>
+											</div>
+
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cerrar</button>
+											<button [disabled]="!forma.valid"
+											type="submit" class="btn btn-outline-primary">
+											Ingresar medición
+										</button>
+									</div>
+									</form>
+					</div>
+
+					<!-- - FIN DEL FORMULARIO DE LA DIA2-->
+
+
+				<!-- - INICIO FORMULARIO DEL DIA3-->
+				<div *ngIf="selectEtapa==8">
+					<form (ngSubmit)="guardarDia3(forma)" #forma="ngForm">
 						<div class="card-body bg-light">
 							<div class="form-group">
 								<label>Fecha de inicio</label>
-								<input 	[(ngModel)]="dia4.fecha_inicio"
+								<input 	[(ngModel)]="dia3.fecha_inicio"
 								type="date"
 								name="fecha_inicio"
 								class="form-control"
@@ -2033,7 +1960,7 @@
 							</div>
 							<div class="form-group">
 								<label>Fecha de término</label>
-								<input 	[(ngModel)]="dia4.fecha_termino"
+								<input 	[(ngModel)]="dia3.fecha_termino"
 								type="date"
 								name="fecha_termino"
 								class="form-control"
@@ -2041,55 +1968,39 @@
 							</div>
 							<div class="form-group">
 								<label>Tiempo Total</label>
-								<input 	[(ngModel)]="dia4.tiempo_total"
+								<input 	[(ngModel)]="dia3.tiempo_total"
 								type="time"
 								name="tiempo_total"
 								class="form-control"
 								required>
 							</div>
 							<div class="form-group">
-								<label>Caudal Inicial</label>
-								<input 	[(ngModel)]="dia4.caudal_inicial"
+								<label>Temperatura</label>
+								<input 	[(ngModel)]="dia3.temperatura"
 								type="number"
-								name="caudal_inicial"
+								name="temperatura"
 								class="form-control"
 								required>
 							</div>
 							<div class="form-group">
-								<label>Caudal Final</label>
-								<input 	[(ngModel)]="dia4.caudal_final"
+								<label>Humedad</label>
+								<input 	[(ngModel)]="dia3.humedad"
 								type="number"
 								name="humedad"
 								class="form-control"
 								required>
 							</div>
 							<div class="form-group">
-								<label>Litros de Agua Agregados</label>
-								<input 	[(ngModel)]="dia4.litros_agua_agregados"
+								<label>Oxigeno</label>
+								<input 	[(ngModel)]="dia3.oxigeno"
 								type="number"
-								name="litros_agua_agregados"
-								class="form-control"
-								required>
-							</div>
-							<div class="form-group">
-								<label>Litros por Metro Lineal</label>
-								<input 	[(ngModel)]="dia4.litros_metro_lineal"
-								type="number"
-								name="litros_metro_lineal"
-								class="form-control"
-								required>
-							</div>
-							<div class="form-group">
-								<label>Bajadas</label>
-								<input 	[(ngModel)]="dia4.bajadas"
-								type="number"
-								name="bajadas"
+								name="oxigeno"
 								class="form-control"
 								required>
 							</div>
 							<div class="form-group">
 								<label>Compostera Usada</label>
-								<input 	[(ngModel)]="dia4.compostera_usada"
+								<input 	[(ngModel)]="dia3.compostera_usada"
 								type="text"
 								name="compostera_usada"
 								class="form-control"
@@ -2104,199 +2015,84 @@
 							Ingresar medición
 						</button>
 					</div>
-					</form>
-			</div>
-		<!-- - FIN DEL FORMULARIO DE LA DIA4-->
-
-		<!-- - INICIO FORMULARIO DEL DIA5-->
-				<div *ngIf="selectEtapa==10">
-					<form (ngSubmit)="guardarDia5()" #forma="ngForm">
-						<div class="card-body bg-light">
-							<div class="form-group">
-								<label>Fecha de inicio</label>
-								<input 	[(ngModel)]="dia5.fecha_inicio"
-								type="date"
-								name="fecha_inicio"
-								class="form-control"
-								required>
-							</div>
-							<div class="form-group">
-								<label>Fecha de término</label>
-								<input 	[(ngModel)]="dia5.fecha_termino"
-								type="date"
-								name="fecha_termino"
-								class="form-control"
-								required>
-							</div>
-							<div class="form-group">
-								<label>Tiempo Total</label>
-								<input 	[(ngModel)]="dia5.tiempo_total"
-								type="time"
-								name="tiempo_total"
-								class="form-control"
-								required>
-							</div>
-							<div class="form-group">
-								<label>Bunker</label>
-								<input 	[(ngModel)]="dia5.bunker"
-								type="text"
-								name="bunker"
-								class="form-control"
-								required>
-							</div>
-							<div class="form-group">
-								<label>Número de Spigots</label>
-								<input 	[(ngModel)]="dia5.num_spigots"
-								type="number"
-								name="num_spigots"
-								class="form-control"
-								required>
-							</div>
-							<div class="form-group">
-								<label>Número de Paladas</label>
-								<input 	[(ngModel)]="dia5.num_paladas"
-								type="number"
-								name="num_paladas"
-								class="form-control"
-								required>
-							</div>
-							<div class="form-group">
-								<label>Peso Promedio Paladas</label>
-								<input 	[(ngModel)]="dia5.peso_prom_paladas"
-								type="number"
-								name="litros_metro_lineal"
-								class="form-control"
-								required>
-							</div>
-							<div class="form-group">
-								<label>Peso Total Llenado Bunker</label>
-								<input 	[(ngModel)]="dia5.peso_total_llenado_bunker"
-								type="number"
-								name="peso_total_llenado_bunker"
-								class="form-control"
-								required>
-							</div>
-							<div class="form-group">
-								<label>Peso Perdida Material</label>
-								<input 	[(ngModel)]="dia5.peso_perdida_material"
-								type="number"
-								name="peso_perdida_material"
-								class="form-control"
-								required>
-							</div>
-							<div class="form-group">
-								<label>Altura llenado</label>
-								<input 	[(ngModel)]="dia5.altura_llenado"
-								type="number"
-								name="altura_llenado"
-								class="form-control"
-								required>
-							</div>
-							<div class="form-group">
-								<label>Humedad</label>
-								<input 	[(ngModel)]="dia5.humedad"
-								type="number"
-								name="peso_perdida_material"
-								class="form-control"
-								required>
-							</div>
-							<div class="form-group">
-								<label>ph</label>
-								<input 	[(ngModel)]="dia5.ph"
-								type="number"
-								name="ph"
-								class="form-control"
-								required>
-							</div>
-
-
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cerrar</button>
-							<button [disabled]="!forma.valid"
-							type="submit" class="btn btn-outline-primary">
-							Ingresar medición
-						</button>
-					</div>
-					</form>
+				</form>
 			</div>
 
-					<!-- - FIN DEL FORMULARIO DE LA DIA 5-->
+			<!-- - FIN DEL FORMULARIO DE LA DIA3-->
 
-			<!-- - INICIO DEL FORMULARIO DE LA ETAPA HEAP-->
-			<div *ngIf="selectEtapa==11">
-
-						<form (ngSubmit)="guardarHeap()" #forma="ngForm">
+			<!-- - INICIO FORMULARIO DEL DIA4-->
+					<div *ngIf="selectEtapa==9">
+						<form (ngSubmit)="guardarDia4(forma)" #forma="ngForm">
 							<div class="card-body bg-light">
 								<div class="form-group">
-									<label>Cantidad de amoniaco</label>
-									<input 	[(ngModel)]="heap.amoniaco"
-									type="number"
-									name="amoniaco"
-									class="form-control"
-									required>
-								</div>
-								<div class="form-group">
-									<label>Fecha inicio Armado</label>
-									<input 	[(ngModel)]="heap.fecha_inicio_armado"
+									<label>Fecha de inicio</label>
+									<input 	[(ngModel)]="dia4.fecha_inicio"
 									type="date"
-									name="fecha_inicio_armado"
+									name="fecha_inicio"
 									class="form-control"
 									required>
 								</div>
 								<div class="form-group">
-									<label>Fecha término Armado</label>
-									<input 	[(ngModel)]="heap.fecha_termino_armado"
+									<label>Fecha de término</label>
+									<input 	[(ngModel)]="dia4.fecha_termino"
 									type="date"
-									name="fecha_termino_armado"
+									name="fecha_termino"
 									class="form-control"
 									required>
 								</div>
 								<div class="form-group">
-									<label>Altura</label>
-									<input 	[(ngModel)]="heap.altura_heap"
-									type="number"
-									name="altura"
+									<label>Tiempo Total</label>
+									<input 	[(ngModel)]="dia4.tiempo_total"
+									type="time"
+									name="tiempo_total"
 									class="form-control"
 									required>
 								</div>
 								<div class="form-group">
-									<label>Ancho</label>
-									<input 	[(ngModel)]="heap.ancho_heap"
+									<label>Caudal Inicial</label>
+									<input 	[(ngModel)]="dia4.caudal_inicial"
 									type="number"
-									name="ancho_heap"
+									name="caudal_inicial"
 									class="form-control"
 									required>
 								</div>
 								<div class="form-group">
-									<label>Largo</label>
-									<input 	[(ngModel)]="heap.largo_heap"
+									<label>Caudal Final</label>
+									<input 	[(ngModel)]="dia4.caudal_final"
 									type="number"
-									name="largo_heap"
+									name="humedad"
 									class="form-control"
 									required>
 								</div>
 								<div class="form-group">
-									<label>Número de Paladas</label>
-									<input 	[(ngModel)]="heap.num_paladas"
+									<label>Litros de Agua Agregados</label>
+									<input 	[(ngModel)]="dia4.litros_agua_agregados"
 									type="number"
-									name="num_paladas"
+									name="litros_agua_agregados"
 									class="form-control"
 									required>
 								</div>
 								<div class="form-group">
-									<label>Peso Promedio Paladas</label>
-									<input 	[(ngModel)]="heap.peso_prom_paladas"
+									<label>Litros por Metro Lineal</label>
+									<input 	[(ngModel)]="dia4.litros_metro_lineal"
 									type="number"
-									name="peso_prom_paladas"
+									name="litros_metro_lineal"
 									class="form-control"
 									required>
 								</div>
 								<div class="form-group">
-									<label>Peso Perdidas Material</label>
-									<input 	[(ngModel)]="heap.peso_perdida_material"
+									<label>Bajadas</label>
+									<input 	[(ngModel)]="dia4.bajadas"
 									type="number"
-									name="peso_perdida_material"
+									name="bajadas"
+									class="form-control"
+									required>
+								</div>
+								<div class="form-group">
+									<label>Compostera Usada</label>
+									<input 	[(ngModel)]="dia4.compostera_usada"
+									type="text"
+									name="compostera_usada"
 									class="form-control"
 									required>
 								</div>
@@ -2309,16 +2105,225 @@
 								Ingresar medición
 							</button>
 						</div>
+						</form>
+				</div>
+			<!-- - FIN DEL FORMULARIO DE LA DIA4-->
 
-					</form>
-					<!-- - FIN DEL FORMULARIO DE LA ETAPA HEAP-->
+			<!-- - INICIO FORMULARIO DEL DIA5-->
+					<div *ngIf="selectEtapa==10">
+						<form (ngSubmit)="guardarDia5(forma)" #forma="ngForm">
+							<div class="card-body bg-light">
+								<div class="form-group">
+									<label>Fecha de inicio</label>
+									<input 	[(ngModel)]="dia5.fecha_inicio"
+									type="date"
+									name="fecha_inicio"
+									class="form-control"
+									required>
+								</div>
+								<div class="form-group">
+									<label>Fecha de término</label>
+									<input 	[(ngModel)]="dia5.fecha_termino"
+									type="date"
+									name="fecha_termino"
+									class="form-control"
+									required>
+								</div>
+								<div class="form-group">
+									<label>Tiempo Total</label>
+									<input 	[(ngModel)]="dia5.tiempo_total"
+									type="time"
+									name="tiempo_total"
+									class="form-control"
+									required>
+								</div>
+								<div class="form-group">
+									<label>Bunker</label>
+									<input 	[(ngModel)]="dia5.bunker"
+									type="text"
+									name="bunker"
+									class="form-control"
+									required>
+								</div>
+								<div class="form-group">
+									<label>Número de Spigots</label>
+									<input 	[(ngModel)]="dia5.num_spigots"
+									type="number"
+									name="num_spigots"
+									class="form-control"
+									required>
+								</div>
+								<div class="form-group">
+									<label>Número de Paladas</label>
+									<input 	[(ngModel)]="dia5.num_paladas"
+									type="number"
+									name="num_paladas"
+									class="form-control"
+									required>
+								</div>
+								<div class="form-group">
+									<label>Peso Promedio Paladas</label>
+									<input 	[(ngModel)]="dia5.peso_prom_paladas"
+									type="number"
+									name="litros_metro_lineal"
+									class="form-control"
+									required>
+								</div>
+								<div class="form-group">
+									<label>Peso Total Llenado Bunker</label>
+									<input 	[(ngModel)]="dia5.peso_total_llenado_bunker"
+									type="number"
+									name="peso_total_llenado_bunker"
+									class="form-control"
+									required>
+								</div>
+								<div class="form-group">
+									<label>Peso Perdida Material</label>
+									<input 	[(ngModel)]="dia5.peso_perdida_material"
+									type="number"
+									name="peso_perdida_material"
+									class="form-control"
+									required>
+								</div>
+								<div class="form-group">
+									<label>Altura llenado</label>
+									<input 	[(ngModel)]="dia5.altura_llenado"
+									type="number"
+									name="altura_llenado"
+									class="form-control"
+									required>
+								</div>
+								<div class="form-group">
+									<label>Humedad</label>
+									<input 	[(ngModel)]="dia5.humedad"
+									type="number"
+									name="peso_perdida_material"
+									class="form-control"
+									required>
+								</div>
+								<div class="form-group">
+									<label>ph</label>
+									<input 	[(ngModel)]="dia5.ph"
+									type="number"
+									name="ph"
+									class="form-control"
+									required>
+								</div>
+
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cerrar</button>
+								<button [disabled]="!forma.valid"
+								type="submit" class="btn btn-outline-primary">
+								Ingresar medición
+							</button>
+						</div>
+						</form>
 				</div>
 
-	</div>
-</div>
-</div>
-	</div>
+						<!-- - FIN DEL FORMULARIO DE LA DIA 5-->
 
+				<!-- - INICIO DEL FORMULARIO DE LA ETAPA HEAP-->
+				<div *ngIf="selectEtapa==11">
+
+							<form (ngSubmit)="guardarHeap(forma)" #forma="ngForm">
+								<div class="card-body bg-light">
+									<div class="form-group">
+										<label>Cantidad de amoniaco</label>
+										<input 	[(ngModel)]="heap.amoniaco"
+										type="number"
+										name="amoniaco"
+										class="form-control"
+										required>
+									</div>
+									<div class="form-group">
+										<label>Fecha inicio Armado</label>
+										<input 	[(ngModel)]="heap.fecha_inicio_armado"
+										type="date"
+										name="fecha_inicio_armado"
+										class="form-control"
+										required>
+									</div>
+									<div class="form-group">
+										<label>Fecha término Armado</label>
+										<input 	[(ngModel)]="heap.fecha_termino_armado"
+										type="date"
+										name="fecha_termino_armado"
+										class="form-control"
+										required>
+									</div>
+									<div class="form-group">
+										<label>Altura</label>
+										<input 	[(ngModel)]="heap.altura_heap"
+										type="number"
+										name="altura"
+										class="form-control"
+										required>
+									</div>
+									<div class="form-group">
+										<label>Ancho</label>
+										<input 	[(ngModel)]="heap.ancho_heap"
+										type="number"
+										name="ancho_heap"
+										class="form-control"
+										required>
+									</div>
+									<div class="form-group">
+										<label>Largo</label>
+										<input 	[(ngModel)]="heap.largo_heap"
+										type="number"
+										name="largo_heap"
+										class="form-control"
+										required>
+									</div>
+									<div class="form-group">
+										<label>Número de Paladas</label>
+										<input 	[(ngModel)]="heap.num_paladas"
+										type="number"
+										name="num_paladas"
+										class="form-control"
+										required>
+									</div>
+									<div class="form-group">
+										<label>Peso Promedio Paladas</label>
+										<input 	[(ngModel)]="heap.peso_prom_paladas"
+										type="number"
+										name="peso_prom_paladas"
+										class="form-control"
+										required>
+									</div>
+									<div class="form-group">
+										<label>Peso Perdidas Material</label>
+										<input 	[(ngModel)]="heap.peso_perdida_material"
+										type="number"
+										name="peso_perdida_material"
+										class="form-control"
+										required>
+									</div>
+
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cerrar</button>
+									<button [disabled]="!forma.valid"
+									type="submit" class="btn btn-outline-primary">
+									Ingresar medición
+								</button>
+							</div>
+
+						</form>
+						<!-- - FIN DEL FORMULARIO DE LA ETAPA HEAP-->
+					</div>
+
+		</div>
+	</div>
+	</div>
+		</div>
+
+	</div>
+	</div>
+	</div>
 </div>
-</div>
+<div *ngIf="!sesion || permisos[0]=='0'" class="text-center mx-auto col-6 alert alert-danger">
+	Usted no tiene acceso a esta sección
 </div>

@@ -1,6 +1,5 @@
 import { Component,OnInit } from '@angular/core';
-import {LoginService} from './servicios/login.service';
-import {Usuario} from './clases/usuario';
+import { Usuario } from './clases/usuario';
 
 @Component({
   selector: 'app-root',
@@ -10,34 +9,14 @@ import {Usuario} from './clases/usuario';
 export class AppComponent {
   title = 'proyectobdmweb';
 
-  public getPagina(){
-      return location.pathname.replace("/","");
-  }
-
-  constructor(private loginService:LoginService){
+  constructor(){
 
   }
-  public getUsuarioLogueado():Usuario{
-  	return this.loginService.getUsuario();
-  }
- //public data = [
- //       {name: 'therichpost', email: 'therichpost@gmail.com', website:'therichpost.com'},
- //       {name: 'therichpost', email: 'therichpost@gmail.com', website:'therichpost.com'},
- //       {name: 'therichpost', email: 'therichpost@gmail.com', website:'therichpost.com'},
- //       {name: 'therichpost', email: 'therichpost@gmail.com', website:'therichpost.com'},
- //   ];
 
-      //title = 'angulardatatables';
-      dtOptions: DataTables.Settings = {};
-      ngOnInit() {
-        this.dtOptions = {
-          pagingType: 'full_numbers',
-          pageLength: 5,
-          order:[[0, 'asc']],
-          processing: true
-        };
-    }
+
+  ngOnInit() {
+
+
+  }
 
 }
-
-//de Aca nuevo codigo para datatable

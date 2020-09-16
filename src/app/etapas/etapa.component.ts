@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Etapa } from '../interfaces/etapa.interfaces';
 import { EtapaService } from '../servicios/etapa.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-etapa',
@@ -17,10 +18,13 @@ export class EtapaComponent implements OnInit {
 
 	nuevo:boolean = false;
 	id:string;
+  sesion:boolean;
+  permisos:string;
 
   constructor(private etapaService:EtapaService,
   			  private router:Router,
-  			  private activatedRoute:ActivatedRoute ) {
+  			  private activatedRoute:ActivatedRoute,
+          private cookieService: CookieService) {
   			this.activatedRoute.params.subscribe(parametros=>{
   				this.id = parametros['id'];
   			})
@@ -28,7 +32,11 @@ export class EtapaComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.sesion = this.cookieService.check('Usuario');
 
+    if (this.sesion) {
+      this.permisos = this.cookieService.get('Permisos');
+    }
   }
 
   guardar( FormEtapa : NgForm ) :void {

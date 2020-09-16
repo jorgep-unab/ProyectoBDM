@@ -1,63 +1,114 @@
-<h3 align="center">Modifica Usuario</h3>
-<hr>
+<div *ngIf="sesion && permisos[5]=='1'">
+	<h3 align="center">Modifica Usuario</h3>
+	<hr>
 
-<div class="container">
-<div class="row">
-	<div *ngIf="UsuarioSelecto" class="col-md-12">
-		
-		<form (ngSubmit)="guardarMod(forma1)" #forma1="ngForm">
-			
-			<div class="form-group">
-				<label>Nombre</label>
-				<input 	[(ngModel)]="UsuarioSelecto.nombre"
-						type="text" 
-						name="nombre"
-						class="form-control"
-						placeholder=""
-						required>
-			</div>
-			<div class="form-group">
-				<label>Email</label>
-				<input 	[(ngModel)]="UsuarioSelecto.email"
-						type="text" 
-						name="email"
-						class="form-control"
-						placeholder=""
-						required>
-			</div>
-			<div class="form-group">
-				<label>Clave</label>
-				<input 	[(ngModel)]="UsuarioSelecto.clave"
-						type="password" 
-						name="clave"
-						class="form-control"
-						placeholder=""
-						required>
-			</div>
-			<div class="form-group">
-				<label>Permisos</label>
-				<input 	[(ngModel)]="UsuarioSelecto.permisos"
-						type="text"
-						name="permiso"
-						class="form-control"
-						placeholder="">
-			</div>
-				<!-- <input 	[(ngModel)]="usuario.key"
-						type="text" 
-						id="key"
-						name="key"> -->
-			<div class="form-group">
-				<button [disabled]="!forma1.valid" 
-					type="submit" class="btn btn-outline-primary">
-					Guardar cambios 
-				</button>
-				<button [routerLink]="['/usuarios']" class="btn btn-outline-danger">
-					Regresar 
-				</button>
-			</div>
-		</form>
+	<div class="container">
+	<div class="row">
+		<div *ngIf="UsuarioSelecto" class="col-md-12">
+
+			<form (ngSubmit)="guardarMod(forma1)" #forma1="ngForm">
+
+				<div class="form-group">
+					<label>Nombre</label>
+					<input 	[(ngModel)]="UsuarioSelecto.nombre"
+							type="text"
+							name="nombre"
+							class="form-control"
+							placeholder=""
+							required>
+				</div>
+				<div class="form-group">
+					<label>Email</label>
+					<input 	[(ngModel)]="UsuarioSelecto.email"
+							type="text"
+							name="email"
+							class="form-control"
+							placeholder=""
+							required>
+				</div>
+				<div class="form-group">
+					<label>Clave</label>
+					<input 	[(ngModel)]="UsuarioSelecto.clave"
+							type="password"
+							name="clave"
+							class="form-control"
+							placeholder=""
+							required>
+				</div>
+				<div class="form-group">
+					<label>Permisos</label>
+					<ul class="list-unstyled">
+						<li><div class="form-check">
+						  <input class="form-check-input"
+							[(ngModel)]="permisoCrops"
+							type="checkbox" id="permisoCropsCbx" name="permisoCropsCbx">
+						  <label class="form-check-label" for="permisoCropsCbx">
+						    Acceso a menús de Crops
+						  </label>
+						</div></li>
+
+						<li><div class="form-check">
+						  <input class="form-check-input"
+							[(ngModel)]="permisoEtapas"
+							type="checkbox" id="permisoEtapasCbx" name="permisoEtapasCbx">
+						  <label class="form-check-label" for="permisoEtapasCbx">
+						    Acceso a menús de Etapas
+						  </label>
+						</div></li>
+
+						<li><div class="form-check">
+						  <input class="form-check-input"
+							[(ngModel)]="permisoInformes"
+							type="checkbox" id="permisoInformesCbx" name="permisoInformesCbx">
+						  <label class="form-check-label" for="permisoInformesCbx">
+						    Acceso a menús de Informes
+						  </label>
+						</div></li>
+
+						<li><div class="form-check">
+						  <input class="form-check-input"
+							[(ngModel)]="permisoAnalisis"
+							type="checkbox" id="permisoAnalisisCbx" name="permisoAnalisisCbx">
+						  <label class="form-check-label" for="permisoAnalisisCbx">
+						    Acceso a menús de Análisis
+						  </label>
+						</div></li>
+
+						<li><div class="form-check">
+						  <input class="form-check-input"
+							[(ngModel)]="permisoGraficos"
+							type="checkbox" id="permisoGraficosCbx" name="permisoGraficosCbx">
+						  <label class="form-check-label" for="permisoGraficosCbx">
+						    Acceso a menús de Gráficos
+						  </label>
+						</div></li>
+
+						<li><div class="form-check">
+						  <input class="form-check-input"
+							[(ngModel)]="permisoUsuarios"
+							type="checkbox" id="permisoUsuariosCbx" name="permisoUsuariosCbx">
+						  <label class="form-check-label" for="permisoUsuariosCbx">
+						    Acceso a menús de Usuarios
+						  </label>
+						</div></li>
+
+					</ul>
+				</div>
+				<div class="form-group">
+					<button [disabled]="!forma1.valid"
+						type="submit" class="btn btn-outline-primary">
+						Guardar cambios
+					</button>
+					<button [routerLink]="['/usuarios']" class="btn btn-outline-danger">
+						Regresar
+					</button>
+				</div>
+			</form>
+		</div>
+
 	</div>
-
+	</div>
 </div>
+<div *ngIf="!sesion || permisos[5]=='0'" class="text-center mx-auto col-6 alert alert-danger">
+	Usted no tiene acceso a esta sección
 </div>
-

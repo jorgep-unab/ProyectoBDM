@@ -1,5 +1,5 @@
 
-<div class="container main-container">
+<div *ngIf="sesion && permisos[1]=='1'" class="container main-container">
 
 <h4 class="animated fadeIn fast" align="center">Mantención de Etapas</h4>
 <hr>
@@ -17,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let etapa of etapas">
+            <tr *ngFor="let etapa of etapasGet">
               	<td>{{ etapa.id }}</td>
 								<td>{{ etapa.nombre }}</td>
 								<td><a [routerLink]="['/modetapa',etapa.id]"
@@ -29,5 +29,19 @@
             </tr>
         </tbody>
     </table>
+		<div class="d-flex justify-content-between p-2 mx-auto col-lg-8 col-md-10 col-sm-12">
+	  	<ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" [maxSize]="maxSize">
+	  	</ngb-pagination>
 
+	  	<select class="custom-select" style="width: auto" [(ngModel)]="pageSize">
+	    	<option [ngValue]="2">2 items per page</option>
+	    	<option [ngValue]="4">4 items per page</option>
+	    	<option [ngValue]="6">6 items per page</option>
+				<option [ngValue]="10">10 items per page</option>
+	  	</select>
+		</div>
+
+</div>
+<div *ngIf="!sesion || permisos[1]=='0'" class="text-center mx-auto col-6 alert alert-danger">
+	Usted no tiene acceso a esta sección
 </div>

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from '../interfaces/usuario.interfaces';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { sha512 } from 'js-sha512'
 
 @Injectable({
   providedIn: 'root'
@@ -22,10 +23,18 @@ export class UsuarioService {
   	  	'Content-type':'application/json'
   	  });
 
-  	  return this.http.post(this.usuarioURL, usuario, { headers } );
+      //Encriptacion de la contraseña
+      var temp = {
+        nombre:usuario.nombre,
+        email:usuario.email,
+        clave:usuario.clave,
+        permisos:usuario.permisos
 
-  	  console.log('Viene de Nuevousuario');
-  	  console.log(JSON.stringify(usuario));
+      };
+
+      temp.clave = sha512(temp.clave);
+
+  	  return this.http.post(this.usuarioURL, temp, { headers } );
 
   }
 
@@ -34,9 +43,21 @@ export class UsuarioService {
   		let headers = new HttpHeaders({
   	  	'Content-type':'application/json'
   	  });
-      usuario.key = +key$;
+
+      var temp = {
+        key:null,
+        id:usuario.id,
+        nombre:usuario.nombre,
+        email:usuario.email,
+        clave:usuario.clave,
+        permisos:usuario.permisos
+      };
+
+      temp.clave = sha512(temp.clave);
+
+      temp.key = +key$;
   	  //return this.http.put(this.usuariModURL, usuario, { headers } );
-      return this.http.post('http://localhost:8080/apibdm/usuarios/modificau.php', usuario,{ headers } );
+      return this.http.post('http://localhost:8080/apibdm/usuarios/modificau.php', temp,{ headers } );
 
   }
 

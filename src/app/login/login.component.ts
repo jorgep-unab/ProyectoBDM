@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {LoginService} from '../servicios/login.service';
+import { LoginService } from '../servicios/login.service';
+import { CookieService } from 'ngx-cookie-service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -12,19 +14,43 @@ export class LoginComponent implements OnInit {
   correo:string;
   clave:string;
   error:string;
-  constructor(private router:Router, private loginService:LoginService) { }
+  sesion:boolean;
+  sub:Subscription;
+
+
+  constructor(private router:Router,
+              private loginService:LoginService,
+              private cookieService: CookieService) { }
 
   ngOnInit() {
-  }
-  iniciarSesion(){
-  	console.log("correo" + this.correo);
-  	console.log("clave" + this.clave);
-  	if(this.correo == "jorge@bmauco.cl" && this.clave=="123456"){
-      this.loginService.loguear(this.correo,this.clave);
-  		this.router.navigate(["/home"]);
-  	} else {
-  		this.error = "Login incorrecto";
-  	}
+
+    if (this.cookieService.check('Usuario')) {
+      this.router.navigate(['/home']);
+    }
+
+    this.sub = this.loginService.getEmitter().subscribe((logeado) => {
+
+      this.sesion = logeado;
+      if (this.sesion) {
+        this.router.navigate(['/home']);
+      }
+
+    });
+
+
   }
 
+  ngOnDestroy() {
+   if (this.sub) {
+      this.sub.unsubscribe()
+    }
+  }
+
+  iniciarSesion(){
+
+    this.loginService.loguear(this.correo,this.clave);
+    if (!this.sesion) {
+        this.error = "Login incorrecto";
+    }
+  }
 }

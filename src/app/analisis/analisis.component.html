@@ -1,7 +1,225 @@
-<div class="container main-container" align="center">
+<div *ngIf="sesion && permisos[3]=='1'" class="container main-container" align="center">
    
-   <h3>Analisis de Crops</h3>	
+   <h4>Analisis de Crops</h4>	
    <hr>
 
-</div>
+   <div class="row">
+      <div class="card col-12">
+         <div class="card-header bg-primary text-light">
+            <h5>Ingrese los datos para el análisis</h5>  
+         </div>
+         <div class="card-body">
+            
+            <form #forma="ngForm">
+               
+               <div class="row">
+                  
+                  <div class="col-3 mx-auto">
+                     <div class="form-group">
+                        <label>pH (Etapa Purin)</label>
+                        <input [(ngModel)]="datos.pHPurin"
+                              type="number"
+                              name="pHPurin"
+                              class="form-control"
+                              placeholder="0"
+                              required>
+                     </div>
+                     <div class="form-group">
+                        <label>Nitrógeno</label>
+                        <input [(ngModel)]="datos.nitrogeno"
+                              type="number"
+                              name="nitrogeno"
+                              class="form-control"
+                              placeholder="0"
+                              required>
+                     </div>
+                     <div class="form-group">
+                        <label>Cantidad de fardos</label>
+                        <input [(ngModel)]="datos.fardos"
+                              type="number"
+                              name="fardos"
+                              class="form-control"
+                              placeholder="0"
+                              required>
+                     </div>
+                     <div class="form-group">
+                        <label>Temperatura</label>
+                        <input [(ngModel)]="datos.temperatura"
+                              type="number"
+                              name="temperatura"
+                              class="form-control"
+                              placeholder="0"
+                              required>
+                     </div>
+                  </div>                 
 
+                  <div class="col-3 mx-auto">
+                     <div class="form-group">
+                        <label>Humedad</label>
+                        <input [(ngModel)]="datos.humedad"
+                              type="number"
+                              name="humedad"
+                              class="form-control"
+                              placeholder="0"
+                              required>
+                     </div>
+                     <div class="form-group">
+                        <label>Oxígeno</label>
+                        <input [(ngModel)]="datos.oxigeno"
+                              type="number"
+                              name="oxigeno"
+                              class="form-control"
+                              placeholder="0"
+                              required>
+                     </div>
+                     <div class="form-group">
+                        <label>Litros humectación asistida</label>
+                        <input [(ngModel)]="datos.litros_humectacion"
+                              type="number"
+                              name="litros_humectacion"
+                              class="form-control"
+                              placeholder="0"
+                              required>
+                     </div>
+                     <div class="form-group">
+                        <label>Horas en piscina</label>
+                        <input [(ngModel)]="datos.horas_piscina"
+                              type="number"
+                              name="horas_piscina"
+                              class="form-control"
+                              placeholder="0"
+                              required>
+                     </div>
+                  </div>
+
+                  <div class="col-3 mx-auto">
+                     <div class="form-group">
+                        <label>Guano fresco</label>
+                        <input [(ngModel)]="datos.guano_1"
+                              type="number"
+                              name="guano_1"
+                              class="form-control"
+                              placeholder="0"
+                              required>
+                     </div>
+                     <div class="form-group">
+                        <label>Guano reproductora</label>
+                        <input [(ngModel)]="datos.guano_2"
+                              type="number"
+                              name="guano_2"
+                              class="form-control"
+                              placeholder="0"
+                              required>
+                     </div>
+                     <div class="form-group">
+                        <label>Guano tercera pasada</label>
+                        <input [(ngModel)]="datos.guano_3"
+                              type="number"
+                              name="guano_3"
+                              class="form-control"
+                              placeholder="0"
+                              required>
+                     </div>
+                     <div class="form-group">
+                        <label>Sulfato de Amonio</label>
+                        <input [(ngModel)]="datos.sulfato_amonio"
+                              type="number"
+                              name="sulfato_amonio"
+                              class="form-control"
+                              placeholder="0"
+                              required>
+                     </div>
+                  </div>
+
+                  <div class="col-3 mx-auto">
+                     <div class="form-group">
+                        <label>Urea</label>
+                        <input [(ngModel)]="datos.urea"
+                              type="number"
+                              name="urea"
+                              class="form-control"
+                              placeholder="0"
+                              required>
+                     </div>
+                     <div class="form-group">
+                        <label>Yeso</label>
+                        <input [(ngModel)]="datos.yeso"
+                              type="number"
+                              name="yeso"
+                              class="form-control"
+                              placeholder="0"
+                              required>
+                     </div>
+                     <div class="form-group">
+                        <label>pH (Día 5 FB)</label>
+                        <input [(ngModel)]="datos.pHDia5"
+                              type="number"
+                              name="phDia5"
+                              class="form-control"
+                              placeholder="0"
+                              required>
+                     </div>
+                     <div class="form-group">
+                        <label>Amoníaco</label>
+                        <input [(ngModel)]="datos.amoniaco"
+                              type="number"
+                              name="amoniaco"
+                              class="form-control"
+                              placeholder="0"
+                              required>
+                     </div>
+                  </div>
+
+               </div>          
+            </form>
+            <div class="row">
+               <div class="text-left col-6">
+                  <button [disabled]="!forma.valid" *ngIf="!analizado"
+                     (click)="generarRegresion()"
+                     class="btn btn-outline-primary">
+                     Realizar análisis
+                  </button>
+               </div>
+               <div *ngIf="analizado" class="text-right col-6">
+                  <button (click)="calcularRendimiento()"
+                     class="btn btn-outline-success">
+                     Calcular rendimiento
+                  </button>
+               </div>
+                                    
+            </div>
+         </div>
+      </div>
+      
+      <div *ngIf="cargando" class="text-center mt-3 col-12">
+         <div>
+            <div class="spinner-border text-primary" role="status">     
+            </div>
+            <h5>Realizando análisis...</h5>
+         </div>
+      </div>
+      <div class="card col-12">
+         <div *ngIf="calculado" class="card-header bg-success text-light row">
+            <div *ngIf="regMin!=0" class="text-left col-12">
+               <h5>Registros analizados: {{regMin}}</h5>
+               <hr>
+               <h5>Rendimiento esperado: {{rendimiento}}</h5>        
+            </div>                  
+         </div>
+         <div *ngIf="analizado && regMin==0" class="text-left col-12">
+            <h5>No hay registros suficientes para analizar</h5>       
+         </div>  
+      </div>
+      
+      
+      
+
+   </div>
+
+   
+   
+
+</div>
+<div *ngIf="!sesion || permisos[3]=='0'" class="text-center mx-auto col-6 alert alert-danger">
+	Usted no tiene acceso a esta sección
+</div>

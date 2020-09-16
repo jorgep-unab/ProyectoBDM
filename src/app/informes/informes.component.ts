@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 
 
 //Interfaces
@@ -42,8 +43,8 @@ export class InformesComponent implements OnInit {
     nombre:""
   }
 
-
-
+  sesion:boolean;
+  permisos:string;
 
   public Crops:any =[];
   public Etapas:any =[];
@@ -87,22 +88,29 @@ export class InformesComponent implements OnInit {
   public mostrarTabla:boolean = false;
 
 
-  constructor(public cropsService:CropsService,
-    public etapasService:EtapasService,
-    public purinService:PurinService,
-    public mojadoFardosService:MojadoFardosService,
-    public estacionadoFardosService:EstacionadoFardosService,
-    public piscinaHumectacionService:PiscinaHumectacionService,
-    public armadoCordonService:ArmadoCordonService,
-    public dia1Service:Dia1Service,
-    public dia2Service:Dia2Service,
-    public dia3Service:Dia3Service,
-    public dia4Service:Dia4Service,
-    public dia5Service:Dia5Service,
-    public heapService:HeapService,
-    public exportService:ExportService) { }
+  constructor(private cropsService:CropsService,
+    private etapasService:EtapasService,
+    private purinService:PurinService,
+    private mojadoFardosService:MojadoFardosService,
+    private estacionadoFardosService:EstacionadoFardosService,
+    private piscinaHumectacionService:PiscinaHumectacionService,
+    private armadoCordonService:ArmadoCordonService,
+    private dia1Service:Dia1Service,
+    private dia2Service:Dia2Service,
+    private dia3Service:Dia3Service,
+    private dia4Service:Dia4Service,
+    private dia5Service:Dia5Service,
+    private heapService:HeapService,
+    private exportService:ExportService,
+    private cookieService: CookieService) { }
 
     ngOnInit() {
+
+      this.sesion = this.cookieService.check('Usuario');
+
+      if (this.sesion) {
+        this.permisos = this.cookieService.get('Permisos');
+      }
 
       this.etapasService.getAll().subscribe(respuesta=>{
 

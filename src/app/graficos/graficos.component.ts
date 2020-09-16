@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { ChartDataSets, ChartOptions } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
+import { CookieService } from 'ngx-cookie-service';
 
 //Interfaces
 import { Crop } from '../interfaces/crop.interfaces';
@@ -31,7 +32,21 @@ import { ExportService } from '../servicios/export.service';
 })
 export class GraficosComponent implements OnInit {
 
-
+  constructor(private cropsService:CropsService,
+    private etapasService:EtapasService,
+    private purinService:PurinService,
+    private mojadoFardosService:MojadoFardosService,
+    private estacionadoFardosService:EstacionadoFardosService,
+    private piscinaHumectacionService:PiscinaHumectacionService,
+    private armadoCordonService:ArmadoCordonService,
+    private dia1Service:Dia1Service,
+    private dia2Service:Dia2Service,
+    private dia3Service:Dia3Service,
+    private dia4Service:Dia4Service,
+    private dia5Service:Dia5Service,
+    private heapService:HeapService,
+    private exportService:ExportService,
+    private cookieService: CookieService) { }
 
 
     //OBJETOS
@@ -85,6 +100,8 @@ export class GraficosComponent implements OnInit {
     idReg:any;
     public limiteRegistro:boolean;
     public mostrarGraficos:boolean = false;
+    sesion:boolean;
+    permisos:string;
 
 
     //Elementos para Gráficos
@@ -225,22 +242,14 @@ export class GraficosComponent implements OnInit {
     public graficosChartType = 'line';
 
 
-    constructor(public cropsService:CropsService,
-      public etapasService:EtapasService,
-      public purinService:PurinService,
-      public mojadoFardosService:MojadoFardosService,
-      public estacionadoFardosService:EstacionadoFardosService,
-      public piscinaHumectacionService:PiscinaHumectacionService,
-      public armadoCordonService:ArmadoCordonService,
-      public dia1Service:Dia1Service,
-      public dia2Service:Dia2Service,
-      public dia3Service:Dia3Service,
-      public dia4Service:Dia4Service,
-      public dia5Service:Dia5Service,
-      public heapService:HeapService,
-      public exportService:ExportService) { }
 
     ngOnInit() {
+
+      this.sesion = this.cookieService.check('Usuario');
+
+      if (this.sesion) {
+        this.permisos = this.cookieService.get('Permisos');
+      }
 
       this.etapasService.getAll().subscribe(respuesta=>{
 

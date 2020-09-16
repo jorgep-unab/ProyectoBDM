@@ -4,6 +4,7 @@ import { Usuario } from '../interfaces/usuario.interfaces';
 import { UsuarioService } from '../servicios/usuario.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UsuariosService } from '../servicios/usuarios.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-modusuario',
@@ -12,51 +13,76 @@ import { UsuariosService } from '../servicios/usuarios.service';
 })
 export class ModusuarioComponent implements OnInit {
 
-  usuario:Usuario = {
-    key:0,
-    nombre:'',
-    email:'',
-    clave:'',
-    permiso:''
-  }
 
-  public UsuarioSelecto:any;
+  UsuarioSelecto:any;
   id:string;
+  permisoCrops:boolean;
+  permisoEtapas:boolean;
+  permisoInformes:boolean;
+  permisoAnalisis:boolean;
+  permisoGraficos:boolean;
+  permisoUsuarios:boolean;
 
-  constructor(public usuariosService:UsuariosService,
-          public usuarioService:UsuarioService,
-  			  public router:Router,
-  			  public ruta:ActivatedRoute ) {
+  sesion:boolean;
+  permisos:string;
+
+  constructor(private usuariosService:UsuariosService,
+          private usuarioService:UsuarioService,
+  			  private router:Router,
+  			  private ruta:ActivatedRoute,
+          private cookieService: CookieService) {
 
   }
 
   ngOnInit() {
 
-  this.ruta.params.subscribe( parametros=>{
-      // Trae el usuario seleccionado
-      this.usuariosService.getONE(parametros.id).subscribe(respuesta=>{
-        this.UsuarioSelecto = respuesta[0];
+    this.sesion = this.cookieService.check('Usuario');
+
+    if (this.sesion) {
+      this.permisos = this.cookieService.get('Permisos');
+    }
+
+    this.permisoCrops=false;
+    this.permisoEtapas=false;
+    this.permisoInformes=false;
+    this.permisoAnalisis=false;
+    this.permisoGraficos=false;
+    this.permisoUsuarios=false;
+
+    this.ruta.params.subscribe( parametros=>{
+        // Trae el usuario seleccionado
+        this.usuariosService.getONE(parametros.id).subscribe(respuesta=>{
+          this.UsuarioSelecto = respuesta[0];
+          this.UsuarioSelecto.clave = "";
+          });
+
         });
 
-      });
-
-			}
+	}
 
   guardarMod( FormUsuarioM : NgForm ) :void {
+
       // Modifica el Usuario
-      console.log("ACa va le formulario", FormUsuarioM);
-      this.usuario = FormUsuarioM.value;
+
+      this.UsuarioSelecto.permisos="";
+
+      this.UsuarioSelecto.permisos = this.UsuarioSelecto.permisos.concat((this.permisoCrops ? "1":"0"));
+      this.UsuarioSelecto.permisos = this.UsuarioSelecto.permisos.concat((this.permisoEtapas ? "1":"0"));
+      this.UsuarioSelecto.permisos = this.UsuarioSelecto.permisos.concat((this.permisoInformes ? "1":"0"));
+      this.UsuarioSelecto.permisos = this.UsuarioSelecto.permisos.concat((this.permisoAnalisis ? "1":"0"));
+      this.UsuarioSelecto.permisos = this.UsuarioSelecto.permisos.concat((this.permisoGraficos ? "1":"0"));
+      this.UsuarioSelecto.permisos = this.UsuarioSelecto.permisos.concat((this.permisoUsuarios ? "1":"0"));
+
       //this.usuarioService.ModificaUsuario( this.usuario, this.UsuarioSelecto.id ).subscribe( data=>{
       this.usuarioService.ModificaUsuario( this.UsuarioSelecto, this.UsuarioSelecto.id ).subscribe( data=>{
-        console.log("Aca deberia venir el resultado del Modifica");
+
         if(data.resultado){
-          console.log(this.UsuarioSelecto);
+          this.UsuarioSelecto.clave = "";
           window.alert("Usuario Modificado");
         } else {
           window.alert("Error al Modificar");
         }
       })
-      console.log("Modifica un Usuario");
-      console.log(this.UsuarioSelecto);
+
     }
   }

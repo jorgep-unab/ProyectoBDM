@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Crop } from '../interfaces/crop.interfaces';
 import { CropService } from '../servicios/crop.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-crop',
@@ -20,10 +21,14 @@ export class CropComponent implements OnInit {
 
 	nuevo:boolean = false;
 	id:string;
+  sesion:boolean;
+  permisos:string;
 
   constructor(private cropService:CropService,
   			  private router:Router,
-  			  private activatedRoute:ActivatedRoute ) {
+  			  private activatedRoute:ActivatedRoute,
+          private cookieService: CookieService) {
+
   			this.activatedRoute.params.subscribe(parametros=>{
   				this.id = parametros['id'];
 
@@ -32,6 +37,13 @@ export class CropComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.sesion = this.cookieService.check('Usuario');
+
+    if (this.sesion) {
+      this.permisos = this.cookieService.get('Permisos');
+    }
+
     //Trae el ultimo crop ingresado
       this.cropService.getLAST().subscribe(respuesta=>{
 

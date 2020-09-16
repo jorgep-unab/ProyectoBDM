@@ -4,6 +4,7 @@ import { Etapa } from '../interfaces/etapa.interfaces';
 import { EtapaService } from '../servicios/etapa.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EtapasService } from '../servicios/etapas.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-modetapa',
@@ -17,17 +18,26 @@ export class ModetapaComponent implements OnInit {
     nombre:''
   }
 
-  public EtapaSelecto:any;
+  EtapaSelecto:any;
   id:string;
+  sesion:boolean;
+  permisos:string;
 
-  constructor(public etapasService:EtapasService,
-          public etapaService:EtapaService,
-  			  public router:Router,
-  			  public ruta:ActivatedRoute ) {
+  constructor(private etapasService:EtapasService,
+          private etapaService:EtapaService,
+  			  private router:Router,
+  			  private ruta:ActivatedRoute,
+          private cookieService: CookieService) {
 
   }
 
   ngOnInit() {
+
+    this.sesion = this.cookieService.check('Usuario');
+
+    if (this.sesion) {
+      this.permisos = this.cookieService.get('Permisos');
+    }
 
   this.ruta.params.subscribe( parametros=>{
       // Trae el usuario seleccionado

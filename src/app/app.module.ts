@@ -5,6 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { DataTablesModule } from 'angular-datatables';
 import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChartsModule } from 'ng2-charts';
+import { CookieService } from 'ngx-cookie-service';
+
 // Rutas
 
 import { AppRoutingModule } from './app-routing.module';
@@ -76,7 +78,8 @@ import { ModusuarioComponent } from './usuarios/modusuario.component';
     EtapasService,
     EtapaService,
     CropsService,
-    CropService
+    CropService,
+    CookieService
   ],
   bootstrap: [AppComponent]
 })
